@@ -1,0 +1,50 @@
+
+###
+POST http://localhost:3111/auth/register
+Content-Type: application/json
+
+{
+    "name": "nikolav", 
+    "email": "admin@nikolav.rs",
+    "password": "122333"
+}
+
+###
+
+POST http://localhost:3111/auth/login
+Content-Type: application/json
+
+{
+    "name": "nikolav", 
+    "email": "admin@nikolav.rs",
+    "password": "122333"
+}
+
+###
+
+http://localhost:3111/auth/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM0MjYzMzAxYzg3NjI0YTUyM2EyYzEiLCJpYXQiOjE2NDc1ODUzODUsImV4cCI6MTY0NzU4NTQxNX0.acfsPEJa0UYvDHFvVELiram7Tv0VA7cogxyth4-jrFE
+###
+
+http://localhost:3111/auth/status
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM0MjYzMzAxYzg3NjI0YTUyM2EyYzEiLCJpYXQiOjE2NDc1ODUzODUsImV4cCI6MTY0NzU4NTQxNX0.acfsPEJa0UYvDHFvVELiram7Tv0VA7cogxyth4-jrFE
+
+###
+
+POST http://localhost:3111/auth/token
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM0MjYzMzAxYzg3NjI0YTUyM2EyYzEiLCJpYXQiOjE2NDc1ODUzMjB9.C_9Es6cWk28OFy-J5EQUVQFbKjGOsEvJCf8lCellmGA"
+}
+
+###
+
+DELETE http://localhost:3111/auth/logout
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM0MjYzMzAxYzg3NjI0YTUyM2EyYzEiLCJpYXQiOjE2NDc1ODUzMjB9.C_9Es6cWk28OFy-J5EQUVQFbKjGOsEvJCf8lCellmGA"
+}
+
+ 
