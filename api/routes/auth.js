@@ -20,11 +20,6 @@ router.get("/user",
     return res.json({ user: req.user });
   });
 
-router.get("/status"
-  , passport.authenticate("jwt", {session: false})
-  , (req, res, next) => res.sendStatus(200)
-  );
-
 router.post("/login", (req, res, next) => {
 
   // check `user` exists in db

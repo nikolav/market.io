@@ -42,6 +42,7 @@ const ItemType = new GraphQLObjectType({
     title       : { type: new GraphQLNonNull(GraphQLString) },
     description : { type: new GraphQLNonNull(GraphQLString) },
     user_id     : { type: new GraphQLNonNull(GraphQLID) },
+    // user        : { type: UserType },
 
     author: {
         type: UserType,

@@ -23,11 +23,7 @@ Content-Type: application/json
 ###
 
 http://localhost:3111/auth/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM0MjYzMzAxYzg3NjI0YTUyM2EyYzEiLCJpYXQiOjE2NDc1ODUzODUsImV4cCI6MTY0NzU4NTQxNX0.acfsPEJa0UYvDHFvVELiram7Tv0VA7cogxyth4-jrFE
-###
-
-http://localhost:3111/auth/status
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM0MjYzMzAxYzg3NjI0YTUyM2EyYzEiLCJpYXQiOjE2NDc1ODUzODUsImV4cCI6MTY0NzU4NTQxNX0.acfsPEJa0UYvDHFvVELiram7Tv0VA7cogxyth4-jrFE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM0MjYzMzAxYzg3NjI0YTUyM2EyYzEiLCJpYXQiOjE2NDc1OTc5NTIsImV4cCI6MTY0NzU5Nzk4Mn0.EGkg01xlFI4e7nfSUePKKXdmKhHMxxgo5ZVuoVt2uss
 
 ###
 
@@ -35,7 +31,7 @@ POST http://localhost:3111/auth/token
 Content-Type: application/json
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM0MjYzMzAxYzg3NjI0YTUyM2EyYzEiLCJpYXQiOjE2NDc1ODUzMjB9.C_9Es6cWk28OFy-J5EQUVQFbKjGOsEvJCf8lCellmGA"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM0MjYzMzAxYzg3NjI0YTUyM2EyYzEiLCJpYXQiOjE2NDc1OTc5MTB9.dXtuiO93C1ZDJFKhlHYGLD88HtC75yoVJAfY5cLSRLk"
 }
 
 ###
@@ -44,7 +40,7 @@ DELETE http://localhost:3111/auth/logout
 Content-Type: application/json
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM0MjYzMzAxYzg3NjI0YTUyM2EyYzEiLCJpYXQiOjE2NDc1ODUzMjB9.C_9Es6cWk28OFy-J5EQUVQFbKjGOsEvJCf8lCellmGA"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM0MjYzMzAxYzg3NjI0YTUyM2EyYzEiLCJpYXQiOjE2NDc1OTc5MTB9.dXtuiO93C1ZDJFKhlHYGLD88HtC75yoVJAfY5cLSRLk"
 }
 
  

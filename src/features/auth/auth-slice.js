@@ -8,18 +8,23 @@ import {
 
 // interface AuthState {}
 const initialState = {
-    token : null, 
+    token : null,
     user  : null,
 };
 
 const authSlice = createSlice({
-    name: "", 
+    name: "auth", 
     initialState, 
     reducers: {
-      user() {}
+      user(state_, action) {
+          state_.user  = action.payload;
+      }, 
+      token(state_, action) {
+          state_.token = action.payload;
+      },
     },
 });
 
-export const { user } = authSlice;
+export const { user, token } = authSlice;
 export default authSlice.reducer;
 
