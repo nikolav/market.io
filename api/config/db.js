@@ -24,7 +24,8 @@ mongoose.model(
 
 mongoose.model(
     process.env.MONGODB_COLLECTION_ITEMS, 
-    new mongoose.Schema({
+    new mongoose.Schema(
+      {
         title       : String,
         description : String,
         user_id     : {
@@ -32,19 +33,10 @@ mongoose.model(
           required : true, 
           ref      : process.env.MONGODB_COLLECTION_USERS,      
         },
-    }, {
+      }, 
+      {
         timestamps: true,
-    }));
-
-// mongoose.model(
-//   process.env.MONGODB_COLLECTION_REFRESH_TOKENS, 
-//   new mongoose.Schema({
-//     token: {
-//       type: String,
-//       index: true,
-//     },
-//   }));
-
-
+      }));
 
 module.exports = { mongoose };
+

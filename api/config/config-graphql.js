@@ -42,7 +42,6 @@ const ItemType = new GraphQLObjectType({
     title       : { type: new GraphQLNonNull(GraphQLString) },
     description : { type: new GraphQLNonNull(GraphQLString) },
     user_id     : { type: new GraphQLNonNull(GraphQLID) },
-    // user        : { type: UserType },
 
     author: {
         type: UserType,
@@ -60,9 +59,9 @@ const mutation = new GraphQLObjectType({
         addUser: {
             type: UserType,
             args: {
-                name         : {type: GraphQLString},
-                email        : {type: GraphQLString},
-                passwordHash : {type: GraphQLString},
+                name         : { type: GraphQLString },
+                email        : { type: GraphQLString },
+                passwordHash : { type: GraphQLString },
             },
             resolve(parent, args) {
                 const user = new User({...args});
@@ -74,7 +73,7 @@ const mutation = new GraphQLObjectType({
             args: {
                 title      : { type: GraphQLString },
                 description: { type: GraphQLString },
-                user_id    : { type: GraphQLID },
+                user_id    : { type: GraphQLID     },
             },
             resolve(parent, args) {
                 const item = new Item({...args});
@@ -85,7 +84,8 @@ const mutation = new GraphQLObjectType({
 })
 
 
-// access endpoint
+
+// gql access point
 const RootQuery = new GraphQLObjectType({
   
   name: "RootQueryType",

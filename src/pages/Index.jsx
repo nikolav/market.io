@@ -1,5 +1,4 @@
 import React from "react";
-// import { Outlet } from "react-router-dom";
 import UsersList from "./UsersList";
 
 const Index = () => {

@@ -15,7 +15,7 @@ const User = mongoose.model(process.env.MONGODB_COLLECTION_USERS);
 const tokens_ = {};
 
 router.get("/user", 
-  passport.authenticate("jwt", {session: false}), 
+  passport.authenticate("jwt", { session: false }), 
   (req, res) => {
     return res.json({ user: req.user });
   });
@@ -58,7 +58,7 @@ router.post("/login", (req, res, next) => {
         });
 
     });
-});
+  });
 
 // register client
 // send generated token
@@ -79,7 +79,6 @@ router.post("/register", (req, res, next) => {
 
       if (user) 
         return res.sendStatus(403);
-      
       
       bcrypt.genSalt(10, 
         (error, salt) => {
