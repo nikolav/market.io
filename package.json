@@ -46,7 +46,9 @@
     ]
   },
   "devDependencies": {
+    "axios": "^0.26.1",
     "html5-boilerplate": "^8.0.0",
+    "qs": "^6.10.3",
     "sass": "^1.49.9"
   }
 }

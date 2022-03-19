@@ -9,10 +9,6 @@ const useLocalStorage = (name = APPDATA, initialValue = "") => {
 
   useEffect(() => {
     localStorage.setItem(name, value);
-
-    return () => {
-      localStorage.removeItem(name);
-    };
   }, [name, value]);
 
   return [value, setValue];

@@ -1,8 +1,38 @@
-import React from "react";
-import { Link }  from "react-router-dom";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Form, Button, ButtonGroup, Card } from "react-bootstrap";
+import { setUser } from "../features/auth/auth-slice";
 
+// 
 const Login = () => {
+
+  const [auth, setAuth] = useState({
+    email    : "", 
+    password : ""});
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const checkCredentials = () => {
+
+    if (!auth.email || !auth.password) 
+      return;
+    
+    fetch("http://localhost:3111/auth/login", 
+      {
+        method  : "POST", 
+        headers : { "Content-Type": "application/json" }, 
+        body    : JSON.stringify(auth),
+      })
+      .then(res    => res.ok ? res.json() : null)
+      .then(data   => dispatch(setUser(data)))
+      .catch(error => console.dir(error));
+  };
+
+  const navigateToRegister = ()  => navigate("/register");
+  const syncAuth = evt => setAuth(auth => ({...auth, [evt.target.name]: evt.target.value}));
+  const ignore = evt => evt.preventDefault();
   return (
     <div
       style={{ minHeight: "100vh" }}
@@ -12,38 +42,48 @@ const Login = () => {
         style={{ width: 360 }}
       >
         <Card.Header className="text-muted fst-italic text-center">
-          Login use all our services.
+          Login to use all our services.
         </Card.Header>
         <Card.Body className="p-4">
-          <Form>
-            <Form.Group className="mb-3" controlId="username">
-              <Form.Label>Username <span className="text-primary">*</span></Form.Label>
-              <Form.Control type="text" placeholder="Enter username" />
-            </Form.Group>
+          <Form onSubmit={ignore} noValidate>
 
-            {/* <Form.Group className="mb-3" controlId="email">
-              <Form.Label>Email address <span className="text-primary">*</span></Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
-            </Form.Group> */}
+            <Form.Group className="mb-3" controlId="email">
+              <Form.Label>Email {(0 === auth.email.length) && <span className="text-primary">*</span>}</Form.Label>
+              <Form.Control
+                className="ps-5"
+                type="text" 
+                name="email"
+                value={auth.email}
+                onChange={syncAuth}
+                placeholder="✉" />
+            </Form.Group>
 
             <Form.Group className="mb-3 mt-4" controlId="password">
-              <Form.Label>Password <span className="text-primary">*</span></Form.Label>
-              <Form.Control type="password" placeholder="Password" />
+              <Form.Label>Password {(0 === auth.password.length) && <span className="text-primary">*</span>}</Form.Label>
+              <Form.Control 
+                className="ps-5"
+                type="email" 
+                name="password"
+                value={auth.password}
+                onChange={syncAuth}
+                placeholder="🔑" />
             </Form.Group>
-            {/* <Form.Group className="mb-3" controlId="password2">
-              <Form.Label>Confirm Password  <span className="text-primary">*</span></Form.Label>
-              <Form.Control type="password" placeholder="Confirm password" />
-            </Form.Group> */}
 
             <Form.Group className="mb-3 mt-4 ms-2" controlId="rememberme">
               <Form.Check type="checkbox" label="Remember me" />
             </Form.Group>
             <div className="d-grid">
               <ButtonGroup size="lg">
-                <Button variant="primary" type="submit">
+                <Button 
+                  onClick={checkCredentials} 
+                  variant="primary" 
+                  type="submit">
                   Login
                 </Button>
-                <Button variant="secondary" className="--text-muted">
+                <Button 
+                  onClick={navigateToRegister} 
+                  variant="secondary" 
+                  className="--text-muted">
                   Sign up
                 </Button>
               </ButtonGroup>
@@ -51,6 +91,7 @@ const Login = () => {
           </Form>
         </Card.Body>
       </Card>
+      
     </div>
   );
 };

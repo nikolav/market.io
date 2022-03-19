@@ -1,8 +1,11 @@
 import React from "react";
-import { Link }  from "react-router-dom";
+import { useNavigate }  from "react-router-dom";
 import { Form, Button, ButtonGroup, Card } from "react-bootstrap";
 
 const Register = () => {
+  const navigate = useNavigate();
+  const navigateToLogin = () => navigate("/login");
+
   return (
     <div
       style={{ minHeight: "100vh" }}
@@ -12,10 +15,10 @@ const Register = () => {
         style={{ width: 360 }}
       >
         <Card.Header className="text-muted fst-italic text-center">
-          Register to use all our services.
+          Register for more...
         </Card.Header>
         <Card.Body className="p-4">
-          <Form>
+          <Form onSubmit={evt => evt.preventDefault()}>
             <Form.Group className="mb-3" controlId="username">
               <Form.Label>Username <span className="text-primary">*</span></Form.Label>
               <Form.Control type="text" placeholder="Enter username" />
@@ -40,7 +43,9 @@ const Register = () => {
             </Form.Group>
             <div className="d-grid">
               <ButtonGroup size="lg">
-                <Button variant="secondary" className="--text-muted">
+                <Button
+                  onClick={navigateToLogin}
+                  variant="secondary" className="--text-muted">
                   Login
                 </Button>
                 <Button variant="primary" type="submit">

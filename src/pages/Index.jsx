@@ -1,16 +1,13 @@
 import React from "react";
-import UsersList from "./UsersList";
+import { Outlet } from "react-router-dom";
+import Navigatoin from "../components/Navigatoin";
 
 const Index = () => {
   return (
-    <div>
-      <h1 className="display-1">hola</h1>
-      <p className="lead">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      </p>
-      <hr />
-      <UsersList />
-    </div>
+    <>
+      <Navigatoin />
+      <Outlet />
+    </>
   );
 };
 

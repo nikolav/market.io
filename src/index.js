@@ -12,7 +12,8 @@ import "./index.css";
 import "./theme/bootstrap.css";
 import "bootstrap";
 
-import App from "./App";
+import App  from "./App";
+import Root from "./Root";
 
   const client = new ApolloClient({
     uri   : "http://localhost:3111/graphql",
@@ -23,7 +24,7 @@ import App from "./App";
     <Provider store={store}>
       <ApolloProvider client={client}>
         <BrowserRouter>
-          <App />
+          <Root />
         </BrowserRouter>
       </ApolloProvider>
     </Provider>,

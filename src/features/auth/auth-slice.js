@@ -8,23 +8,35 @@ import {
 
 // interface AuthState {}
 const initialState = {
-    token : null,
-    user  : null,
+    loggedAt      : null,
+    user          : null,
+    token         : null,
+    token_refresh : null, 
 };
 
-const authSlice = createSlice({
-    name: "auth", 
-    initialState, 
-    reducers: {
-      user(state_, action) {
-          state_.user  = action.payload;
-      }, 
-      token(state_, action) {
-          state_.token = action.payload;
-      },
-    },
-});
+export const authSlice = 
+    createSlice({
+        name: "auth", 
+        initialState, 
+        reducers: {
+            setUser: (state, action) => {
+                state.loggedAt = (new Date()).toISOString();
+                state.user     = action.payload;
+            }, 
+            setToken: (state, action) => {
+                state.token = action.payload;
+            },
+            setTokenRefresh: (state, action) => {
+                state.token_refresh = action.payload;
+            },
+        },
+    });
 
-export const { user, token } = authSlice;
+export const { 
+    setUser, 
+    setToken, 
+    setTokenRefresh,
+} = authSlice.actions;
+
 export default authSlice.reducer;
 

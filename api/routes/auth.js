@@ -10,14 +10,18 @@ const { mongoose } = require("../config/db");
 var router = Router();
 const User = mongoose.model(process.env.MONGODB_COLLECTION_USERS);
 
-
 // cache for refresh tokens
 const tokens_ = {};
+
 
 router.get("/user", 
   passport.authenticate("jwt", { session: false }), 
   (req, res) => {
-    return res.json({ user: req.user });
+    return res.json({ user: {
+      name      : req.user.name, 
+      email     : req.user.email, 
+      createdAt : req.user.createdAt
+    }});
   });
 
 router.post("/login", (req, res, next) => {
@@ -29,9 +33,9 @@ router.post("/login", (req, res, next) => {
   // token = jwt.sign { _id } +expiresIn
   // res.json({token}), status(200)
 
-  const { name, email, password } = req.body;
+  const { email, password } = req.body;
 
-  User.findOne({name, email})
+  User.findOne({ email })
     .then(user => {
 
       if (!user)
@@ -53,7 +57,13 @@ router.post("/login", (req, res, next) => {
           // cache a token to enable refresh
           tokens_[token_refresh] = 1;
 
-          return res.json({ token, token_refresh });
+          return res.json({ 
+            token, 
+            token_refresh, 
+            name      : user.name, 
+            email     : user.email, 
+            createdAt : user.createdAt
+          });
           
         });
 

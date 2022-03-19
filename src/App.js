@@ -6,26 +6,22 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Index from "./pages/Index";
-import Protected from "./pages/Protected";
-import { useSelector } from "react-redux";
+import UsersList from "./pages/UsersList";
 
 const App = () => {
-  const user = useSelector((state) => state.auth.user);
 
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Index />} />
-
-          {/* public routes */}
+        <Route path="/" element={<Index />}>
+          
+          <Route index element={<UsersList />} />
           <Route path="login"    element={<Login />} />
           <Route path="register" element={<Register />} />
-
-          {/* protected routes */}
-          <Route path="dashboard" element={<Protected user={user}><Dashboard /></Protected>} />
-
-        {/* error route, deault */}
-        <Route path="*" element={<pre>404</pre>} />
+          {/* <Route path="dashboard" element={<Dashboard />} /> */}
+          {/* <Route path="dashboard" element={<Protected user={user}><Dashboard /></Protected>} /> */}
+        </Route>
+        <Route path="*" element={<Index />} />
 
       </Routes>
     </div>
