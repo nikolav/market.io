@@ -1,14 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const SECTIONS = {
-  app: "app",
-  dashboard: "dashboard",
-  index: "index",
+  // app       : "app",
+  dashboard : "dashboard",
+  index     : "index",
+  login     : "login",
+  register  : "register",
 };
 
 const initialState = {
   prev    : null,
-  current : SECTIONS.app,
+  current : SECTIONS.index,
 };
 
 export const sectionsSlice = createSlice({
@@ -16,8 +18,8 @@ export const sectionsSlice = createSlice({
   initialState,
   reducers: {
     setSection: (state, action) => {
-      if (action.payload !== state.current) {
-        state.prev = state.current;
+      if (state.current !== action.payload) {
+        state.prev    = state.current;
         state.current = action.payload;
       }
     },

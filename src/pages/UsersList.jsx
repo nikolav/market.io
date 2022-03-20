@@ -4,11 +4,8 @@ import { gql, useQuery } from "@apollo/client";
 
 const QUERY = gql`
   query QUERY {
-    items {
-      title
-      author {
-        name
-      }
+    user(id: "62340fc9c858075c09ef19e6") {
+      name
     }
   }
 `;

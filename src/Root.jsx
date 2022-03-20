@@ -1,28 +1,23 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import App from "./App";
+// import App       from "./App";
 import Dashboard from "./pages/Dashboard";
+import Index     from "./pages/Index";
+import Login     from "./pages/Login";
+import Register  from "./pages/Register";
 
-// import useTokenStorage from "./hooks/use-token-storage";
+
+const sectionsMap = {
+  // app       : <App />,
+  dashboard : <Dashboard />,
+  login     : <Login />,
+  register  : <Register />,
+};
 
 const Root = () => {
-
-  // const [token, setToken] 
-  //   = useTokenStorage(".jwtrc");
-  // const [token_refresh, setTokenRefresh] 
-  //   = useTokenStorage(".jwtrc.refresh");
-  
-  const { user } = useSelector((state) => state.auth);
-  
-  // if (!user) {
-  //   if (token) {
-       
-  //   }
-  // }
-  
-  return user ? <Dashboard /> : <App />;
-  
+  const { current } = useSelector(state => state.section);
+  return sectionsMap[current] || <Index />;
 };
 
 export default Root;

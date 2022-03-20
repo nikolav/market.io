@@ -1,12 +1,12 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
 import Navigation from "../components/Navigation";
+import UsersList from "./UsersList";
 
 const Index = () => {
   return (
     <>
       <Navigation />
-      <Outlet />
+      <UsersList />
     </>
   );
 };

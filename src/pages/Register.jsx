@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Form, Button, ButtonGroup, Card } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import {setUser} from "../features/auth/auth-slice";
+
+import { setUser } from "../features/auth/auth-slice";
+import Navigation from "../components/Navigation";
+import { SECTIONS, setSection } from "../features/sections/sections-slice";
 
 const AUTH_URI = "http://localhost:3111/auth/register";
-const Register = () => {
-  const navigate = useNavigate();
-  const navigateToLogin = () => navigate("/login");
 
+const Register = () => {
   const [inputs, setInputs] = useState({
     name: "",
     email: "",
@@ -17,6 +17,9 @@ const Register = () => {
   });
 
   const dispatch = useDispatch();
+  const navigateToLogin = () => dispatch(setSection(SECTIONS.login));
+  const navigateToDashboard = () => dispatch(setSection(SECTIONS.dashboard));
+
   const runCredentials = (evt) => {
     if (!inputs.name || !inputs.email || !inputs.password) return;
 
@@ -25,14 +28,15 @@ const Register = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(inputs),
     })
-    .then(res => {
-      return (res.status === 201) ? res.json() : "";
-    })
-    .then(user => {
-      if (user && user.token)
-        dispatch(setUser(user));
-    });
-
+      .then((res) => {
+        return res.status === 201 ? res.json() : "";
+      })
+      .then((user) => {
+        if (user && user.token) {
+          dispatch(setUser(user));
+          navigateToDashboard();
+        }
+      });
   };
 
   const ignore = (evt) => evt.preventDefault();
@@ -40,92 +44,101 @@ const Register = () => {
     setInputs((inputs) => ({ ...inputs, [evt.target.name]: evt.target.value }));
 
   return (
-    <div
-      className="d-flex justify-content-center mt-4"
-    >
-      <Card className="shadow-sm" style={{ width: 360 }}>
-        <Card.Header className="text-muted fst-italic text-center">
-          Register for more...
-        </Card.Header>
-        <Card.Body className="p-4">
-          <Form onSubmit={ignore}>
-            <Form.Group className="mb-3" controlId="user-register">
-              <Form.Label>
-                Username {(0 === inputs.name.length) && (<span className="text-primary">*</span>)}
-              </Form.Label>
-              <Form.Control
-                className="ps-5"
-                onChange={syncAuth}
-                name="name"
-                autoComplete="off"
-                type="text"
-              />
-            </Form.Group>
+    <>
+      <Navigation />
+      <div className="d-flex justify-content-center mt-4">
+        <Card className="shadow-sm" style={{ width: 360 }}>
+          <Card.Header className="text-muted fst-italic text-center">
+            Register for more...
+          </Card.Header>
+          <Card.Body className="p-4">
+            <Form onSubmit={ignore}>
+              <Form.Group className="mb-3" controlId="user-register">
+                <Form.Label>
+                  Username{" "}
+                  {0 === inputs.name.length && (
+                    <span className="text-primary">*</span>
+                  )}
+                </Form.Label>
+                <Form.Control
+                  className="ps-5"
+                  onChange={syncAuth}
+                  name="name"
+                  autoComplete="off"
+                  type="text"
+                />
+              </Form.Group>
 
-            <Form.Group className="mb-3" controlId="email-register">
-              <Form.Label>
-                Email address {(0 === inputs.email.length) && (<span className="text-primary">*</span>)}
-              </Form.Label>
-              <Form.Control
-                className="ps-5"
-                onChange={syncAuth}
-                name="email"
-                autoComplete="off"
-                type="text"
-              />
-            </Form.Group>
+              <Form.Group className="mb-3" controlId="email-register">
+                <Form.Label>
+                  Email address{" "}
+                  {0 === inputs.email.length && (
+                    <span className="text-primary">*</span>
+                  )}
+                </Form.Label>
+                <Form.Control
+                  className="ps-5"
+                  onChange={syncAuth}
+                  name="email"
+                  autoComplete="off"
+                  type="text"
+                />
+              </Form.Group>
 
-            <Form.Group className="mb-3 mt-4" controlId="password-register">
-              <Form.Label>
-                Password {(0 === inputs.password.length) && (<span className="text-primary">*</span>)}
-              </Form.Label>
-              <Form.Control
-                className="ps-5"
-                onChange={syncAuth}
-                name="password"
-                autoComplete="off"
-                type="password"
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="password2-register">
-              <Form.Label>
-                Confirm Password {(0 === inputs.password2.length) && (<span className="text-primary">*</span>)}
-              </Form.Label>
-              <Form.Control
-                className="ps-5"
-                onChange={syncAuth}
-                name="password2"
-                autoComplete="off"
-                type="password"
-              />
-            </Form.Group>
+              <Form.Group className="mb-3 mt-4" controlId="password-register">
+                <Form.Label>
+                  Password{" "}
+                  {0 === inputs.password.length && (
+                    <span className="text-primary">*</span>
+                  )}
+                </Form.Label>
+                <Form.Control
+                  className="ps-5"
+                  onChange={syncAuth}
+                  name="password"
+                  autoComplete="off"
+                  type="password"
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="password2-register">
+                <Form.Label>
+                  Confirm Password{" "}
+                  {0 === inputs.password2.length && (
+                    <span className="text-primary">*</span>
+                  )}
+                </Form.Label>
+                <Form.Control
+                  className="ps-5"
+                  onChange={syncAuth}
+                  name="password2"
+                  autoComplete="off"
+                  type="password"
+                />
+              </Form.Group>
 
-            {/* <Form.Group className="mb-3 mt-4 ms-2" controlId="rememberme">
-              <Form.Check type="checkbox" label="Remember me" />
-            </Form.Group> */}
-
-            <div className="d-grid">
-              <ButtonGroup size="lg" className="mt-2">
-                <Button
-                  onClick={navigateToLogin}
-                  variant="secondary"
-                  className="--text-muted"
-                >
-                  Login
-                </Button>
-                <Button
-                  onClick={runCredentials}
-                  variant="primary"
-                  type="submit"
-                >
-                  Sign up
-                </Button>
-              </ButtonGroup>
-            </div>
-          </Form>
-        </Card.Body>
-      </Card>
-    </div>
+              <div className="d-grid">
+                <ButtonGroup size="lg" className="mt-2">
+                  <Button
+                    onClick={navigateToLogin}
+                    variant="secondary"
+                    className="--text-muted"
+                  >
+                    Login
+                  </Button>
+                  <Button
+                    onClick={runCredentials}
+                    variant="primary"
+                    type="submit"
+                  >
+                    Sign up
+                  </Button>
+                </ButtonGroup>
+              </div>
+            </Form>
+          </Card.Body>
+        </Card>
+      </div>
+    </>
   );
 };
 
