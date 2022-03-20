@@ -20,7 +20,6 @@ router.get("/user",
     return res.json({ user: {
       name      : req.user.name, 
       email     : req.user.email, 
-      createdAt : req.user.createdAt
     }});
   });
 
@@ -62,7 +61,6 @@ router.post("/login", (req, res, next) => {
             token_refresh, 
             name      : user.name, 
             email     : user.email, 
-            createdAt : user.createdAt
           });
           
         });
@@ -105,9 +103,16 @@ router.post("/register", (req, res, next) => {
               const newUser = new User({ name, email, passwordHash });
               newUser.save();
 
-              const token = signPayload_({ _id: newUser._id });
+              const payload       = { _id: newUser._id };
+              const token         = signPayload_(payload);
+              const token_refresh = signRefreshToken_(payload);
               
-              return res.status(201).json({ token });
+              return res.status(201).json({ 
+                token, 
+                token_refresh, 
+                name      : newUser.name, 
+                email     : newUser.email, 
+               });
 
             });
         });
