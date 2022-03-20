@@ -3,10 +3,21 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, ButtonGroup, Card } from "react-bootstrap";
 import { setUser } from "../features/auth/auth-slice";
+import useTokenStorage from "../hooks/use-token-storage";
+
+import useCookieStorage from "../hooks/use-cookie-storage";
+
+const AUTH_URI = "http://localhost:3111/auth/login";
+
+
 
 // 
 const Login = () => {
 
+  const { cookie, manage: manageCookie } = useCookieStorage();
+
+  console.log(cookie);
+  
   const [auth, setAuth] = useState({
     email    : "", 
     password : ""});
@@ -14,25 +25,47 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const checkCredentials = () => {
+  const [token, setToken] 
+    = useTokenStorage(".jwtrc");
+  const [token_refresh, setTokenRefresh] 
+    = useTokenStorage(".jwtrc.refresh");
+
+  const runCredentials = () => {
 
     if (!auth.email || !auth.password) 
       return;
     
-    fetch("http://localhost:3111/auth/login", 
+    fetch(AUTH_URI, 
       {
         method  : "POST", 
         headers : { "Content-Type": "application/json" }, 
         body    : JSON.stringify(auth),
       })
       .then(res    => res.ok ? res.json() : null)
-      .then(data   => dispatch(setUser(data)))
-      .catch(error => console.dir(error));
+      .then(user   => {
+        if (user) {
+
+          // update tokens to route hard refresh
+          setToken(user.token);
+          setTokenRefresh(user.token_refresh);
+          
+          dispatch(setUser(user));
+        }
+      });
   };
 
   const navigateToRegister = ()  => navigate("/register");
   const syncAuth = evt => setAuth(auth => ({...auth, [evt.target.name]: evt.target.value}));
   const ignore = evt => evt.preventDefault();
+
+  const runCallback1 = (evt) => {
+    manageCookie.set(".appcookie", Math.random());
+    manageCookie.set(".last-visit", Date.now());
+  };
+  const runCallback2 = (evt) => {
+    manageCookie.rm(".appcookie");
+    manageCookie.rm(".last-visit");
+  };
   return (
     <div
       style={{ minHeight: "100vh" }}
@@ -66,6 +99,7 @@ const Login = () => {
                 name="password"
                 value={auth.password}
                 onChange={syncAuth}
+                autoComplete="off"
                 placeholder="🔑" />
             </Form.Group>
 
@@ -75,10 +109,22 @@ const Login = () => {
             <div className="d-grid">
               <ButtonGroup size="lg">
                 <Button 
-                  onClick={checkCredentials} 
+                  onClick={runCredentials} 
                   variant="primary" 
                   type="submit">
                   Login
+                </Button>
+                <Button 
+                  onClick={runCallback1} 
+                  variant="secondary" 
+                  type="button">
+                  +
+                </Button>
+                <Button 
+                  onClick={runCallback2} 
+                  variant="secondary" 
+                  type="button">
+                  -
                 </Button>
                 <Button 
                   onClick={navigateToRegister} 

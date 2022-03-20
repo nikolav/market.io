@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 export const APPDATA = ".APPDATA";
 
-const useLocalStorage = (name = APPDATA, initialValue = "") => {
+const useTokenStorage = (name = APPDATA, initialValue = "") => {
   const [value, setValue] = useState(() => {
     return localStorage.getItem(name) || initialValue;
   });
@@ -14,4 +14,4 @@ const useLocalStorage = (name = APPDATA, initialValue = "") => {
   return [value, setValue];
 };
 
-export default useLocalStorage;
+export default useTokenStorage;

@@ -1,11 +1,11 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Navigatoin from "../components/Navigatoin";
+import Navigation from "../components/Navigation";
 
 const Index = () => {
   return (
     <>
-      <Navigatoin />
+      <Navigation />
       <Outlet />
     </>
   );

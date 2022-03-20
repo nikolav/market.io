@@ -28,7 +28,7 @@ const useHttpCheckStatus = (url) => {
         if (!response.ok)
           return setStatus(s => 
             ({...s, error: response, data: null}));
-                
+        
         const data = await response.json();
 
         setStatus(s => ({...s, error: null, data}));

@@ -2,7 +2,6 @@
 import "./App.css";
 
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Index from "./pages/Index";
@@ -21,7 +20,7 @@ const App = () => {
           {/* <Route path="dashboard" element={<Dashboard />} /> */}
           {/* <Route path="dashboard" element={<Protected user={user}><Dashboard /></Protected>} /> */}
         </Route>
-        <Route path="*" element={<Index />} />
+        <Route path="*" element={<pre>404</pre>} />
 
       </Routes>
     </div>
@@ -29,3 +28,6 @@ const App = () => {
 };
 
 export default App;
+
+
+// https://www.youtube.com/watch?v=qZ1EFnFOGvE

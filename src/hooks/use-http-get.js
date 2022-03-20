@@ -15,7 +15,9 @@ const useHttpGet = ({ url }) => {
         setResponse((r) => ({ ...r, loading: 1 }));
 
         const response = await fetch(url);
-        const data     = await response.json();
+
+        // if (!response.ok) return;
+        const data = await response.json();
 
         setResponse((r) => ({ ...r, data }));
       } catch (error) {

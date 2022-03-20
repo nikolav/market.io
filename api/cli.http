@@ -4,9 +4,9 @@ POST http://localhost:3111/auth/register
 Content-Type: application/json
 
 {
-    "name": "b", 
-    "email": "b",
-    "password": "b"
+    "name": "d", 
+    "email": "d",
+    "password": "d"
 }
 
 ###
@@ -22,7 +22,7 @@ Content-Type: application/json
 ###
 
 http://localhost:3111/auth/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM0ZDFhZTUxZWY4YTA2YzI5ZTI4M2IiLCJpYXQiOjE2NDc2OTg1NzEsImV4cCI6MTY0NzY5ODYwMX0.aWFUTklk2ILj3K4A-1YVLj0LxIPP1R2mNKF2n3n1Rz8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM2YTQyYjFiY2I1YzY0ZjRhODQ5YTEiLCJpYXQiOjE2NDc3NDgxNTgsImV4cCI6MTY0Nzc0ODE4OH0.iKRRO-Gyshzdc5JYWZwyNxsj4ocNsRg2qrs-jk40xH4
 
 ###
 
@@ -30,7 +30,7 @@ POST http://localhost:3111/auth/token
 Content-Type: application/json
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM0ZDFhZTUxZWY4YTA2YzI5ZTI4M2IiLCJpYXQiOjE2NDc2OTg0NjZ9.W_7pounkZHYYeswWv52jhH32jZ4ss99uqOpYr0110C4"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM2YTQyYjFiY2I1YzY0ZjRhODQ5YTEiLCJpYXQiOjE2NDc3NDgxNTh9.6gIKf7R-w5jI6IlhzM__p9nwSrBHTVFAsQZBX-VGN9o"
 }
 
 ###
@@ -39,7 +39,7 @@ DELETE http://localhost:3111/auth/logout
 Content-Type: application/json
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM0ZDFhZTUxZWY4YTA2YzI5ZTI4M2IiLCJpYXQiOjE2NDc2OTg0NjZ9.W_7pounkZHYYeswWv52jhH32jZ4ss99uqOpYr0110C4"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjM2YTQyYjFiY2I1YzY0ZjRhODQ5YTEiLCJpYXQiOjE2NDc3NDgxNTh9.6gIKf7R-w5jI6IlhzM__p9nwSrBHTVFAsQZBX-VGN9o"
 }
 
  
