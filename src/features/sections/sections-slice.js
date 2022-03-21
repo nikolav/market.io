@@ -6,6 +6,7 @@ export const SECTIONS = {
   index     : "index",
   login     : "login",
   register  : "register",
+  about     : "about",
 };
 
 const initialState = {

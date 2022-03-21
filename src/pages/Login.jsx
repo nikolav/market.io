@@ -5,6 +5,7 @@ import { Form, Button, ButtonGroup, Card } from "react-bootstrap";
 import Navigation from "../components/Navigation";
 import { SECTIONS, setSection } from "../features/sections/sections-slice";
 import { setUser } from "../features/auth/auth-slice";
+import useCookieStorage from "../hooks/use-cookie-storage";
 
 const AUTH_URI = "http://localhost:3111/auth/login";
 
@@ -17,6 +18,7 @@ const Login = () => {
   });
 
   const dispatch = useDispatch();
+  const { handleCookie } = useCookieStorage();
   
   const navigateToRegister  = () => dispatch(setSection(SECTIONS.register));
   const navigateToDashboard = () => dispatch(setSection(SECTIONS.dashboard));
@@ -31,8 +33,13 @@ const Login = () => {
     })
       .then((res) => (res.ok ? res.json() : null))
       .then((user) => {
+        
         if (user) {
+          
           dispatch(setUser(user));
+          handleCookie.set(".jwtrc", 
+            `${user.token} ${user.token_refresh}`);
+          
           navigateToDashboard();
         }
       });
@@ -98,7 +105,6 @@ const Login = () => {
                   <Button
                     onClick={navigateToRegister}
                     variant="secondary"
-                    className="--text-muted"
                   >
                     Sign up
                   </Button>

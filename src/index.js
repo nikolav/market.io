@@ -1,7 +1,6 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
 
 import { Provider } from "react-redux";
 import store from "./app/store";
@@ -12,7 +11,6 @@ import "./index.css";
 import "./theme/bootstrap.css";
 import "bootstrap";
 
-import App  from "./App";
 import Root from "./Root";
 
   const client = new ApolloClient({
@@ -23,9 +21,7 @@ import Root from "./Root";
   ReactDOM.render(
     <Provider store={store}>
       <ApolloProvider client={client}>
-        <BrowserRouter>
           <Root />
-        </BrowserRouter>
       </ApolloProvider>
     </Provider>,
     document.getElementById("root")

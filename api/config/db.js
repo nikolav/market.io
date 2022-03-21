@@ -28,11 +28,12 @@ mongoose.model(
       {
         title       : String,
         description : String,
+        image       : String, 
         user_id     : {
           type     : mongoose.Schema.Types.ObjectId,
-          required : true, 
-          ref      : process.env.MONGODB_COLLECTION_USERS,      
+          ref      : process.env.MONGODB_COLLECTION_USERS,  
         },
+        deletedAt: Date,
       }, 
       {
         timestamps: true,

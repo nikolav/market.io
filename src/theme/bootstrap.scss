@@ -12,8 +12,23 @@
 @import "./variables";
 
 @import "../../node_modules/bootstrap/scss/variables";
+
 @import "../../node_modules/bootstrap/scss/mixins";
 @import "../../node_modules/bootstrap/scss/utilities";
+
+
+$utilities: map-merge(
+  $utilities,
+  (
+    "cursor": (
+      property: cursor,
+      class: cursor,
+      responsive: true,
+      values: auto pointer grab,
+    )
+  )
+);
+
 
 // Layout & components
 @import "../../node_modules/bootstrap/scss/root";

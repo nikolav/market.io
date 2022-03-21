@@ -1,18 +1,18 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-// import App       from "./App";
 import Dashboard from "./pages/Dashboard";
 import Index     from "./pages/Index";
 import Login     from "./pages/Login";
 import Register  from "./pages/Register";
-
+import About     from "./pages/About";
 
 const sectionsMap = {
-  // app       : <App />,
   dashboard : <Dashboard />,
   login     : <Login />,
   register  : <Register />,
+  about     : <About />,
+  index     : <Index />,
 };
 
 const Root = () => {

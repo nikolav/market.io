@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, ButtonGroup, Card } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
+import useCookieStorage from "../hooks/use-cookie-storage";
 import { setUser } from "../features/auth/auth-slice";
 import Navigation from "../components/Navigation";
 import { SECTIONS, setSection } from "../features/sections/sections-slice";
@@ -10,14 +11,16 @@ const AUTH_URI = "http://localhost:3111/auth/register";
 
 const Register = () => {
   const [inputs, setInputs] = useState({
-    name: "",
-    email: "",
-    password: "",
-    password2: "",
+    name      : "",
+    email     : "",
+    password  : "",
+    password2 : "",
   });
 
   const dispatch = useDispatch();
-  const navigateToLogin = () => dispatch(setSection(SECTIONS.login));
+  const { handleCookie } = useCookieStorage();
+  
+  const navigateToLogin     = () => dispatch(setSection(SECTIONS.login));
   const navigateToDashboard = () => dispatch(setSection(SECTIONS.dashboard));
 
   const runCredentials = (evt) => {
@@ -31,9 +34,14 @@ const Register = () => {
       .then((res) => {
         return res.status === 201 ? res.json() : "";
       })
-      .then((user) => {
-        if (user && user.token) {
+      .then(user => {
+        
+        if (user) {
+          
           dispatch(setUser(user));
+          handleCookie.set(".jwtrc", 
+            `${user.token} ${user.token_refresh}`);
+          
           navigateToDashboard();
         }
       });
