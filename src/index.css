@@ -73,6 +73,21 @@ body {
   background-position: 1em center;
 }
 
+/* index search bar */
+#input-search {
+  background: transparent url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxOTEuMDcgMTkwLjU5IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xOC41NDEgLTEwLjU4MikiPjxwYXRoIGQ9Im0xODkuMDggMjAwLjAyYy0xLjEtMC40Njk0Mi0xMC41NS05LjQ3MTItMjEtMjAuMDA0LTI4Ljg1MS0yOS4wNzktMjcuMTc3LTI3Ljk1OS0zNS4zNDgtMjMuNjY1LTc3LjEzMSA0MC41MzEtMTUyLjgzLTU5Ljg4NS05Mi4xMjMtMTIyLjIgNjEuMDMtNjIuNjQ2IDE2My45MyAxMC44NjIgMTI0LjQ4IDg4LjkyNy00LjMzMzkgOC41NzctNC4zMzM5IDguNTc3IDE4LjU5NyAzMS44MzkgMTIuNjEyIDEyLjc5NCAyMy42NDcgMjQuNjQ3IDI0LjUyMiAyNi4zMzkgNS43Mzc3IDExLjA5Ni03LjI1MDkgMjMuODM1LTE5LjEzMiAxOC43NjV6bS03OC4yMTgtNjYuMDk4YzMzLjA0NC0xMS4wNDEgNDQuMjUyLTUyLjA5MiAyMS4yMTctNzcuNzEyLTMzLjIyMy0zNi45NTItOTMuMDc2LTYuODY1OS04My41NDkgNDEuOTk4IDUuMjk1OCAyNy4xNjIgMzUuNzMzIDQ0LjYwMiA2Mi4zMzIgMzUuNzE0eiIgZmlsbD0iI2Q5MjMwZiIgZmlsbC1vcGFjaXR5PSIuMzI5NDQiLz48L2c+PC9zdmc+Cg==");
+  background-repeat: no-repeat;
+  background-size: 15px;
+  background-position: 1em center;
+
+  border-radius: 2em;
+  width: 1em;
+  height: 2.2em;
+  transition: width 0.45s;
+}
+.form-item-search:focus-within #input-search {
+  width: 256px;
+}
 
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
