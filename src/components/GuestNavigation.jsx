@@ -1,13 +1,11 @@
 import React from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setSection, SECTIONS } from "../features/sections/sections-slice";
-import Logout from "./Logout";
 
 const Navigation = () => {
 
   const dispatch = useDispatch();
-  const { user } = useSelector(state => state.auth);
 
   const navigateToLogin = () => dispatch(setSection(SECTIONS.login));
   const navigateToAbout = () => dispatch(setSection(SECTIONS.about));
@@ -24,16 +22,14 @@ const Navigation = () => {
             market.io
           </span>
         </Navbar.Text>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle className="ms-auto" aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             <Nav.Link onClick={navigateToAbout}>
               <i className="fs-3 text-primary fa-solid fa-circle-info"></i>
             </Nav.Link>
             <Nav.Link onClick={navigateToLogin}>
-              {user 
-                ? <Logout />
-                : <i className="ms-sm-2 fs-3 text-primary fa-solid fa-circle-user"></i>}
+                <i className="ms-sm-2 fs-3 text-primary fa-solid fa-circle-user"></i>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

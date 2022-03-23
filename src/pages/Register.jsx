@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import { Form, Button, ButtonGroup, Card } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
-import useCookieStorage from "../hooks/use-cookie-storage";
-import { setUser } from "../features/auth/auth-slice";
-import Navigation from "../components/Navigation";
+import useCookieStorage, {JWTCOOKIE} from "../hooks/use-cookie-storage";
+import { setUser, AUTH_REGISTER_URI } from "../features/auth/auth-slice";
+import GuestNavigation from "../components/GuestNavigation";
 import { SECTIONS, setSection } from "../features/sections/sections-slice";
-
-const AUTH_URI = "http://localhost:3111/auth/register";
 
 const Register = () => {
   const [inputs, setInputs] = useState({
@@ -26,20 +24,20 @@ const Register = () => {
   const runCredentials = (evt) => {
     if (!inputs.name || !inputs.email || !inputs.password) return;
 
-    fetch(AUTH_URI, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(inputs),
+    fetch(AUTH_REGISTER_URI, {
+      method  : "POST",
+      headers : { "Content-Type": "application/json" },
+      body    : JSON.stringify(inputs),
     })
       .then((res) => {
         return res.status === 201 ? res.json() : "";
       })
       .then(user => {
-        
+
         if (user) {
           
           dispatch(setUser(user));
-          handleCookie.set(".jwtrc", 
+          handleCookie.set(JWTCOOKIE, 
             `${user.token} ${user.token_refresh}`);
           
           navigateToDashboard();
@@ -47,13 +45,12 @@ const Register = () => {
       });
   };
 
-  const ignore = (evt) => evt.preventDefault();
-  const syncAuth = (evt) =>
-    setInputs((inputs) => ({ ...inputs, [evt.target.name]: evt.target.value }));
+  const ignore = (evt)   => evt.preventDefault();
+  const syncAuth = (evt) => setInputs((inputs) => ({ ...inputs, [evt.target.name]: evt.target.value }));
 
   return (
     <>
-      <Navigation />
+    <GuestNavigation />
       <div className="d-flex justify-content-center mt-4">
         <Card className="shadow-sm" style={{ width: 360 }}>
           <Card.Header className="text-muted fst-italic text-center">

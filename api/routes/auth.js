@@ -18,6 +18,7 @@ router.get("/user",
   passport.authenticate("jwt", { session: false }), 
   (req, res) => {
     return res.json({ user: {
+      id        : req.user.id,
       name      : req.user.name, 
       email     : req.user.email, 
     }});
@@ -59,6 +60,7 @@ router.post("/login", (req, res, next) => {
           return res.json({ 
             token, 
             token_refresh, 
+            id        : user.id,
             name      : user.name, 
             email     : user.email, 
           });
@@ -110,6 +112,7 @@ router.post("/register", (req, res, next) => {
               return res.status(201).json({ 
                 token, 
                 token_refresh, 
+                id        : newUser.id,
                 name      : newUser.name, 
                 email     : newUser.email, 
                });
@@ -157,7 +160,7 @@ module.exports = router;
 //
 function signPayload_ (payload) {
   return jwt.sign(payload, 
-    process.env.SECRETORKEY, { expiresIn: 30 });
+    process.env.SECRETORKEY, { expiresIn: 10 * 24 * 60 * 60 }); // sec.
 }
 function signRefreshToken_ (payload) {
   return jwt.sign(payload, process.env.SECRETORKEY);

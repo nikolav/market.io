@@ -1,12 +1,12 @@
 import React from "react";
-import Navigation from "../components/Navigation";
-import UsersList from "./UsersList";
+import GuestNavigation from "../components/GuestNavigation";
 
 const Index = () => {
+
   return (
     <>
-      <Navigation />
-      <UsersList />
+      <GuestNavigation />
+      index
     </>
   );
 };

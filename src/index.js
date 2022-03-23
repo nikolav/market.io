@@ -14,7 +14,7 @@ import "bootstrap";
 import Root from "./Root";
 
   const client = new ApolloClient({
-    uri   : "http://localhost:3111/graphql",
+    uri   : "http://localhost:3112/graphql",
     cache : new InMemoryCache(),
   });
   
@@ -27,3 +27,4 @@ import Root from "./Root";
     document.getElementById("root")
   );
 
+// https://rickandmortyapi.com/graphql

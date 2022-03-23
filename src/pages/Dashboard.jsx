@@ -1,14 +1,24 @@
+
 import React from "react";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { SECTIONS, setSection } from "../features/sections/sections-slice";
+import UsersList from "./UsersList";
+import UserNavigation from "../components/UserNavigation";
 
 const Dashboard = () => {
+
+  const dispatch = useDispatch();
   const { user } = useSelector(state => state.auth);
-  console.log('@Dashboard ', user);
+
+  const navigateToIndex = () => dispatch(setSection(SECTIONS.index));
+  
+  if (!user) navigateToIndex();
 
   return <div>
+    <UserNavigation />
+    <UsersList />
     {/*  
-      <Navigation />
       <StatusBar /> (show status, refresh, actions, search, +create, export etc.)
         +create item page
         +edit item page

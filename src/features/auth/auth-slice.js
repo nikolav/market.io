@@ -5,11 +5,14 @@ import {
 
 // interface AuthState {}
 const initialState = {
-  loggedAt      : null,
-  user          : null,
-  token         : null,
-  token_refresh : null,
+  loggedAt: null,
+  user    : null,
 };
+
+export const AUTH_LOGOUT_URI   = "http://localhost:3112/auth/logout";
+export const AUTH_LOGIN_URI    = "http://localhost:3112/auth/login";
+export const AUTH_REGISTER_URI = "http://localhost:3112/auth/register";
+export const AUTH_GETUSER_URI  = "http://localhost:3112/auth/user";
 
 export const authSlice = createSlice({
   name: "auth",
@@ -19,17 +22,15 @@ export const authSlice = createSlice({
       state.loggedAt = new Date().toISOString();
       state.user     = action.payload;
     },
-    clearAuth: () => {
+    logoutUser: () => {
       return {
-        loggedAt: null,
-        user: null,
-        token: null,
-        token_refresh: null,
+        loggedAt : null,
+        user     : null,
       };
     },
   },
 });
 
-export const { setUser, setToken, setTokenRefresh } = authSlice.actions;
+export const { setUser, logoutUser } = authSlice.actions;
 
 export default authSlice.reducer;

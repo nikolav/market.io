@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Button, ButtonGroup, Card } from "react-bootstrap";
 
-import Navigation from "../components/Navigation";
+import GuestNavigation from "../components/GuestNavigation";
 import { SECTIONS, setSection } from "../features/sections/sections-slice";
-import { setUser } from "../features/auth/auth-slice";
-import useCookieStorage from "../hooks/use-cookie-storage";
-
-const AUTH_URI = "http://localhost:3111/auth/login";
+import { setUser, AUTH_LOGIN_URI } from "../features/auth/auth-slice";
+import useCookieStorage, {JWTCOOKIE} from "../hooks/use-cookie-storage";
 
 //
 const Login = () => {
@@ -26,7 +24,7 @@ const Login = () => {
   const runCredentials = () => {
     if (!auth.email || !auth.password) return;
 
-    fetch(AUTH_URI, {
+    fetch(AUTH_LOGIN_URI, {
       method  : "POST",
       headers : { "Content-Type": "application/json" },
       body    : JSON.stringify(auth),
@@ -37,7 +35,7 @@ const Login = () => {
         if (user) {
           
           dispatch(setUser(user));
-          handleCookie.set(".jwtrc", 
+          handleCookie.set(JWTCOOKIE, 
             `${user.token} ${user.token_refresh}`);
           
           navigateToDashboard();
@@ -51,9 +49,9 @@ const Login = () => {
 
   return (
     <>
-      <Navigation />
+      <GuestNavigation />
       <div className="d-flex justify-content-center mt-4">
-        <Card className="shadow-sm" style={{ width: 360 }}>
+        <Card className="shadow-sm" style={{ width: 366 }}>
           <Card.Header className="text-muted fst-italic text-center">
             Login to use all our services.
           </Card.Header>

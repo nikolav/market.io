@@ -23,6 +23,7 @@ const UserType = new GraphQLObjectType({
     id           : { type: GraphQLID },
     name         : { type: new GraphQLNonNull(GraphQLString) },
     email        : { type: new GraphQLNonNull(GraphQLString) },
+    image        : { type: GraphQLString },
     passwordHash : { type: new GraphQLNonNull(GraphQLString) },
 
     items: {
@@ -41,6 +42,7 @@ const ItemType = new GraphQLObjectType({
     id          : { type: GraphQLID },
     title       : { type: new GraphQLNonNull(GraphQLString) },
     description : { type: new GraphQLNonNull(GraphQLString) },
+    image       : { type: GraphQLString },
     user_id     : { type: new GraphQLNonNull(GraphQLID) },
 
     author: {
@@ -68,6 +70,13 @@ const mutation = new GraphQLObjectType({
                 return user.save();
             }
         },
+        removeUser: {
+            type: UserType, 
+            args: { id: { type: GraphQLID }},
+            resolve(parent, args, c) {
+                return User.deleteOne({id: args.id});
+            }
+        },
         addItem: {
             type: ItemType, 
             args: {
@@ -79,7 +88,7 @@ const mutation = new GraphQLObjectType({
                 const item = new Item({...args});
                 return item.save();
             }
-        }
+        }, 
     }
 })
 
@@ -95,7 +104,7 @@ const RootQuery = new GraphQLObjectType({
     user: {
       type: UserType,
       args: { id: { type: GraphQLID } },
-      resolve( parent, args ) {
+      resolve( parent, args, context, { rootValue } ) {
         return User.findById(args.id);
       }
     },

@@ -9,6 +9,9 @@ export const CONFIG = {
   SameSite : "Strict", // Strict | Lax | None
 };
 
+export const JWTCOOKIE = ".jwtrc";
+
+
 function useCookieStorage(config = null) {
   config = { ...CONFIG, ...(config || {}) };
 
@@ -39,16 +42,20 @@ function useCookieStorage(config = null) {
     if (name in cookie) {
       setDocumentCookie(
         name, "", () =>
-          setCookieRepo((cookie) => {
-            let newCookie = { ...cookie };
+          setCookieRepo(c => {
+
+            let newCookie = { ...c };
             delete newCookie[name];
+
             return newCookie; }),
-        { expires: -365 }
+        { expires: -30 }
       );
     }
   }
   //
-  function setDocumentCookie(name, value, updateCookieState, opts = config) {
+  function setDocumentCookie(name, value, updateCookieState, opts = null) {
+
+    opts = {...config, ...(opts || {})};
 
     const ttl = new Date(Date.now() + 86400000 * parseFloat(opts.expires));
 
