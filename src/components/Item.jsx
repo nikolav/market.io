@@ -11,7 +11,7 @@ const Item = () => {
           minima quos, doloremque perferendis eos, pariatur voluptates quo
           eveniet sed!
         </Card.Body>
-        <Card.Footer>
+        <Card.Footer className="">
             <div
             style={{fontSize: "81%"}}
             className="d-flex align-items-center justify-content-end text-muted">

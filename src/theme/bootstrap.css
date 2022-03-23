@@ -37,6 +37,7 @@
   --bs-danger: #9b479f;
   --bs-light: #fff;
   --bs-dark: #373a3c;
+  --bs-secondary-light: #bbd1da0f;
   --bs-primary-rgb: 217, 35, 15;
   --bs-secondary-rgb: 255, 255, 255;
   --bs-success-rgb: 70, 148, 8;
@@ -3167,6 +3168,36 @@ textarea.form-control-lg {
   border-color: #373a3c;
 }
 
+.btn-secondary-light {
+  color: #000;
+  background-color: #bbd1da0f;
+  border-color: #bbd1da0f;
+}
+.btn-secondary-light:hover {
+  color: #000;
+  background-color: rgba(245, 248, 250, 0.2);
+  border-color: rgba(240, 245, 247, 0.1529411765);
+}
+.btn-check:focus + .btn-secondary-light, .btn-secondary-light:focus {
+  color: #000;
+  background-color: rgba(245, 248, 250, 0.2);
+  border-color: rgba(240, 245, 247, 0.1529411765);
+  box-shadow: 0 0 0 0.25rem rgba(27, 31, 32, 0.5);
+}
+.btn-check:checked + .btn-secondary-light, .btn-check:active + .btn-secondary-light, .btn-secondary-light:active, .btn-secondary-light.active, .show > .btn-secondary-light.dropdown-toggle {
+  color: #000;
+  background-color: rgba(248, 250, 251, 0.2470588235);
+  border-color: rgba(240, 245, 247, 0.1529411765);
+}
+.btn-check:checked + .btn-secondary-light:focus, .btn-check:active + .btn-secondary-light:focus, .btn-secondary-light:active:focus, .btn-secondary-light.active:focus, .show > .btn-secondary-light.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.25rem rgba(27, 31, 32, 0.5);
+}
+.btn-secondary-light:disabled, .btn-secondary-light.disabled {
+  color: #000;
+  background-color: #bbd1da0f;
+  border-color: #bbd1da0f;
+}
+
 .btn-outline-primary {
   color: #d9230f;
   border-color: #d9230f;
@@ -3364,6 +3395,31 @@ textarea.form-control-lg {
 }
 .btn-outline-dark:disabled, .btn-outline-dark.disabled {
   color: #373a3c;
+  background-color: transparent;
+}
+
+.btn-outline-secondary-light {
+  color: #bbd1da0f;
+  border-color: #bbd1da0f;
+}
+.btn-outline-secondary-light:hover {
+  color: #000;
+  background-color: #bbd1da0f;
+  border-color: #bbd1da0f;
+}
+.btn-check:focus + .btn-outline-secondary-light, .btn-outline-secondary-light:focus {
+  box-shadow: 0 0 0 0.25rem rgba(187, 209, 218, 0.5);
+}
+.btn-check:checked + .btn-outline-secondary-light, .btn-check:active + .btn-outline-secondary-light, .btn-outline-secondary-light:active, .btn-outline-secondary-light.active, .btn-outline-secondary-light.dropdown-toggle.show {
+  color: #000;
+  background-color: #bbd1da0f;
+  border-color: #bbd1da0f;
+}
+.btn-check:checked + .btn-outline-secondary-light:focus, .btn-check:active + .btn-outline-secondary-light:focus, .btn-outline-secondary-light:active:focus, .btn-outline-secondary-light.active:focus, .btn-outline-secondary-light.dropdown-toggle.show:focus {
+  box-shadow: 0 0 0 0.25rem rgba(187, 209, 218, 0.5);
+}
+.btn-outline-secondary-light:disabled, .btn-outline-secondary-light.disabled {
+  color: #bbd1da0f;
   background-color: transparent;
 }
 
@@ -4907,6 +4963,15 @@ textarea.form-control-lg {
   color: #1a1c1d;
 }
 
+.alert-secondary-light {
+  color: rgba(8, 9, 9, 0.4352941176);
+  background-color: rgba(254, 255, 255, 0.8117647059);
+  border-color: rgba(254, 254, 255, 0.7176470588);
+}
+.alert-secondary-light .alert-link {
+  color: rgba(4, 5, 5, 0.5482352941);
+}
+
 @keyframes progress-bar-stripes {
   0% {
     background-position-x: 1rem;
@@ -5284,6 +5349,20 @@ textarea.form-control-lg {
   color: #fff;
   background-color: #212324;
   border-color: #212324;
+}
+
+.list-group-item-secondary-light {
+  color: rgba(8, 9, 9, 0.4352941176);
+  background-color: rgba(254, 255, 255, 0.8117647059);
+}
+.list-group-item-secondary-light.list-group-item-action:hover, .list-group-item-secondary-light.list-group-item-action:focus {
+  color: rgba(8, 9, 9, 0.4352941176);
+  background-color: rgba(218, 219, 219, 0.8305882353);
+}
+.list-group-item-secondary-light.list-group-item-action.active {
+  color: #fff;
+  background-color: rgba(8, 9, 9, 0.4352941176);
+  border-color: rgba(8, 9, 9, 0.4352941176);
 }
 
 .btn-close {
@@ -6341,6 +6420,13 @@ textarea.form-control-lg {
   color: #2c2e30;
 }
 
+.link-secondary-light {
+  color: #bbd1da0f;
+}
+.link-secondary-light:hover, .link-secondary-light:focus {
+  color: rgba(248, 250, 251, 0.2470588235);
+}
+
 .ratio {
   position: relative;
   width: 100%;
@@ -6761,6 +6847,10 @@ textarea.form-control-lg {
 
 .border-dark {
   border-color: #373a3c !important;
+}
+
+.border-secondary-light {
+  border-color: #bbd1da0f !important;
 }
 
 .border-white {
