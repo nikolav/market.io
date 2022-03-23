@@ -23,8 +23,9 @@ const Navigation = () => {
   const dispatch = useDispatch();
   const { current } = useSelector((state) => state.section);
 
-  const navigateToItemCreate = () => dispatch(setSection(SECTIONS["item-create"]));
-  const navigateToDashboard = ()  => dispatch(setSection(SECTIONS.dashboard));
+  const navigateToItemCreate = () =>
+    dispatch(setSection(SECTIONS["item-create"]));
+  const navigateToDashboard = () => dispatch(setSection(SECTIONS.dashboard));
   return (
     <Navbar bg="light" expand="sm" className="shadow-sm">
       <Container fluid="sm">
@@ -50,10 +51,6 @@ const Navigation = () => {
         <Navbar.Toggle className="ms-auto" aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Link>
-              <Logout />
-            </Nav.Link>
-
             <Dropdown align="end">
               <Dropdown.Toggle
                 as={UserToggle}
@@ -61,6 +58,7 @@ const Navigation = () => {
               />
               <Dropdown.Menu>
                 <Dropdown.Item
+                  onClick={navigateToItemCreate}
                   className="align-items-center justify-content-start d-flex"
                   eventKey="1"
                 >
@@ -69,20 +67,24 @@ const Navigation = () => {
                 </Dropdown.Item>
                 <Dropdown.Item
                   className="align-items-center justify-content-start d-flex"
-                  eventKey="1"
-                >
-                  <i className="me-4 text-primary --fs-5 fa-solid fa-screwdriver-wrench"></i>
-                  podešavanja
-                </Dropdown.Item>
-                <Dropdown.Item
-                  className="align-items-center justify-content-start d-flex"
                   eventKey="2"
                 >
                   <i className="me-4 text-primary --fs-5 fa-solid fa-address-card"></i>
                   profil
                 </Dropdown.Item>
+                <Dropdown.Item
+                  className="align-items-center justify-content-start d-flex"
+                  eventKey="1"
+                >
+                  <i className="me-4 text-primary --fs-5 fa-solid fa-screwdriver-wrench"></i>
+                  podešavanja
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
+
+            <Nav.Link>
+              <Logout />
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
