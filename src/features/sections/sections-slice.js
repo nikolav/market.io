@@ -2,11 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const SECTIONS = {
   // app       : "app",
-  dashboard : "dashboard",
-  index     : "index",
-  login     : "login",
-  register  : "register",
-  about     : "about",
+  dashboard     : "dashboard",
+  index         : "index",
+  login         : "login",
+  register      : "register",
+  about         : "about",
+  "item-create" : "item-create",
 };
 
 const initialState = {

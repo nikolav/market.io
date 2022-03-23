@@ -36,9 +36,9 @@ const Register = () => {
 
         if (user) {
           
-          dispatch(setUser(user));
           handleCookie.set(JWTCOOKIE, 
             `${user.token} ${user.token_refresh}`);
+          dispatch(setUser(user));
           
           navigateToDashboard();
         }
