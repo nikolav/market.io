@@ -41,7 +41,8 @@ const Root = () => {
   }
 
   const { current } = useSelector((state) => state.section);
-  return sectionsMap[current] || <Index />;
+  // return sectionsMap[current] || <Index />;
+  return sectionsMap[current] || <Index />
 };
 
 export default Root;

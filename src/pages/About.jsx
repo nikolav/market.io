@@ -7,7 +7,7 @@ const About = () => {
   return (
     <>
       <GuestNavigation />
-      <div className="page-about">
+      <div className="page-about mt-4">
         <Container fluid="sm">
           <Row>
             <Col

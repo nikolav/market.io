@@ -34,7 +34,7 @@ const Logout = () => {
 
   return (
     <span onClick={logout} className="cursor-pointer btn-logout d-inline-block">
-      <i className="fs-3 ms-sm-2 text-primary fa-solid fa-power-off"></i>
+      <i className="cursor-pointer fs-3 ms-sm-2 text-primary fa-solid fa-power-off"></i>
     </span>
   );
 };
