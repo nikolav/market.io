@@ -18,7 +18,7 @@ router.get("/user",
   passport.authenticate("jwt", { session: false }), 
   (req, res) => {
     return res.json({ user: {
-      id        : req.user.id,
+      _id       : req.user._id,
       name      : req.user.name, 
       email     : req.user.email, 
     }});
@@ -60,9 +60,9 @@ router.post("/login", (req, res, next) => {
           return res.json({ 
             token, 
             token_refresh, 
-            id        : user.id,
+            _id       : user._id,
             name      : user.name, 
-            email     : user.email, 
+            email     : user.email,
           });
           
         });
@@ -112,7 +112,7 @@ router.post("/register", (req, res, next) => {
               return res.status(201).json({ 
                 token, 
                 token_refresh, 
-                id        : newUser.id,
+                _id       : newUser._id,
                 name      : newUser.name, 
                 email     : newUser.email, 
                });

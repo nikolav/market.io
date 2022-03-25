@@ -52,6 +52,9 @@ const Navigation = () => {
             <Nav.Link onClick={navigateToLogin}>
               <i className="ms-sm-2 fs-3 text-primary fa-solid fa-circle-user"></i>
             </Nav.Link>
+            <Nav.Link className="cursor-pointer opacity-25">
+              <i className="cursor-pointer ms-sm-2 fs-3 text-primary fa-solid fa-circle-question"></i>
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

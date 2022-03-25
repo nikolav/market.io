@@ -15,6 +15,9 @@ const Login = () => {
     password : "",
   });
 
+  const [fetchingAuth, setFetchingAuth] = useState(false);
+  const [messageAuth, setMessageAuth]   = useState("Prijavi se na sistem.")
+
   const dispatch = useDispatch();
   const { handleCookie } = useCookieStorage();
   
@@ -22,25 +25,57 @@ const Login = () => {
   const navigateToDashboard = () => dispatch(setSection(SECTIONS.dashboard));
 
   const runCredentials = () => {
-    if (!auth.email || !auth.password) return;
+
+    const email_    = auth.email.trim();
+    const password_ = auth.password.trim();
+
+    if (!email_) {
+      setMessageAuth("Niste uneli Email adresu.")
+      return;
+    }
+
+    if (!password_) {
+      setMessageAuth("Niste uneli lozinku.")
+      return;
+    }
+
+    if (password_.length < 2) {
+      setMessageAuth("Lozinka treba da ima bar 2 znakova.")
+      return;
+    }
+
+
+    setFetchingAuth(true);
 
     fetch(AUTH_LOGIN_URI, {
       method  : "POST",
       headers : { "Content-Type": "application/json" },
       body    : JSON.stringify(auth),
     })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((user) => {
+      .then(res => {
+        if (!res.ok) {
+          setMessageAuth("Greška, taj korisnik nije u sistemu.");
+          return "";
+        }
+        return res.json();
+      })
+      .then(user => {
         
         if (user) {
           
           dispatch(setUser(user));
           handleCookie.set(JWTCOOKIE, 
             `${user.token} ${user.token_refresh}`);
-          
+
+          setFetchingAuth(false)
           navigateToDashboard();
         }
-      });
+      })
+      .catch(error => {
+        setMessageAuth("Greška, pokušajte ponovo.")
+      })
+      .finally(() => setFetchingAuth(false));
+
   };
 
   const syncAuth = (evt) =>
@@ -53,7 +88,7 @@ const Login = () => {
       <div className="d-flex justify-content-center mt-4">
         <Card className="shadow-sm" style={{ width: 366 }}>
           <Card.Header className="text-muted fst-italic text-center">
-            Login to use all our services.
+            {messageAuth}
           </Card.Header>
           <Card.Body className="p-4">
             <Form onSubmit={ignore} noValidate>
@@ -76,7 +111,7 @@ const Login = () => {
 
               <Form.Group className="mb-3 mt-4" controlId="password-login">
                 <Form.Label>
-                  Password{" "}
+                  Lozinka
                   {0 === auth.password.length && (
                     <span className="text-primary">*</span>
                   )}
@@ -94,17 +129,18 @@ const Login = () => {
               <div className="d-grid">
                 <ButtonGroup size="lg" className="mt-2">
                   <Button
+                    disabled={fetchingAuth}
                     onClick={runCredentials}
                     variant="primary"
                     type="submit"
                   >
-                    Login
+                    Prijava
                   </Button>
                   <Button
                     onClick={navigateToRegister}
                     variant="secondary"
                   >
-                    Sign up
+                    Registracija
                   </Button>
                 </ButtonGroup>
               </div>

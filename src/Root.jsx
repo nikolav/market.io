@@ -39,10 +39,14 @@ const Root = () => {
     fetch(AUTH_GETUSER_URI, {
       headers: { Authorization: `Bearer ${cookie[JWTCOOKIE].split(" ")[0]}` },
     })
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch(setUser(data.user));
-        navigateToDashoard();
+      .then(res => {
+        return res.ok ? res.json() : "";
+      })
+      .then(data => {
+        if (data) {
+          dispatch(setUser(data.user));
+          navigateToDashoard();
+        }
       });
   }
 

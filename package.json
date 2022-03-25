@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.5.10",
+    "@fancyapps/ui": "^4.0.26",
     "@popperjs/core": "^2.11.4",
     "@reduxjs/toolkit": "^1.8.0",
     "@testing-library/jest-dom": "^5.16.2",

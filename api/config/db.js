@@ -1,43 +1,56 @@
-
 require("dotenv").config();
 
 const mongoose = require("mongoose");
 
+
+mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.once("open", 
   () => console.log("conection:mongoose"));
-
-mongoose
-  .connect(process.env.MONGODB_URI);
 
 mongoose.model(
   process.env.MONGODB_COLLECTION_USERS,
   new mongoose.Schema(
     {
-      name         : String,
-      email        : String,
-      passwordHash : String,
+      name  : String,
+      email : String,
+
+      items: [
+        {
+          type     : mongoose.Schema.Types.ObjectId,
+          ref      : process.env.MONGODB_COLLECTION_ITEMS,
+          required : true,
+          default  : () => [],
+        }
+      ],
+
+      passwordHash: String,
     },
     {
       timestamps: true,
     }
-  ));
+  )
+);
 
 mongoose.model(
-    process.env.MONGODB_COLLECTION_ITEMS, 
-    new mongoose.Schema(
-      {
-        title       : String,
-        description : String,
-        image       : String, 
-        user_id     : {
-          type     : mongoose.Schema.Types.ObjectId,
-          ref      : process.env.MONGODB_COLLECTION_USERS,  
-        },
-        deletedAt: Date,
-      }, 
-      {
-        timestamps: true,
-      }));
+  process.env.MONGODB_COLLECTION_ITEMS,
+  new mongoose.Schema(
+    {
+      title: String,
+      description: String,
+      image: String,
+
+      user: {
+        type     : mongoose.Schema.Types.ObjectId,
+        ref      : process.env.MONGODB_COLLECTION_USERS,
+        required : true,
+      },
+
+      deletedAt: Date,
+    },
+    {
+      timestamps: true,
+    }
+  )
+);
 
 module.exports = { mongoose };
-

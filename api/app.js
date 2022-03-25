@@ -1,16 +1,15 @@
-
 require("dotenv").config();
 
 // const path = require("path");
 
-const express      = require("express");
-const cors         = require("cors");
+const express = require("express");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const logger       = require("morgan");
-const passport     = require("passport");
+const logger = require("morgan");
+const passport = require("passport");
 
 const indexRouter = require("./routes/index");
-const authRouter  = require("./routes/auth");
+const authRouter = require("./routes/auth");
 
 const app = express();
 
@@ -21,19 +20,21 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
-
 app.use(passport.initialize());
-(require("./config/passport-jwt-strategy"))(passport);
+require("./config/passport-jwt-strategy")(passport);
 
 
 const { graphqlHTTP } = require("express-graphql");
-const schema          = require("./config/config-graphql");
-app.use("/graphql", 
-    graphqlHTTP({ 
-        schema, 
-        graphiql: true,
-    }));
+const schema    = require("./config/graphql/schema");
+const rootValue = require("./config/graphql/resolvers");
 
+app.use(
+  "/graphql",
+  graphqlHTTP({ 
+    schema, 
+    rootValue,
+    graphiql: true })
+);
 
 app.use("/", indexRouter);
 app.use("/auth", authRouter);

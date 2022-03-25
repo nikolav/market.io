@@ -4,9 +4,9 @@ POST http://localhost:3112/auth/register
 Content-Type: application/json
 
 {
-    "name": "33", 
-    "email": "33",
-    "password": "33"
+    "name": "11", 
+    "email": "11",
+    "password": "11"
 }
 
 ###
@@ -15,14 +15,14 @@ POST http://localhost:3112/auth/login
 Content-Type: application/json
 
 {
-    "email": "33",
-    "password": "33"
+    "email": "11",
+    "password": "11"
 }
 
 ###
 
 http://localhost:3112/auth/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjNhYmFiYWNjYjc3Yjg0YzNhNzUzODQiLCJpYXQiOjE2NDgwMTYxMDksImV4cCI6MTY0ODAxNjEzOX0.GnOq3MpEwWW0rWoazot7hwg1X8dcfthggxImUYLrcWA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjNkZjI0NzNhYmYwMDliNDliM2ViODQiLCJpYXQiOjE2NDgyMjc3MTEsImV4cCI6MTY0OTA5MTcxMX0.f4BIRPWkgbt2eHM0GDj00AqYClZZjLAZu8X0sXYsj_0
 
 
 

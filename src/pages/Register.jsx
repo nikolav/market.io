@@ -54,13 +54,13 @@ const Register = () => {
       <div className="d-flex justify-content-center mt-4">
         <Card className="shadow-sm" style={{ width: 360 }}>
           <Card.Header className="text-muted fst-italic text-center">
-            Register for more...
+            Registracija za korišćenje svih usluga.
           </Card.Header>
           <Card.Body className="p-4">
             <Form onSubmit={ignore}>
               <Form.Group className="mb-3" controlId="user-register">
                 <Form.Label>
-                  Username{" "}
+                  Korisničko Ime{" "}
                   {0 === inputs.name.length && (
                     <span className="text-primary">*</span>
                   )}
@@ -76,7 +76,7 @@ const Register = () => {
 
               <Form.Group className="mb-3" controlId="email-register">
                 <Form.Label>
-                  Email address{" "}
+                  Email adresa{" "}
                   {0 === inputs.email.length && (
                     <span className="text-primary">*</span>
                   )}
@@ -92,7 +92,7 @@ const Register = () => {
 
               <Form.Group className="mb-3 mt-4" controlId="password-register">
                 <Form.Label>
-                  Password{" "}
+                  Lozinka
                   {0 === inputs.password.length && (
                     <span className="text-primary">*</span>
                   )}
@@ -107,7 +107,7 @@ const Register = () => {
               </Form.Group>
               <Form.Group className="mb-3" controlId="password2-register">
                 <Form.Label>
-                  Confirm Password{" "}
+                  Potvrdi Lozinku
                   {0 === inputs.password2.length && (
                     <span className="text-primary">*</span>
                   )}
@@ -128,14 +128,14 @@ const Register = () => {
                     variant="secondary"
                     className="--text-muted"
                   >
-                    Login
+                    Prijava
                   </Button>
                   <Button
                     onClick={runCredentials}
                     variant="primary"
                     type="submit"
                   >
-                    Sign up
+                    Registracija
                   </Button>
                 </ButtonGroup>
               </div>
