@@ -160,7 +160,10 @@ module.exports = router;
 //
 function signPayload_ (payload) {
   return jwt.sign(payload, 
-    process.env.SECRETORKEY, { expiresIn: 10 * 24 * 60 * 60 }); // sec.
+    process.env.SECRETORKEY, { 
+      expiresIn: parseInt(process.env.JWTTOKEN_EXPIRATION, 10), 
+      // expiresIn: 22, 
+    }); // sec.
 }
 function signRefreshToken_ (payload) {
   return jwt.sign(payload, process.env.SECRETORKEY);

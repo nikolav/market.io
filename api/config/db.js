@@ -3,9 +3,18 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 
 
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI)
+  .then(
+    () => console.log("mongoose:ready"), 
+    error => console.error(error));
+
 mongoose.connection.once("open", 
-  () => console.log("conection:mongoose"));
+  () => console.log("mongoose:conection"));
+
+// const schemaConfig = {
+//   autoIndex: false,  
+//   collection: 'data', // name a collection
+// };
 
 mongoose.model(
   process.env.MONGODB_COLLECTION_USERS,

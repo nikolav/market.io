@@ -15,6 +15,8 @@ $custom-colors: (
   "secondary-light": $secondary-light
 );
 
+$table-striped-bg-factor: .023;
+
 @import "./variables";
 
 @import "../../node_modules/bootstrap/scss/variables";

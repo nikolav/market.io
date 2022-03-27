@@ -1,4 +1,3 @@
-
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -13,18 +12,16 @@ import "bootstrap";
 
 import Root from "./Root";
 
-  const client = new ApolloClient({
-    uri   : "http://localhost:3112/graphql",
-    cache : new InMemoryCache(),
-  });
-  
-  ReactDOM.render(
-    <Provider store={store}>
-      <ApolloProvider client={client}>
-          <Root />
-      </ApolloProvider>
-    </Provider>,
-    document.getElementById("root")
-  );
+const client = new ApolloClient({
+  uri: "http://localhost:3112/graphql",
+  cache: new InMemoryCache(),
+});
 
-// https://rickandmortyapi.com/graphql
+ReactDOM.render(
+  <Provider store={store}>
+    <ApolloProvider client={client}>
+      <Root />
+    </ApolloProvider>
+  </Provider>,
+  document.getElementById("root")
+);

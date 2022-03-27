@@ -52,9 +52,9 @@ const Register = () => {
     <>
     <GuestNavigation />
       <div className="d-flex justify-content-center mt-4">
-        <Card className="shadow-sm" style={{ width: 360 }}>
+        <Card className="shadow-sm" style={{ width: 388 }}>
           <Card.Header className="text-muted fst-italic text-center">
-            Registracija za korišćenje svih usluga.
+            Registracija je obavezna za korišćenje usluga.
           </Card.Header>
           <Card.Body className="p-4">
             <Form onSubmit={ignore}>

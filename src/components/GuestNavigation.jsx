@@ -26,7 +26,7 @@ const Navigation = () => {
         </Navbar.Brand>
         <Navbar.Text className="cursor-pointer" onClick={navigateToIndex}>
           <span className="brand-name ms-0 ms-sm-1 d-inline-block text-primary opacity-50">
-            market.io
+            oglasi.io
           </span>
         </Navbar.Text>
         <Navbar.Toggle className="ms-auto" aria-controls="basic-navbar-nav" />

@@ -29,18 +29,21 @@ body {
  *  STYLE 1
  */
 
- body::-webkit-scrollbar-track
+ body::-webkit-scrollbar-track, 
+ .aside-list-dashboard::-webkit-scrollbar-track
  {
    background: transparent;
  }
  
- body::-webkit-scrollbar
+ body::-webkit-scrollbar, 
+ .aside-list-dashboard::-webkit-scrollbar
  {
    width: .2em;
    background: transparent;
  }
  
- body::-webkit-scrollbar-thumb
+ body::-webkit-scrollbar-thumb, 
+ .aside-list-dashboard::-webkit-scrollbar-thumb
  {
    border-radius: .1em;
    background-color: #d9230f;

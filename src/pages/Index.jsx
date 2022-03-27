@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Col, Row } from "react-bootstrap";
 import GuestNavigation from "../components/GuestNavigation";
-import ItemsList from "../components/ItemsList";
+// import ItemsList from "../components/ItemsList";
 
 const Index = () => {
   return (
@@ -9,7 +9,12 @@ const Index = () => {
       <GuestNavigation />
       <Container className="mt-5">
         <Row>
-          <ItemsList />
+          {/* <ItemsList /> */}
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores
+            id, repellat nisi ipsa dolorem nam, in alias consectetur, quae
+            voluptatum quas fuga?
+          </p>
         </Row>
       </Container>
     </>

@@ -1,0 +1,15 @@
+.dashboardGrid {
+    display: grid;
+    grid-template-columns: 2fr 8fr 2fr;
+    min-height: 100vh;
+    max-height: 100vh;
+    padding-top: 72px;
+}
+.dashboardSidebar {
+    min-width: 234px;
+}
+.dashboardAside {
+    min-width: 312px;
+    max-height: 88vh;
+    overflow-y: auto;
+}

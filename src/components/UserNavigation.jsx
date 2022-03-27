@@ -27,7 +27,7 @@ const Navigation = () => {
     dispatch(setSection(SECTIONS["item-create"]));
   const navigateToDashboard = () => dispatch(setSection(SECTIONS.dashboard));
   return (
-    <Navbar bg="light" expand="sm" className="shadow-sm">
+    <Navbar fixed="top" bg="light" expand="sm" className="shadow-sm">
       <Container fluid="sm">
         {SECTIONS["item-create"] !== current ? (
           <Navbar.Text
@@ -36,7 +36,7 @@ const Navigation = () => {
           >
             <CreateNewItem />
             <span className="cursor-pointer text-primary opacity-50 d-inline-block ms-2 pb-1">
-              postavi
+              postavi oglas
             </span>
           </Navbar.Text>
         ) : (
@@ -63,14 +63,14 @@ const Navigation = () => {
                   eventKey="1"
                 >
                   <i className="me-4 text-primary --fs-5 fa-solid fa-circle-plus"></i>
-                  novi post
+                  novi oglas
                 </Dropdown.Item>
                 <Dropdown.Item
                   className="align-items-center justify-content-start d-flex"
                   eventKey="2"
                 >
                   <i className="me-4 text-primary --fs-5 fa-solid fa-address-card"></i>
-                  profil
+                  moj profil
                 </Dropdown.Item>
                 <Dropdown.Item
                   className="align-items-center justify-content-start d-flex"

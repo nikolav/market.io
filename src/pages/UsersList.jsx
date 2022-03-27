@@ -8,10 +8,13 @@ const Quser = gql`
       _id
       name
       email
+      createdAt
       items {
         _id
         title
         description
+        image
+        createdAt
       }
     }
   }

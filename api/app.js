@@ -25,16 +25,18 @@ require("./config/passport-jwt-strategy")(passport);
 
 
 const { graphqlHTTP } = require("express-graphql");
-const schema    = require("./config/graphql/schema");
-const rootValue = require("./config/graphql/resolvers");
+const schema          = require("./config/graphql/schema");
+const rootValue       = require("./config/graphql/resolvers");
+const { verifyToken } = require("./mw/verify-token");
 
 app.use(
   "/graphql",
+  verifyToken,
   graphqlHTTP({ 
-    schema, 
+    schema,
     rootValue,
-    graphiql: true })
-);
+    graphiql: true,
+  }));
 
 app.use("/", indexRouter);
 app.use("/auth", authRouter);

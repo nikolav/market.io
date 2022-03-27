@@ -54,7 +54,8 @@ const Login = () => {
     })
       .then(res => {
         if (!res.ok) {
-          setMessageAuth("Greška, taj korisnik nije u sistemu.");
+          setFetchingAuth(false);
+          setMessageAuth("Greška, korisnik nije u sistemu.");
           return "";
         }
         return res.json();
@@ -67,7 +68,7 @@ const Login = () => {
           handleCookie.set(JWTCOOKIE, 
             `${user.token} ${user.token_refresh}`);
 
-          setFetchingAuth(false)
+          setFetchingAuth(false);
           navigateToDashboard();
         }
       })
@@ -86,7 +87,7 @@ const Login = () => {
     <>
       <GuestNavigation />
       <div className="d-flex justify-content-center mt-4">
-        <Card className="shadow-sm" style={{ width: 366 }}>
+        <Card className="shadow-sm" style={{ width: 388 }}>
           <Card.Header className="text-muted fst-italic text-center">
             {messageAuth}
           </Card.Header>

@@ -1,22 +1,30 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-const Item = () => {
+const Item = ({item}) => {
+
+  const { _id, title, description, image, createdAt } = item;
+  
   return (
     <>
       <Card>
         <Card.Body>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt incidunt
-          dolores quidem illo similique, adipisci laborum ut earum rem illum
-          minima quos, doloremque perferendis eos, pariatur voluptates quo
-          eveniet sed!
+          <Card.Title>{title}</Card.Title>
+          <p>{description}</p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
+            incidunt dolores quidem illo similique, adipisci laborum ut earum
+            rem illum minima quos, doloremque perferendis eos, pariatur
+            voluptates quo eveniet sed!
+          </p>
         </Card.Body>
         <Card.Footer className="">
-            <div
-            style={{fontSize: "81%"}}
-            className="d-flex align-items-center justify-content-end text-muted">
-              Lorem, ipsum dolor.
-            </div>
+          <div
+            style={{ fontSize: "81%" }}
+            className="d-flex align-items-center justify-content-end text-muted"
+          >
+            {createdAt}
+          </div>
         </Card.Footer>
       </Card>
     </>
