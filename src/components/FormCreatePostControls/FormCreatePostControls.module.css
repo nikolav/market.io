@@ -1,0 +1,9 @@
+.iconBgCircle {
+  background: transparent;
+}
+.iconBgCircle:hover {
+  background: url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMTEuNyAyMTEuNyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtNDYuMDgzIC03My4yMDQpIj48Y2lyY2xlIGN4PSIxNTEuOTMiIGN5PSIxNzkuMDYiIHI9IjEwNS44NSIgZmlsbD0iI2Q5MjMwZiIgZmlsbC1vcGFjaXR5PSIuMDUzNzM4IiBzdHJva2Utd2lkdGg9IjEuMDAxNiIvPjwvZz48L3N2Zz4K");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}

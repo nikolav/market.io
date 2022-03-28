@@ -1,14 +1,10 @@
 import { useState } from "react";
 
-// const readURL = file => {
-//     return new Promise((res, rej) => {
-//         const reader = new FileReader();
-//         reader.onload = e => res(e.target.result);
-//         reader.onerror = e => rej(e);
-//         reader.readAsDataURL(file);
-//     });
-// };
 
+// 1. create FileReader{}
+// 2. add status listeners
+// 3. @load|@error signal
+// 4. cleanup
 function useFileReader() {
   let reader;
 
@@ -21,6 +17,7 @@ function useFileReader() {
   //
   function read(file) {
     try {
+      reset_();
       setLoading(true);
       reader = new FileReader();
 
@@ -34,6 +31,11 @@ function useFileReader() {
       setLoading(false);
     }
   }
+  function reset_ () {
+    setError(null);
+    setLoading(false);
+    setUrl(null);
+  }
   //
   function loading_(evt) {
     const reader_ = evt.target;
@@ -46,6 +48,8 @@ function useFileReader() {
 
     reader_.removeEventListener("error", loading_);
     reader_.removeEventListener("load", loading_);
+
+    setLoading(false);
   }
 }
 
