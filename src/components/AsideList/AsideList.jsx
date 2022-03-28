@@ -8,7 +8,7 @@ import sortItemsByDateDesc from "../../util/sort-items-by-date-desc";
 
 const AsideList = () => {
   const { error, loading, data } = useQuery(Q_ITEMS_ALL, {
-    pollInterval: 5678,
+    pollInterval: 12345,
   });
 
   return (

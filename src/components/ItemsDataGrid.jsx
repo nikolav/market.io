@@ -12,17 +12,25 @@ const ItemsDataGrid = ({ user }) => {
 
   const [items, setItems] = useState(null);
 
+  // https://www.apollographql.com/docs/react/data/queries#refetching
   const { 
     error, loading, data, 
+
     // pollInterval,
     // refetch,
+
+    // networkStatus
   } = useQuery(Q_USER_ITEMS, {
     variables: { id: user._id },
+
+    // notifyOnNetworkStatusChange: boolean; 
+    //    uses .networkStatus to flag query net status
+    
   });
 
   useEffect(() => {
 
-    if (data?.user?.items?.length) 
+    if (data?.user?.items?.length)
       setItems(data.user.items);
     
   }, [data, error, loading]);

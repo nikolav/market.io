@@ -5,7 +5,7 @@ const ItemsDataRow = ({ item, index }) => {
 
   return (
     <tr>
-      <td>{index}</td>
+      <td colSpan="row">{index}</td>
       <td>{title}</td>
       <td>{description}</td>
       <td>{image}</td>

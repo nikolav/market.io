@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Form, InputGroup, FormControl } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import useFirebaseStorageUpload from "../hooks/use-firebase-storage-upload";
 
 const InputUpload = () => {
@@ -15,14 +15,18 @@ const InputUpload = () => {
 
   const ignore = (evt) => evt.preventDefault();
   return (
-    <div className="mx-auto w-50">
-      <Form onSubmit={ignore}>
-        <InputGroup className="mb-3">
-          <FormControl onChange={handleFileChange} type="file" />
-          <InputGroup.Text>file.com</InputGroup.Text>
-        </InputGroup>
-      </Form>
-    </div>
+    <Form onSubmit={ignore}>
+      <label className="btn btn-secondary btn-sm" htmlFor="marketio-file-upload">
+        Izaberi
+        <input
+          onChange={handleFileChange}
+          className="visually-hidden"
+          type="file"
+          name="marketio-file-upload"
+          id="marketio-file-upload"
+        />
+      </label>
+    </Form>
   );
 };
 
