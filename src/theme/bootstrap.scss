@@ -15,7 +15,11 @@ $custom-colors: (
   "secondary-light": $secondary-light
 );
 
-$table-striped-bg-factor: .023;
+$table-striped-bg-factor : .020;
+$table-hover-color       : #d9230f;
+$table-hover-bg-factor   : .038;
+$table-hover-bg          : rgba(#d9230f, $table-hover-bg-factor);
+
 
 @import "./variables";
 

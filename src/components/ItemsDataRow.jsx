@@ -7,8 +7,8 @@ const ItemsDataRow = ({ item, index }) => {
     <tr>
       <td colSpan="row">{index}</td>
       <td>{title}</td>
-      <td>{description}</td>
-      <td>{image}</td>
+      {/* <td>{description}</td>
+      <td>{image}</td> */}
       <td>{createdAt}</td>
       <td>komande</td>
     </tr>

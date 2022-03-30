@@ -1,18 +1,12 @@
 import React from "react";
-import {
-  Navbar,
-  Nav,
-  Container,
-  Form, 
-  InputGroup,
-} from "react-bootstrap";
+import { Navbar, Nav, Container, Form, InputGroup } from "react-bootstrap";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setSection, SECTIONS } from "../features/sections/sections-slice";
 
 const Navigation = () => {
-  const dispatch    = useDispatch();
-  const { current } = useSelector(state => state.section);
+  const dispatch = useDispatch();
+  const { current } = useSelector((state) => state.section);
 
   const navigateToLogin = () => dispatch(setSection(SECTIONS.login));
   const navigateToAbout = () => dispatch(setSection(SECTIONS.about));
@@ -32,19 +26,20 @@ const Navigation = () => {
         <Navbar.Toggle className="ms-auto" aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            {SECTIONS.index === current && <Form
-              style={{ height: "2em", marginTop: 10 }}
-              className="form-item-search d-flex me-4 opacity-50"
-            >
-              <InputGroup className="">
-                <Form.Control
-                  id="input-search"
-                  className="ps-5 bg-transparent border-primary"
-                  type="text"
-                  
-                />
-              </InputGroup>
-            </Form>}
+            {SECTIONS.index === current && (
+              <Form
+                style={{ height: "2em", marginTop: 10 }}
+                className="form-item-search d-flex me-4 opacity-50"
+              >
+                <InputGroup className="">
+                  <Form.Control
+                    id="input-search"
+                    className="ps-5 bg-transparent border-primary"
+                    type="text"
+                  />
+                </InputGroup>
+              </Form>
+            )}
 
             <Nav.Link onClick={navigateToAbout}>
               <i className="fs-3 text-primary fa-solid fa-circle-info"></i>

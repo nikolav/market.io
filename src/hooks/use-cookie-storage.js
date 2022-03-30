@@ -48,7 +48,7 @@ function useCookieStorage(config = null) {
             delete newCookie[name];
 
             return newCookie; }),
-        { expires: -30 }
+        { expires: -365 }
       );
     }
   }

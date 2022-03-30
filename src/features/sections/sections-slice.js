@@ -11,6 +11,7 @@ export const SECTIONS = {
 };
 
 const initialState = {
+  // history : [],
   prev    : null,
   current : SECTIONS.index,
 };
@@ -21,6 +22,7 @@ export const sectionsSlice = createSlice({
   reducers: {
     setSection: (state, action) => {
       if (state.current !== action.payload) {
+        // state.history.push(state.current);
         state.prev    = state.current;
         state.current = action.payload;
       }

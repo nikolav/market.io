@@ -38,14 +38,18 @@ function useFirebaseStorageUpload() {
     function upload (fileObject, storagePath = "/", options = null) {
 
       if (!fileObject) return;
-
+      
       options = { ...UPLOAD_CONFIG, ...(options || {}) };
 
       try {
+        
+          reset_();
+          
           const storageRef = ref(storage, storagePath);
+
           const uploadTask 
             = uploadBytesResumable(storageRef, fileObject, options);
-        
+
           uploadTask.on("state_changed", 
             function progressHandle(snapshot) {
                 setStatus(s => ({...s, state: snapshot.state,
@@ -64,6 +68,15 @@ function useFirebaseStorageUpload() {
         setStatus(s => ({ ...s, error }));
       }
 
+    }
+    //
+    function reset_ () {
+      setStatus(state_ => ({
+        error       : null, 
+        state       : null,
+        progress    : null, 
+        downloadURL : null
+      }));
     }
     
 }

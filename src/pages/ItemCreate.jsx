@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSection, SECTIONS } from "../features/sections/sections-slice";
 
 import UserNavigation from "../components/UserNavigation";
@@ -23,8 +23,11 @@ import FormCreatePostControls from "../components/FormCreatePostControls/FormCre
 // import Spinner from "../components/Spinner/Spinner";
 
 import classes from "./ItemCreate.module.css";
+
 import useFileReader from "../hooks/use-file-reader";
 import iconEditItem from "../theme/etc/icon-edit-item.svg";
+
+import iconDeleteWhiteShadowSm from "../theme/etc/icon-delete-white-shadow-sm.svg";
 
 import imageUploadHelpStep01 from "../theme/etc/post-help-step-01.jpg";
 import imageUploadHelpStep02 from "../theme/etc/post-help-step-02.jpg";
@@ -32,23 +35,36 @@ import imageUploadHelpStep03 from "../theme/etc/post-help-step-03.jpg";
 import imageUploadHelpStep04 from "../theme/etc/post-help-step-04.jpg";
 import imageUploadHelpStep05 from "../theme/etc/post-help-step-05.jpg";
 
+import useFirebaseStorageUpload from "../hooks/use-firebase-storage-upload";
+
+import { useMutation } from "@apollo/client";
+import { Q_ITEM_CREATE } from "../graphql/queries/create-post.js";
+
 const imgsrc =
   "https://cdn.pixabay.com/photo/2015/10/13/23/51/krka-987021_960_720.jpg";
-const imageErrorWrongType = "Izaberite sliku ( jpg, png, ... )";
+const ERROR_WRONG_FILE_TYPE  = "Izaberite sliku ( jpg, png, ... )";
+const DEFAULT_HEADER_MESSAGE = "Postavi novi oglas";
 
-// form handlers
-const ignore = (evt) => evt.preventDefault();
-const formatHeaderMessage = (header) => `${String(header).substring(0, 45)}...`;
+const formatHeaderMessage = (header) => `${String(header).substring(0, 32)}...`;
+const isImage = (path) => /jpe?g|png|gif|svg/i.test(path);
+
+// no end slash !
+const UPLOAD_PATH_STORAGE = "etc/app-upload";
+
+const formatUploadPath = (filename) =>
+  `${UPLOAD_PATH_STORAGE}/${Date.now()}.${filename}`;
 
 // @c
 const ItemCreate = () => {
+  const { user } = useSelector((state) => state.auth);
+
   const [inputs, setInputs] = useState({
     title: "",
     file: null, // file{}
     description: "",
   });
-  const [headerMessage, setHeaderMessage] = useState("oglas");
 
+  const [headerMessage, setHeaderMessage] = useState(DEFAULT_HEADER_MESSAGE);
   const [imageSrc, setImageSrc] = useState(null);
 
   const [modalShow, setModalShow] = useState(false);
@@ -67,21 +83,96 @@ const ItemCreate = () => {
     const file = evt.target.files[0];
 
     // accept images only
-    if (!/jpe?g|png|gif|svg/i.test(file.type))
-      return setHeaderMessage(imageErrorWrongType);
+    if (!isImage(Object(file).type))
+      return setHeaderMessage(ERROR_WRONG_FILE_TYPE);
 
+    read(file);
     setHeaderMessage(formatHeaderMessage(file.name));
     setInputs((state_) => ({ ...state_, file }));
-    read(file);
   };
 
   useEffect(() => {
-    if (url) setImageSrc(url);
+    
+    if (url) 
+    setImageSrc(url);
   }, [url]);
+  
+  const fileRef = React.createRef();
+  const resetFileInput = 
+    () => fileRef.current.value = null;
+
+  const clearUploadImage = (evt) => {
+    setInputs(old => ({ ...old, file: null }));
+    resetFileInput();
+    setImageSrc(null);
+    setHeaderMessage(DEFAULT_HEADER_MESSAGE);
+  };
 
   const { openGallery } = useFancyboxGallery();
 
-  console.log(inputs);
+  const oglasiHelp = [
+    {
+      src: imageUploadHelpStep01,
+      caption:
+        "Naslov treba da bude kratak i precizan da bi se lako pojavio u pretrazi.",
+    },
+    {
+      src: imageUploadHelpStep02,
+      caption: "Sadržaj oglasa može da bude opširan i da sadrži ključne reči.",
+    },
+    {
+      src: imageUploadHelpStep03,
+      caption: "Ovde izaberite prateću sliku koja ide uz vaš oglas.",
+    },
+    {
+      src: imageUploadHelpStep04,
+      caption: "Proverite kako će izgledati ceo oglas pre nego ga postavite.",
+    },
+    {
+      src: imageUploadHelpStep05,
+      caption:
+        "Ako ste zadovoljni, ovde postavljate oglas. Nakon postavljanja odmah je otvoren za pretragu i pregled.",
+    },
+  ];
+
+  const {
+    upload,
+    status: { error, state, progress, downloadURL },
+  } = useFirebaseStorageUpload();
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    // 1. upload image 1st
+    // 2. on success save db record
+    // 3. notify user
+    upload(inputs.file, formatUploadPath(inputs.file.name));
+  };
+
+  const [createPost, createPostStatus] = useMutation(Q_ITEM_CREATE);
+
+  useEffect(() => {
+    if (!error && 100 === progress && downloadURL) {
+      createPost({
+        variables: {
+          user: user._id,
+          title: inputs.title,
+          image: downloadURL,
+          description: inputs.description,
+        },
+      });
+    }
+  }, [error, state, progress, downloadURL]);
+
+  useEffect(() => {
+    if (
+      !(createPostStatus.error || createPostStatus.loading) &&
+      createPostStatus.data
+    ) {
+      // success, post saved
+      console.log(createPostStatus.data.createItem);
+    }
+  }, [createPostStatus]);
 
   return (
     <div className={classes.pageItemCreate}>
@@ -104,39 +195,17 @@ const ItemCreate = () => {
                 <FormCreatePostControls
                   onClick={{
                     x: navigateToDashboard,
-                    help: (evt) =>
-                      openGallery(
-                        [
-                          {
-                            src: imageUploadHelpStep01,
-                            caption: "Naslov treba da bude kratak i precizan da bi se lako pojavio u pretrazi.",
-                          },
-                          {
-                            src: imageUploadHelpStep02,
-                            caption: "Sadržaj oglasa može da bude opširan i da sadrži ključne reči.",
-                          },
-                          {
-                            src: imageUploadHelpStep03,
-                            caption: "Ovde izaberite prateću sliku koja ide uz vaš oglas.",
-                          },
-                          {
-                            src: imageUploadHelpStep04,
-                            caption: "Proverite kako će izgledati ceo oglas pre nego ga postavite.",
-                          },
-                          {
-                            src: imageUploadHelpStep05,
-                            caption: "Ako ste zadovoljni, ovde postavljate oglas. Nakon postavljanja odmah je otvoren za pretragu i pregled.",
-                          },
-                        ],
-                        {
-                          Toolbar: {
-                            display: [
-                              { id: "counter", position: "left" },
-                              "close",
-                            ],
-                          },
-                        }
-                      ),
+                    help: (evt) => {
+                      evt.preventDefault();
+                      return openGallery(oglasiHelp, {
+                        Toolbar: {
+                          display: [
+                            { id: "counter", position: "left" },
+                            "close",
+                          ],
+                        },
+                      });
+                    },
                   }}
                 />
               </Card.Header>
@@ -149,12 +218,29 @@ const ItemCreate = () => {
                 }}
                 className="ps-2"
               >
-                <div>
+                <div
+                  className={`position-relative ${classes.uploadImageContainer}`}
+                >
+                  {imageSrc && (
+                    <span
+                      className={`position-absolute cursor-pointer p-2 top-0 end-0 ${classes.uploadImageClear}`}
+                    >
+                      <img
+                        onClick={clearUploadImage}
+                        style={{
+                          width: 25,
+                        }}
+                        className="cursor-pointer img-fluid"
+                        src={iconDeleteWhiteShadowSm}
+                        alt=""
+                      />
+                    </span>
+                  )}
                   <Card.Img
                     style={{
                       objectFit: "cover",
                     }}
-                    className={`--rounded-0 h-100 --img-thumbnail ${classes.uploadImage}`}
+                    className={`upload-image --rounded-0 h-100 --img-thumbnail ${classes.uploadImage}`}
                     variant="top"
                     src={imageSrc || imgsrc}
                   />
@@ -164,12 +250,7 @@ const ItemCreate = () => {
                   <Card.Body className="px-md-4">
                     <Form
                       className={classes.formNovOglas}
-                      style={
-                        {
-                          // height: "100%",
-                        }
-                      }
-                      onSubmit={ignore}
+                      onSubmit={handleSubmit}
                     >
                       {/* naslov */}
                       <FloatingLabel label="Naslov">
@@ -200,6 +281,7 @@ const ItemCreate = () => {
                       {/* kontrole */}
                       <Stack className="mt-4 mb-2 w-100" direction="horizontal">
                         <ButtonUpload
+                          ref={fileRef}
                           id="file"
                           name="file"
                           onChange={syncFile}
@@ -215,7 +297,7 @@ const ItemCreate = () => {
                             >
                               Pregled
                             </Button>
-                            <Button type="button" variant="primary">
+                            <Button type="submit" variant="primary">
                               Postavi oglas
                             </Button>
                           </ButtonGroup>

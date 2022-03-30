@@ -14,7 +14,7 @@ function useFileReader() {
 
   return [read, { error, loading, url }];
 
-  //
+  // 
   function read(file) {
     try {
       reset_();
@@ -51,6 +51,7 @@ function useFileReader() {
 
     setLoading(false);
   }
+
 }
 
 export default useFileReader;

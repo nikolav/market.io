@@ -46,8 +46,8 @@ const ItemsDataGrid = ({ user }) => {
                 <tr>
                   <th className="text-center">#</th>
                   <th className="ps-sm-4">oglas</th>
-                  <th className="ps-sm-4">opis</th>
-                  <th className="ps-sm-4">slika</th>
+                  {/* <th className="ps-sm-4">opis</th>
+                  <th className="ps-sm-4">slika</th> */}
                   <th className="ps-sm-4">postavljen</th>
                   <th className="ps-sm-4">uredi</th>
                 </tr>

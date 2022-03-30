@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const isAuthenticated = ".isAuthenticated";
+const AUTHENTICATED = ".isAuthenticated";
 
 function verifyToken(req, res, next) {
   const auth_ = req.get("Authorization");
@@ -12,18 +12,19 @@ function verifyToken(req, res, next) {
   let jwtPayload = null;
 
   try {
-    jwtPayload = jwt.verify(tok_, process.env.process.env.SECRETORKEY);
+    jwtPayload = jwt.verify(tok_, process.env.SECRETORKEY);
 
     if (!jwtPayload) return next();
   } catch (error) {
     return next();
   }
 
-  req[isAuthenticated] = jwtPayload._id;
+  req[AUTHENTICATED] = { ...jwtPayload, "_@": Date.now() };
+
   return next();
 }
 
 module.exports = {
-  verifyToken, 
-  isAuthenticated,
+  verifyToken,
+  AUTHENTICATED,
 };

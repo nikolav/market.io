@@ -12,7 +12,8 @@ function useFancyboxGallery () {
 
     return { gallery, openGallery };
 
-    function openGallery ( ...args ) { // list, options
+    // input: object[], options: object
+    function openGallery ( ...args ) { 
         return setGallery(Fancybox.show.apply(null, args));
     }
 }

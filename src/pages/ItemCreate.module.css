@@ -7,6 +7,15 @@
     background-color: transparent;
 }
 
-.uploadImage {
-    
+.uploadImage {}
+.uploadImageContainer {}
+.uploadImageClear {
+  display: none;
+  opacity: .72;
+}
+.uploadImageClear:hover {
+  opacity: .92;
+}
+.uploadImageContainer:hover .uploadImageClear {
+  display: inline-block;
 }
