@@ -24,6 +24,7 @@ module.exports = buildSchema(`
         user(_id:ID!): User
         items: [Item!]!
         item(_id:ID!): Item
+        itemsByUser(user:ID!): [Item!]!
         countUsers: Int!
         countItems: Int!
         countUserItems(_id:ID!): Int!

@@ -1,5 +1,4 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 
 import { SECTIONS, setSection } from "../features/sections/sections-slice";
@@ -8,12 +7,9 @@ import AsideList from "../components/AsideList/AsideList";
 import ItemsDataGrid from "../components/ItemsDataGrid";
 import SideBarActions from "../components/SideBarActions/SideBarActions";
 
-import classes from "./Dashboard.module.css";
-
-
+import css from "./Dashboard.module.css";
 
 const Dashboard = () => {
-
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
@@ -22,21 +18,43 @@ const Dashboard = () => {
   if (!user) navigateToIndex();
 
   return (
-    <div className="page-dashboard"
-    >
-    <UserNavigation />
+    <>
+      <UserNavigation />
+
       <div
-        className={classes.dashboardGrid}
+      style={{
+        position: "relative",
+        top: "73px",
+        height: "calc(100% - 73px - .1px)",
+      }}
+      className="d-flex align-items-top justify-content-between">
+
+        <div className={`me-auto ${css.dashboardSidebar}`}>
+          <SideBarActions />
+        </div>
+
+        <div className="flex-grow-1 mx-4 mt-4">
+          <ItemsDataGrid user={user} />
+        </div>
+
+        <div className={`pe-2 aside-list-dashboard ms-auto ${css.dashboardAside}`}>
+          <AsideList user={user} />
+        </div>
+      </div>
+
+      
+      
+
+      {/* <div
+        className={css.dashboardGrid}
       >
 
-        {/* sidebar */}
         <div
-          className={`shadow-sm ${classes.dashboardSidebar}`}
+          className={`shadow-sm ${css.dashboardSidebar}`}
           >
           <SideBarActions />
         </div>
 
-        {/* dataGrid */}
         <div className="dashboard-column-datagrid">
           <Container fluid>
             <Row>
@@ -47,13 +65,12 @@ const Dashboard = () => {
           </Container>
         </div>
 
-        {/* aside */}
-        <div className={`aside-list-dashboard pe-2 ${classes.dashboardAside}`}>
+        <div className={`aside-list-dashboard pe-2 ${css.dashboardAside}`}>
           <AsideList />
         </div>
 
-      </div>
-    </div>
+      </div> */}
+    </>
   );
 };
 

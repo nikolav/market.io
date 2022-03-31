@@ -5,7 +5,7 @@ const ButtonUpload = React.forwardRef(({ id, name, classNames, onChange, childre
   
   return (
     <label
-      className={`btn btn-secondary btn-lg d-inline-block ${classNames.label}`}
+      className={`btn btn-secondary btn-lg ${classNames.label}`}
       htmlFor={id}
     >
       {children}

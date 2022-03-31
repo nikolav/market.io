@@ -21,11 +21,17 @@ $table-hover-bg-factor   : .038;
 $table-hover-bg          : rgba(#d9230f, $table-hover-bg-factor);
 
 
+
+
+
+
 @import "./variables";
 
 @import "../../node_modules/bootstrap/scss/variables";
 
 $theme-colors: map-merge($theme-colors, $custom-colors);
+
+
 
 
 @import "../../node_modules/bootstrap/scss/mixins";

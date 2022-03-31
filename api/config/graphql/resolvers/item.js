@@ -6,13 +6,20 @@ const User = mongoose.model(process.env.MONGODB_COLLECTION_USERS);
 
 
 
-const ITEMTYPE_FIELDS = "_id title description image createdAt user";
+const ITEMTYPE_FIELDS 
+  = "_id title description image createdAt user";
+const ITEMTYPE_FIELDS_NOUSER 
+  = "_id title description image createdAt";
 
 module.exports = {
   items: () => {
     return Item.find()
       .populate("user")
       .select(ITEMTYPE_FIELDS);
+  },
+  itemsByUser: ({ user }) => {
+    return Item.find({ user })
+      .select(ITEMTYPE_FIELDS_NOUSER);
   },
   item: ({ _id }) => {
     return Item.findById(_id)

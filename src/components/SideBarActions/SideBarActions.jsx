@@ -1,13 +1,29 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
+// import classes from "./SideBarActions.module.css";
+
 const SideBarActions = () => {
   return (
-      <Card style={{ height: "100%" }}>
-        <Card.Body>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-        </Card.Body>
-      </Card>
+    <Card 
+      className="rounded-0 shadow-sm"
+      style={{ height: "100%" }}
+    >
+      <Card.Body>
+        <ul>
+          <li>1 Lorem ipsum dolor sit amet.</li>
+          <li>1 Lorem ipsum dolor sit amet.</li>
+          <li>1 Lorem ipsum dolor sit amet.</li>
+          <li>1 Lorem ipsum dolor sit amet.</li>
+          <li>1 Lorem ipsum dolor sit amet.</li>
+          <li>1 Lorem ipsum dolor sit amet.</li>
+          <li>1 Lorem ipsum dolor sit amet.</li>
+          <li>1 Lorem ipsum dolor sit amet.</li>
+          <li>1 Lorem ipsum dolor sit amet.</li>
+          <li>1 Lorem ipsum dolor sit amet.</li>
+        </ul>
+      </Card.Body>
+    </Card>
   );
 };
 

@@ -21,17 +21,15 @@ import useFancyboxGallery from "../hooks/use-fancybox-gallery";
 import ButtonUpload from "../components/ButtonUpload/ButtonUpload";
 import FormCreatePostControls from "../components/FormCreatePostControls/FormCreatePostControls";
 
-// import InputUpload from "../components/InputUpload";
 // import Spinner from "../components/Spinner/Spinner";
 
 import classes from "./ItemCreate.module.css";
 
 import useFileReader from "../hooks/use-file-reader";
-import iconEditItem from "../theme/etc/icon-edit-item.svg";
+import iconCreateItem from "../theme/etc/icon-post-create.svg";
 
 import iconDeleteWhiteShadowSm from "../theme/etc/icon-delete-white-shadow-sm.svg";
 import iconCloudUpload from "../theme/etc/icon-cloud-upload.svg";
-import iconCheck from "../theme/etc/icon-check.svg";
 
 import imageUploadHelpStep01 from "../theme/etc/post-help-step-01.jpg";
 import imageUploadHelpStep02 from "../theme/etc/post-help-step-02.jpg";
@@ -44,10 +42,8 @@ import useFirebaseStorageUpload from "../hooks/use-firebase-storage-upload";
 import { useMutation } from "@apollo/client";
 import { Q_ITEM_CREATE } from "../graphql/queries/create-post.js";
 
-const imgsrc =
-  "https://cdn.pixabay.com/photo/2015/10/13/23/51/krka-987021_960_720.jpg";
 const ERROR_WRONG_FILE_TYPE = "Izaberite sliku ( jpg, png, ... )";
-const DEFAULT_HEADER_MESSAGE = "Postavi novi oglas";
+const DEFAULT_HEADER_MESSAGE = "Novi oglas";
 
 const formatHeaderMessage = (header) => `${String(header).substring(0, 32)}...`;
 const isImage = (path) => /jpe?g|png|gif|svg/i.test(path);
@@ -200,9 +196,9 @@ const ItemCreate = () => {
                 <h4 className="d-flex align-items-center text-primary p-0 m-0">
                   <img
                     style={{
-                      height: 18,
+                      height: 32,
                     }}
-                    src={iconEditItem}
+                    src={iconCreateItem}
                     alt="postavi oglas"
                   />
                   <span className="opacity-50 ms-3 pb-1">{headerMessage}</span>
@@ -348,12 +344,6 @@ const ItemCreate = () => {
                         onClose={toastSuccessClose}
                       >
                         <Toast.Header className="p-3" closeButton={false}>
-                          {/* <img
-                            className="me-auto opacity-75"
-                            style={{ width: 35 }}
-                            src={iconCheck}
-                            alt=""
-                          /> */}
                           <strong className="text-center d-inline-block fs-5 ms-2">
                             Oglas je uspešno postavljen.
                           </strong>

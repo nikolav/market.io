@@ -1,5 +1,6 @@
 import React from "react";
 import { Card } from "react-bootstrap";
+import css from "./Item.module.css";
 
 const Item = ({item}) => {
 
@@ -7,7 +8,7 @@ const Item = ({item}) => {
   
   return (
     <>
-      <Card>
+      <Card className={`my-4 border-5 ${css.card}`}>
         <Card.Body>
           <Card.Title>{title}</Card.Title>
           <p>{description}</p>

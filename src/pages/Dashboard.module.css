@@ -5,11 +5,16 @@
     max-height: 100vh;
     padding-top: 72px;
 }
+
+
 .dashboardSidebar {
     min-width: 234px;
 }
+
+
 .dashboardAside {
-    min-width: 312px;
-    max-height: 88vh;
+    /* min-width: 312px; */
+    width: 312px;
+    /* max-height: 88vh; */
     overflow-y: auto;
 }

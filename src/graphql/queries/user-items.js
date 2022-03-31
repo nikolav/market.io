@@ -2,7 +2,7 @@
 import { gql } from "@apollo/client";
 
 export const Q_USER_ITEMS = gql`
-  query Quser($id: ID!) {
+  query Q_USER_ITEMS($id: ID!) {
     user(_id: $id) {
       _id
       name
