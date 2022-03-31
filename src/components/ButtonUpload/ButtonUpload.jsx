@@ -1,6 +1,6 @@
 import React from "react";
 
-const ButtonUpload = React.forwardRef(({ id, name, label, classNames, onChange }, fileRef) => {
+const ButtonUpload = React.forwardRef(({ id, name, classNames, onChange, children }, fileRef) => {
   // classNames { label, input }
   
   return (
@@ -8,7 +8,7 @@ const ButtonUpload = React.forwardRef(({ id, name, label, classNames, onChange }
       className={`btn btn-secondary btn-lg d-inline-block ${classNames.label}`}
       htmlFor={id}
     >
-      <span>{label}</span>
+      {children}
       <input
         ref={fileRef}
         id={id}

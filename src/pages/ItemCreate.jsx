@@ -14,6 +14,8 @@ import {
   Col,
   Card,
   Modal,
+  Toast,
+  ToastContainer,
 } from "react-bootstrap";
 import useFancyboxGallery from "../hooks/use-fancybox-gallery";
 import ButtonUpload from "../components/ButtonUpload/ButtonUpload";
@@ -28,6 +30,8 @@ import useFileReader from "../hooks/use-file-reader";
 import iconEditItem from "../theme/etc/icon-edit-item.svg";
 
 import iconDeleteWhiteShadowSm from "../theme/etc/icon-delete-white-shadow-sm.svg";
+import iconCloudUpload from "../theme/etc/icon-cloud-upload.svg";
+import iconCheck from "../theme/etc/icon-check.svg";
 
 import imageUploadHelpStep01 from "../theme/etc/post-help-step-01.jpg";
 import imageUploadHelpStep02 from "../theme/etc/post-help-step-02.jpg";
@@ -42,7 +46,7 @@ import { Q_ITEM_CREATE } from "../graphql/queries/create-post.js";
 
 const imgsrc =
   "https://cdn.pixabay.com/photo/2015/10/13/23/51/krka-987021_960_720.jpg";
-const ERROR_WRONG_FILE_TYPE  = "Izaberite sliku ( jpg, png, ... )";
+const ERROR_WRONG_FILE_TYPE = "Izaberite sliku ( jpg, png, ... )";
 const DEFAULT_HEADER_MESSAGE = "Postavi novi oglas";
 
 const formatHeaderMessage = (header) => `${String(header).substring(0, 32)}...`;
@@ -92,17 +96,14 @@ const ItemCreate = () => {
   };
 
   useEffect(() => {
-    
-    if (url) 
-    setImageSrc(url);
+    if (url) setImageSrc(url);
   }, [url]);
-  
+
   const fileRef = React.createRef();
-  const resetFileInput = 
-    () => fileRef.current.value = null;
+  const resetFileInput = () => (fileRef.current.value = null);
 
   const clearUploadImage = (evt) => {
-    setInputs(old => ({ ...old, file: null }));
+    setInputs((old) => ({ ...old, file: null }));
     resetFileInput();
     setImageSrc(null);
     setHeaderMessage(DEFAULT_HEADER_MESSAGE);
@@ -140,6 +141,8 @@ const ItemCreate = () => {
     status: { error, state, progress, downloadURL },
   } = useFirebaseStorageUpload();
 
+  const [postSaved, setPostSaved] = useState(null);
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
@@ -164,15 +167,27 @@ const ItemCreate = () => {
     }
   }, [error, state, progress, downloadURL]);
 
+  const [toastSuccess, setToastSuccess] = useState(false);
+  const toastSuccessOpen = () => setToastSuccess((_) => true);
+  const toastSuccessClose = () => setToastSuccess((_) => false);
+
   useEffect(() => {
+    setPostSaved((_) => false);
     if (
       !(createPostStatus.error || createPostStatus.loading) &&
       createPostStatus.data
     ) {
-      // success, post saved
+      // post saved, show success toast
+      setPostSaved((_) => true);
       console.log(createPostStatus.data.createItem);
     }
   }, [createPostStatus]);
+
+  useEffect(() => {
+    if (postSaved) {
+      toastSuccessOpen();
+    }
+  }, [postSaved]);
 
   return (
     <div className={classes.pageItemCreate}>
@@ -216,7 +231,7 @@ const ItemCreate = () => {
                   minHeight: 345,
                   maxHeight: 422,
                 }}
-                className="ps-2"
+                className="ps-2 pb-2"
               >
                 <div
                   className={`position-relative ${classes.uploadImageContainer}`}
@@ -236,14 +251,16 @@ const ItemCreate = () => {
                       />
                     </span>
                   )}
-                  <Card.Img
-                    style={{
-                      objectFit: "cover",
-                    }}
-                    className={`upload-image --rounded-0 h-100 --img-thumbnail ${classes.uploadImage}`}
-                    variant="top"
-                    src={imageSrc || imgsrc}
-                  />
+                  {imageSrc && (
+                    <Card.Img
+                      style={{
+                        objectFit: "cover",
+                      }}
+                      className={`upload-image --rounded-0 h-100 --img-thumbnail ${classes.uploadImage}`}
+                      variant="top"
+                      src={imageSrc}
+                    />
+                  )}
                 </div>
 
                 <div>
@@ -285,9 +302,10 @@ const ItemCreate = () => {
                           id="file"
                           name="file"
                           onChange={syncFile}
-                          label="Slika..."
                           classNames={{ label: "me-auto" }}
-                        />
+                        >
+                          <i className="fs-2 text-primary fa-solid fa-camera-retro"></i>
+                        </ButtonUpload>
                         <div>
                           <ButtonGroup size="lg" className="ms-auto">
                             <Button
@@ -297,36 +315,82 @@ const ItemCreate = () => {
                             >
                               Pregled
                             </Button>
-                            <Button type="submit" variant="primary">
+                            <Button
+                              className="d-flex align-items-center"
+                              type="submit"
+                              variant="primary"
+                            >
+                              <img
+                                style={{
+                                  width: 33,
+                                }}
+                                className="me-3 img-fluid"
+                                src={iconCloudUpload}
+                                alt=""
+                              />{" "}
                               Postavi oglas
                             </Button>
                           </ButtonGroup>
                         </div>
                       </Stack>
                     </Form>
-
+                    <ToastContainer
+                      className={classes.toastSuccess}
+                      position="top-center"
+                    >
+                      <Toast
+                        autohide={true}
+                        style={{
+                          width: 480,
+                          maxWidth: "90%",
+                        }}
+                        show={toastSuccess}
+                        onClose={toastSuccessClose}
+                      >
+                        <Toast.Header className="p-3" closeButton={false}>
+                          {/* <img
+                            className="me-auto opacity-75"
+                            style={{ width: 35 }}
+                            src={iconCheck}
+                            alt=""
+                          /> */}
+                          <strong className="text-center d-inline-block fs-5 ms-2">
+                            Oglas je uspešno postavljen.
+                          </strong>
+                          <i
+                            onClick={toastSuccessClose}
+                            className="opacity-75 ms-auto p-2 fs-4 cursor-pointer text-primary fa-solid fa-xmark"
+                          ></i>
+                        </Toast.Header>
+                      </Toast>
+                    </ToastContainer>
                     <Modal
                       scrollable={true}
                       fullscreen="sm-down"
                       show={modalShow}
                       onHide={handleModalClose}
                     >
-                      <Modal.Header className="justify-content-center border-bottom-0">
+                      {/* <Modal.Header className="justify-content-center border-bottom-0">
                         <Modal.Title>Moj Oglas</Modal.Title>
-                      </Modal.Header>
+                      </Modal.Header> */}
                       <Modal.Body>
-                        <p>
-                          Lorem ipsum dolor, sit amet consectetur adipisicing
-                          elit. Repellendus dicta neque maxime veniam, sunt
-                          itaque nobis adipisci iusto autem similique, ab totam
-                          nam qui nesciunt eveniet rerum illum. Labore, illum?
-                        </p>
-                        <p>
-                          Lorem ipsum dolor, sit amet consectetur adipisicing
-                          elit. Repellendus dicta neque maxime veniam, sunt
-                          itaque nobis adipisci iusto autem similique, ab totam
-                          nam qui nesciunt eveniet rerum illum. Labore, illum?
-                        </p>
+                        <div className="d-flex flex-column">
+                          {imageSrc && (
+                            <img
+                              style={{
+                                maxHeight: 256,
+                                objectFit: "contain",
+                              }}
+                              className="img-fluid align-self-start"
+                              src={imageSrc}
+                              alt=""
+                            />
+                          )}
+                          <div>
+                            <h2 className="mt-2">{inputs.title}</h2>
+                            <p className="mt-2">{inputs.description}</p>
+                          </div>
+                        </div>
                       </Modal.Body>
                       <Modal.Footer className="border-top-0">
                         <Button
@@ -335,7 +399,7 @@ const ItemCreate = () => {
                           variant="secondary"
                           onClick={handleModalClose}
                         >
-                          Hvala
+                          OK
                         </Button>
                       </Modal.Footer>
                     </Modal>
@@ -343,10 +407,9 @@ const ItemCreate = () => {
                 </div>
               </div>
 
-              <Card.Footer className="border-top-0 bg-white text-center">
-                {/* <InputUpload />  */}
+              {/* <Card.Footer className="border-top-0 bg-white text-center">
                 new
-              </Card.Footer>
+              </Card.Footer> */}
             </Card>
           </Col>
         </Row>
