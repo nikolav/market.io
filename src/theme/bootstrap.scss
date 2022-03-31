@@ -31,8 +31,10 @@ $table-hover-bg          : rgba(#d9230f, $table-hover-bg-factor);
 
 $theme-colors: map-merge($theme-colors, $custom-colors);
 
-
-
+input[type=radio], 
+input[type=checkbox] {
+  accent-color: $primary;
+}
 
 @import "../../node_modules/bootstrap/scss/mixins";
 @import "../../node_modules/bootstrap/scss/utilities";

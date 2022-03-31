@@ -11,16 +11,16 @@ const SideBarActions = () => {
     >
       <Card.Body>
         <ul>
-          <li>1 Lorem ipsum dolor sit amet.</li>
-          <li>1 Lorem ipsum dolor sit amet.</li>
-          <li>1 Lorem ipsum dolor sit amet.</li>
-          <li>1 Lorem ipsum dolor sit amet.</li>
-          <li>1 Lorem ipsum dolor sit amet.</li>
-          <li>1 Lorem ipsum dolor sit amet.</li>
-          <li>1 Lorem ipsum dolor sit amet.</li>
-          <li>1 Lorem ipsum dolor sit amet.</li>
-          <li>1 Lorem ipsum dolor sit amet.</li>
-          <li>1 Lorem ipsum dolor sit amet.</li>
+          <li>2 Lorem ipsum dolor sit amet.</li>
+          <li>2 Lorem ipsum dolor sit amet.</li>
+          <li>2 Lorem ipsum dolor sit amet.</li>
+          <li>2 Lorem ipsum dolor sit amet.</li>
+          <li>2 Lorem ipsum dolor sit amet.</li>
+          <li>2 Lorem ipsum dolor sit amet.</li>
+          <li>2 Lorem ipsum dolor sit amet.</li>
+          <li>2 Lorem ipsum dolor sit amet.</li>
+          <li>2 Lorem ipsum dolor sit amet.</li>
+          <li>2 Lorem ipsum dolor sit amet.</li>
         </ul>
       </Card.Body>
     </Card>

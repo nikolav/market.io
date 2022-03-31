@@ -1,0 +1,10 @@
+
+.iconRefresh {
+    opacity: .66;
+}
+.iconRefresh:hover {
+    opacity: .92;
+}
+.iconRefresh:active {
+    opacity: 1;
+}

@@ -2,29 +2,29 @@ import React from "react";
 
 import css from "./ItemsDataRow.module.css";
 
-const ItemsDataRow = ({ item, index }) => {
+const ItemsDataRow = ({ item, handlePreview, handleActivePost }) => {
   const { _id, title, description, image, createdAt } = item;
 
-  const handleRadio = (_id, evt) => {};
-
+  const previewItem = (item, evt) => handlePreview(item);
+  const inputChange = (item, evt) => handleActivePost(item);
+  
   return (
     <tr>
       <td colSpan="row">
         <input
-          className="bg-primary"
-          onChange={handleRadio.bind(null, _id)}
+          onChange={inputChange.bind(null, item)}
+          className={css.radio}
           type="radio"
           name="post"
           id={title}
         />
       </td>
       <td>
-        <strong className={`cursor-pointer ${css.title}`}>{title}</strong>
+        <strong
+          onClick={previewItem.bind(null, item)}
+          className={`cursor-pointer ${css.title}`}>{title}</strong>
       </td>
-      {/* <td>{description}</td>
-      <td>{image}</td> */}
       <td>{createdAt}</td>
-      {/* <td>komande</td> */}
     </tr>
   );
 };

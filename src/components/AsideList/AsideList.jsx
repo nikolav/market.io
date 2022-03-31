@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+
 import Item from "../../components/Item";
 
 import { useQuery } from "@apollo/client";
@@ -14,11 +16,13 @@ const AsideList = ({ user }) => {
     variables: {
       id: user._id,
     },
-    pollInterval: 12345,
+    pollInterval: 17890,
   });
 
-
-  useEffect(refetch, []);
+  const { lastRefreshAt } = useSelector(state => state.main);
+  useEffect(() => {
+    lastRefreshAt && refetch();
+  }, [refetch, lastRefreshAt]);
 
   return (
     <>

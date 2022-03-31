@@ -12,14 +12,8 @@ const Item = ({item}) => {
         <Card.Body>
           <Card.Title>{title}</Card.Title>
           <p>{description}</p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
-            incidunt dolores quidem illo similique, adipisci laborum ut earum
-            rem illum minima quos, doloremque perferendis eos, pariatur
-            voluptates quo eveniet sed!
-          </p>
         </Card.Body>
-        <Card.Footer className="">
+        <Card.Footer className="bg-white border-top-0">
           <div
             style={{ fontSize: "81%" }}
             className="d-flex align-items-center justify-content-end text-muted"

@@ -16,7 +16,7 @@ const Dashboard = () => {
   const navigateToIndex = () => dispatch(setSection(SECTIONS.index));
 
   if (!user) navigateToIndex();
-
+  
   return (
     <>
       <UserNavigation />
