@@ -109,6 +109,7 @@ const ItemsDataGrid = ({ user }) => {
       // cache deleted post
       // trigger post deleted, notify, update
       setDeleted(_ => m_Status.data.dropItem);
+      console.log("@ItemsDataGrid");
       console.log(m_Status.data);
 
     }

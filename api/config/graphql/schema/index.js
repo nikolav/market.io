@@ -16,6 +16,7 @@ module.exports = buildSchema(`
         description: String
         image: String
         createdAt: String
+        updatedAt: String
         user: User!
     }
 
@@ -32,6 +33,7 @@ module.exports = buildSchema(`
     }
     type Mutation {
         createItem(user: ID!, title: String!, description: String, image: String): Item!
+        editItem(post:ID!, title: String!, description: String, image: String): Item
         dropItem(_id:ID!): Item
     }
 

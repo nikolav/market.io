@@ -30,6 +30,7 @@ import useFileReader from "../hooks/use-file-reader";
 import iconCreateItem from "../theme/etc/icon-post-create.svg";
 import iconDeleteWhiteShadowSm from "../theme/etc/icon-delete-white-shadow-sm.svg";
 import iconCloudUpload from "../theme/etc/icon-cloud-upload.svg";
+import iconViewPrimary from "../theme/etc/icon-view-primary.svg";
 
 import imageUploadHelpStep01 from "../theme/etc/post-help-step-01.jpg";
 import imageUploadHelpStep02 from "../theme/etc/post-help-step-02.jpg";
@@ -308,7 +309,7 @@ const ItemCreate = () => {
                             type="button"
                             variant="secondary"
                           >
-                            view
+                            <img style={{ height: 20 }} src={iconViewPrimary} alt="" />
                           </Button>
                         </ButtonGroup>
                         <Button

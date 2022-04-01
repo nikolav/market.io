@@ -40,7 +40,7 @@ import imageUploadHelpStep05 from "../theme/etc/post-help-step-05.jpg";
 import useFirebaseStorageUpload from "../hooks/use-firebase-storage-upload";
 
 import { useMutation } from "@apollo/client";
-import { Q_ITEM_CREATE } from "../graphql/queries/create-post.js";
+import {M_ITEM_EDIT} from "../graphql/queries/edit-post.js";
 
 const ERROR_WRONG_FILE_TYPE  = "Izaberite sliku (jpg, png)";
 const DEFAULT_HEADER_MESSAGE = "Izmeni oglas";
@@ -62,22 +62,23 @@ const ItemEdit = () => {
   // @todo
   // load post from state
   const [inputs, setInputs] = useState({
-    title       : post?.title       || "",
-    file        : post?.file        || null, // file{}
-    description : post?.description || "",
+    title       : "",
+    file        : null, // file{}
+    description : "",
   });
 
+  const [imageSrc, setImageSrc] = useState(null);
   useEffect(() => {
+
     setInputs(_ => ({
       title       : post.current.title,
       description : post.current.description,
     }));
+
+    setImageSrc(_ => post.current?.image || null);
   }, []);
-
-  console.log(inputs);
-
+  
   const [headerMessage, setHeaderMessage] = useState(DEFAULT_HEADER_MESSAGE);
-  const [imageSrc, setImageSrc] = useState(null);
 
   const [modalShow, setModalShow] = useState(false);
   const handleModalClose = () => setModalShow(_ => false);
@@ -148,55 +149,64 @@ const ItemEdit = () => {
     status: { error, state, progress, downloadURL },
   } = useFirebaseStorageUpload();
 
+  // flags edit sccess
   const [postSaved, setPostSaved] = useState(null);
 
+  // post{} to request update
+  const [postUpdate, setPostUpdate] = useState(null);
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    // @todo
-    // ignore upload if image is not updated
+    // if image is edited upload new image
+    //   get url + db save
+    // if image is not updated skip to db save
 
-    // 1. upload image 1st
-    // 2. on success save db record
-    // 3. notify user
-    upload(inputs.file, formatUploadPath(inputs.file.name));
+    if (inputs.file)
+      return upload(inputs.file, formatUploadPath(inputs.file.name));
+    
+    setPostUpdate(_ => ({
+      post        : post.current._id,
+      title       : inputs.title, 
+      image       : post.current?.image || "",
+      description : inputs?.description || "",
+    }));
   };
 
-  const [createPost, createPostStatus] = useMutation(Q_ITEM_CREATE);
+  const [editPost, editPostStatus] = useMutation(M_ITEM_EDIT);
 
   useEffect(() => {
-    if (!error && 100 === progress && downloadURL) {
-      createPost({
-        variables: {
-          user: user._id,
-          title: inputs.title,
-          image: downloadURL,
-          description: inputs.description,
-        },
-      });
-    }
+    if (!error && 100 === progress && downloadURL)
+      setPostUpdate(_ => ({
+        post        : post.current._id,
+        title       : inputs.title, 
+        image       : downloadURL,
+        description : inputs.description,
+      }));
   }, [error, state, progress, downloadURL]);
+
+  useEffect(() => {
+    if (!postUpdate) return;
+    editPost({ variables: { ...postUpdate } });
+  }, [postUpdate, editPost]);
 
   const [toastSuccess, setToastSuccess] = useState(false);
   const toastSuccessOpen  = () => setToastSuccess(_ => true);
   const toastSuccessClose = () => setToastSuccess(_ => false);
 
   useEffect(() => {
-    setPostSaved((_) => false);
+    setPostSaved(_ => false);
     if (
-      !(createPostStatus.error || createPostStatus.loading) &&
-      createPostStatus.data
+      !(editPostStatus.error || editPostStatus.loading) 
+      && editPostStatus.data
     ) {
       // post saved, show success toast
-      setPostSaved((_) => true);
-      console.log(createPostStatus.data.createItem);
+      setPostSaved(_ => true);
+      console.log(editPostStatus.data.editItem);
     }
-  }, [createPostStatus]);
+  }, [editPostStatus]);
 
   useEffect(() => {
-    if (postSaved) {
-      toastSuccessOpen();
-    }
+    if (postSaved) toastSuccessOpen();
   }, [postSaved]);
 
   return (
@@ -221,7 +231,6 @@ const ItemEdit = () => {
                   onClick={{
                     x: navigateToDashboard,
                     help: (evt) => {
-                      evt.preventDefault();
                       return openGallery(oglasiHelp, {
                         Toolbar: {
                           display: [
@@ -359,7 +368,7 @@ const ItemEdit = () => {
                       >
                         <Toast.Header className="p-3" closeButton={false}>
                           <strong className="text-center d-inline-block fs-5 ms-2">
-                            -- Oglas je uspešno postavljen.
+                            🥳 Oglas je uspešno sačuvan. 👌🏼😎
                           </strong>
                           <i
                             onClick={toastSuccessClose}

@@ -10,6 +10,8 @@ const ITEMTYPE_FIELDS
   = "_id title description image createdAt user";
 const ITEMTYPE_FIELDS_NOUSER 
   = "_id title description image createdAt";
+const ITEMTYPE_FIELDS_NOUSER_UPDATEDAT
+  = "_id title description image createdAt updatedAt";
 
 module.exports = {
   items: () => {
@@ -46,6 +48,10 @@ module.exports = {
         return user.save();
       })
       .then(user => createdItem);
+  },
+  editItem: ({post, title, description, image}) => {
+    return Item.findByIdAndUpdate(post, { title, description, image })
+      .select(ITEMTYPE_FIELDS_NOUSER_UPDATEDAT);
   },
   dropItem: args => {
 
