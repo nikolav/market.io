@@ -10,7 +10,7 @@ import ItemsDataRow from "./ItemsDataRow";
 import Spinner from "./Spinner/Spinner";
 
 import { Q_ITEMS_BY_USER } from "../graphql/queries/items-by-user.js";
-import {M_ITEM_DROP} from "../graphql/queries/drop-item.js";
+import { M_ITEM_DROP } from "../graphql/queries/drop-item.js";
 
 import sortItemsByDateDesc from "../util/sort-items-by-date-desc.js";
 
@@ -48,8 +48,8 @@ const ItemsDataGrid = ({ user }) => {
   });
 
   useEffect(() => {
-    if (data?.itemsByUser?.length)
-      setItems((items_) => sortItemsByDateDesc(data.itemsByUser));
+    if (!(error || loading) && data)
+      setItems(_ => sortItemsByDateDesc(data.itemsByUser))
   }, [data, error, loading]);
 
   const { lastRefreshAt } = useSelector((state) => state.main);
@@ -78,10 +78,9 @@ const ItemsDataGrid = ({ user }) => {
     formatedHeader_(activePost?.title || HEADER_TITLE_DEFAULT);
 
   const appRefresh = (evt) => dispatch(refresh());
-  
-  const navigateToItemEdit = 
-    () => dispatch(setSection(SECTIONS["item-edit"]));
-  const handleEditPost   = evt => {
+
+  const navigateToItemEdit = () => dispatch(setSection(SECTIONS["item-edit"]));
+  const handleEditPost = (evt) => {
     if (activePost) {
       // cache post{} and navigate @edit
       dispatch(editPost(activePost));
@@ -89,154 +88,150 @@ const ItemsDataGrid = ({ user }) => {
     }
   };
 
-  const [deleted, setDeleted]  = useState(null);
+  const [deleted, setDeleted] = useState(null);
   const [m_postDrop, m_Status] = useMutation(M_ITEM_DROP);
   const deletePost = () => {
     if (!activePost?._id) return;
     m_postDrop({
       variables: {
         id: activePost?._id || null,
-      },  
+      },
     });
   };
   useEffect(() => {
-
-    if (
-      !(m_Status.error || m_Status.loading) 
-      && m_Status.data) 
-    {
-
+    if (!(m_Status.error || m_Status.loading) && m_Status.data) {
       // cache deleted post
       // trigger post deleted, notify, update
-      setDeleted(_ => m_Status.data.dropItem);
-      console.log("@ItemsDataGrid");
-      console.log(m_Status.data);
-
+      setDeleted((_) => m_Status.data.dropItem);
     }
   }, [m_Status]);
 
   useEffect(() => {
     if (deleted) {
-      setActivePost(_ => null);
+      setActivePost((_) => null);
       appRefresh();
     }
   }, [deleted]);
 
   return items ? (
-    <div className="rounded-2 data-grid-items shadow-lg pb-1">
-      <Card className="rounded-0 border-0">
-        <Card.Header className="d-flex align-items-center justify-content-between bg-primary text-white border-bottom-0">
-          <strong className="ps-1 pt-2 text-white fw-bold h4 text-primary">
+    0 === items.length ? (
+      <p>no posts</p>
+    ) : (
+      <div className="rounded-2 data-grid-items shadow-lg pb-1">
+        <Card className="rounded-0 border-0">
+          <Card.Header className="d-flex align-items-center justify-content-between bg-primary text-white border-bottom-0">
+            <strong className="ps-1 pt-2 text-white fw-bold h4 text-primary">
               <img
                 className="opacity-75 me-4"
-                style={{ 
+                style={{
                   height: 32,
                   visibility: activePost ? "visible" : "hidden",
                 }}
                 src={iconEditPost}
                 alt=""
               />
-            {formatedHeader()}
-          </strong>
+              {formatedHeader()}
+            </strong>
 
-          <div>
-            {activePost && (
-              <>
-                <img
-                  onClick={handlePreview.bind(null, activePost)}
-                  className={`cursor-pointer ${css.iconEditPost}`}
-                  style={{ height: 22 }}
-                  src={iconView}
-                  title="pogledaj"
-                  alt=""
-                />
-                <img
-                  onClick={handleEditPost}
-                  className={`ms-4 cursor-pointer ${css.iconEditPost}`}
-                  style={{ height: 22 }}
-                  src={iconEdit}
-                  title="izmeni"
-                  alt=""
-                />
-                <img
-                  onClick={deletePost}
-                  className={`ms-4 cursor-pointer ${css.iconEditPost}`}
-                  style={{ height: 22 }}
-                  src={iconDelete}
-                  title="obriši"
-                  alt=""
-                />
-              </>
-            )}
-            <img
-              onClick={appRefresh}
-              className={`me-2 ms-4 cursor-pointer ${css.iconEditPost}`}
-              style={{ height: 22 }}
-              src={iconRefresh}
-              title="osveži listu"
-              alt=""
-            />
-          </div>
-        </Card.Header>
-        <Table className="mb-0" striped borderless hover>
-          <thead className="text-primary fst-italic opacity-50">
-            <tr>
-              <th>🚩</th>
-              <th className="ps-sm-4">oglas</th>
-              <th className="ps-sm-4">postavljen</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((item) => (
-              <ItemsDataRow
-                handleActivePost={handleActivePost}
-                handlePreview={handlePreview}
-                key={item._id}
-                item={item}
-              />
-            ))}
-          </tbody>
-        </Table>
-      </Card>
-
-      <Modal
-        scrollable={true}
-        fullscreen="sm-down"
-        show={modalShow}
-        onHide={handleModalClose}
-      >
-        <Modal.Body>
-          <div className="d-flex flex-column">
-            {previewPost?.image && (
+            <div>
+              {activePost && (
+                <>
+                  <img
+                    onClick={handlePreview.bind(null, activePost)}
+                    className={`cursor-pointer ${css.iconEditPost}`}
+                    style={{ height: 22 }}
+                    src={iconView}
+                    title="pogledaj"
+                    alt=""
+                  />
+                  <img
+                    onClick={handleEditPost}
+                    className={`ms-4 cursor-pointer ${css.iconEditPost}`}
+                    style={{ height: 22 }}
+                    src={iconEdit}
+                    title="izmeni"
+                    alt=""
+                  />
+                  <img
+                    onClick={deletePost}
+                    className={`ms-4 cursor-pointer ${css.iconEditPost}`}
+                    style={{ height: 22 }}
+                    src={iconDelete}
+                    title="obriši"
+                    alt=""
+                  />
+                </>
+              )}
               <img
-                style={{
-                  height: 128,
-                  maxHeight: 128,
-                  objectFit: "contain",
-                }}
-                className="img-fluid align-self-start"
-                src={previewPost.image}
+                onClick={appRefresh}
+                className={`me-2 ms-4 cursor-pointer ${css.iconEditPost}`}
+                style={{ height: 22 }}
+                src={iconRefresh}
+                title="osveži listu"
                 alt=""
               />
-            )}
-            <div>
-              <h2 className="mt-2">{previewPost?.title || ""}</h2>
-              <p className="mt-2">{previewPost?.description || ""}</p>
             </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer className="border-top-0">
-          <Button
-            className="px-4"
-            size="lg"
-            variant="secondary"
-            onClick={handleModalClose}
-          >
-            OK
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
+          </Card.Header>
+          <Table className="mb-0" striped borderless hover>
+            <thead className="text-primary fst-italic opacity-50">
+              <tr>
+                <th>🚩</th>
+                <th className="ps-sm-4">oglas</th>
+                <th className="ps-sm-4">postavljen</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((item) => (
+                <ItemsDataRow
+                  handleActivePost={handleActivePost}
+                  handlePreview={handlePreview}
+                  key={item._id}
+                  item={item}
+                />
+              ))}
+            </tbody>
+          </Table>
+        </Card>
+
+        <Modal
+          scrollable={true}
+          fullscreen="sm-down"
+          show={modalShow}
+          onHide={handleModalClose}
+        >
+          <Modal.Body>
+            <div className="d-flex flex-column">
+              {previewPost?.image && (
+                <img
+                  style={{
+                    height: 128,
+                    maxHeight: 128,
+                    objectFit: "contain",
+                  }}
+                  className="img-fluid align-self-start"
+                  src={previewPost.image}
+                  alt=""
+                />
+              )}
+              <div>
+                <h2 className="mt-2">{previewPost?.title || ""}</h2>
+                <p className="mt-2">{previewPost?.description || ""}</p>
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer className="border-top-0">
+            <Button
+              className="px-4"
+              size="lg"
+              variant="secondary"
+              onClick={handleModalClose}
+            >
+              OK
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    )
   ) : (
     <Spinner />
   );

@@ -22,27 +22,28 @@ import useFancyboxGallery from "../hooks/use-fancybox-gallery";
 import ButtonUpload from "../components/ButtonUpload/ButtonUpload";
 import FormCreatePostControls from "../components/FormCreatePostControls/FormCreatePostControls";
 
-
 import classes from "./ItemEdit.module.css";
 
 import useFileReader from "../hooks/use-file-reader";
 import iconItemEditOrange from "../theme/etc/icon-edit-item-orange.svg";
-
+import iconViewPrimary from "../theme/etc/icon-view-primary.svg";
 import iconDeleteWhiteShadowSm from "../theme/etc/icon-delete-white-shadow-sm.svg";
 import iconRefreshCloud from "../theme/etc/icon-refresh-cloud.svg";
 
-import imageUploadHelpStep01 from "../theme/etc/post-help-step-01.jpg";
-import imageUploadHelpStep02 from "../theme/etc/post-help-step-02.jpg";
-import imageUploadHelpStep03 from "../theme/etc/post-help-step-03.jpg";
-import imageUploadHelpStep04 from "../theme/etc/post-help-step-04.jpg";
-import imageUploadHelpStep05 from "../theme/etc/post-help-step-05.jpg";
+import imageHelpEdit01 from "../theme/etc/help-edit-post-step-01.jpg";
+import imageHelpEdit02 from "../theme/etc/help-edit-post-step-02.jpg";
+import imageHelpEdit03 from "../theme/etc/help-edit-post-step-03.jpg";
+import imageHelpEdit04 from "../theme/etc/help-edit-post-step-04.jpg";
+import imageHelpEdit05 from "../theme/etc/help-edit-post-step-05.jpg";
+import imageHelpEdit06 from "../theme/etc/help-edit-post-step-06.jpg";
+import imageHelpEdit07 from "../theme/etc/help-edit-post-step-07.jpg";
 
 import useFirebaseStorageUpload from "../hooks/use-firebase-storage-upload";
 
 import { useMutation } from "@apollo/client";
-import {M_ITEM_EDIT} from "../graphql/queries/edit-post.js";
+import { M_ITEM_EDIT } from "../graphql/queries/edit-post.js";
 
-const ERROR_WRONG_FILE_TYPE  = "Izaberite sliku (jpg, png)";
+const ERROR_WRONG_FILE_TYPE = "Izaberite sliku (jpg, png)";
 const DEFAULT_HEADER_MESSAGE = "Izmeni oglas";
 
 const formatHeaderMessage = (header) => `${String(header).substring(0, 32)}...`;
@@ -56,33 +57,32 @@ const formatUploadPath = (filename) =>
 
 // @c
 const ItemEdit = () => {
-  const { user } = useSelector(state => state.auth);
-  const { post } = useSelector(state => state.main);
+  const { user } = useSelector((state) => state.auth);
+  const { post } = useSelector((state) => state.main);
 
   // @todo
   // load post from state
   const [inputs, setInputs] = useState({
-    title       : "",
-    file        : null, // file{}
-    description : "",
+    title: "",
+    file: null, // file{}
+    description: "",
   });
 
   const [imageSrc, setImageSrc] = useState(null);
   useEffect(() => {
-
-    setInputs(_ => ({
-      title       : post.current.title,
-      description : post.current.description,
+    setInputs((_) => ({
+      title: post.current.title,
+      description: post.current.description,
     }));
 
-    setImageSrc(_ => post.current?.image || null);
+    setImageSrc((_) => post.current?.image || null);
   }, []);
-  
+
   const [headerMessage, setHeaderMessage] = useState(DEFAULT_HEADER_MESSAGE);
 
   const [modalShow, setModalShow] = useState(false);
-  const handleModalClose = () => setModalShow(_ => false);
-  const handleModalShow  = () => setModalShow(_ => true);
+  const handleModalClose = () => setModalShow((_) => false);
+  const handleModalShow = () => setModalShow((_) => true);
 
   const [read, { url }] = useFileReader();
 
@@ -90,7 +90,7 @@ const ItemEdit = () => {
   const navigateToDashboard = () => dispatch(setSection(SECTIONS.dashboard));
 
   const syncInputs = (evt) =>
-    setInputs(_ => ({ ..._, [evt.target.name]: evt.target.value }));
+    setInputs((_) => ({ ..._, [evt.target.name]: evt.target.value }));
 
   const syncFile = (evt) => {
     const file = evt.target.files[0];
@@ -101,46 +101,56 @@ const ItemEdit = () => {
 
     read(file);
     setHeaderMessage(formatHeaderMessage(file.name));
-    setInputs(_ => ({ ..._, file }));
+    setInputs((_) => ({ ..._, file }));
   };
 
   useEffect(() => {
-    if (url) setImageSrc(_ => url);
+    if (url) setImageSrc((_) => url);
   }, [url]);
 
   const fileRef = React.createRef();
   const resetFileInput = () => (fileRef.current.value = null);
 
   const clearUploadImage = (evt) => {
-    setInputs(_ => ({ ..._, file: null }));
+    setInputs((_) => ({ ..._, file: null }));
     resetFileInput();
-    setImageSrc(_ => null);
+    setImageSrc((_) => null);
     setHeaderMessage(DEFAULT_HEADER_MESSAGE);
   };
 
   const { openGallery } = useFancyboxGallery();
   const oglasiHelp = [
     {
-      src: imageUploadHelpStep01,
+      src: imageHelpEdit01,
       caption:
-        "Naslov treba da bude kratak i precizan da bi se lako pojavio u pretrazi.",
+        "Sa liste oglasa na glavnoj strani birate oglas koji želite da promenite...",
     },
     {
-      src: imageUploadHelpStep02,
-      caption: "Sadržaj oglasa može da bude opširan i da sadrži ključne reči.",
+      src: imageHelpEdit02,
+      caption: "Otvara se strana za izmene. Naslov može sadržati i Vaše kontak informacije.",
     },
     {
-      src: imageUploadHelpStep03,
-      caption: "Ovde izaberite prateću sliku koja ide uz vaš oglas.",
+      src: imageHelpEdit03,
+      caption: "Sadržaj može da ide sa dodatnim kontaktima za povratnu komunikaciju...",
     },
     {
-      src: imageUploadHelpStep04,
-      caption: "Proverite kako će izgledati ceo oglas pre nego ga postavite.",
+      src: imageHelpEdit04,
+      caption: "Ovde može da ide i nova slika ako stara ne odgovara...",
     },
     {
-      src: imageUploadHelpStep05,
+      src: imageHelpEdit05,
       caption:
-        "Ako ste zadovoljni, ovde postavljate oglas. Nakon postavljanja odmah je otvoren za pretragu i pregled.",
+        "Pre izmena obavezno proverite da li je sve kako treba...",
+    },
+    {
+      src: imageHelpEdit06,
+      caption:
+        "Ako ste zadovolnji sačuvajte izmene i sačekajte povratne informacije od sistema...",
+    },
+    {
+      src: imageHelpEdit07,
+      caption:
+        "Nakon toga novi oglas je odmah vidljiv, i pojaviće se na listi sa Vašim oglasima. 👍🏼😎",
     },
   ];
 
@@ -163,12 +173,12 @@ const ItemEdit = () => {
 
     if (inputs.file)
       return upload(inputs.file, formatUploadPath(inputs.file.name));
-    
-    setPostUpdate(_ => ({
-      post        : post.current._id,
-      title       : inputs.title, 
-      image       : post.current?.image || "",
-      description : inputs?.description || "",
+
+    setPostUpdate((_) => ({
+      post: post.current._id,
+      title: inputs.title,
+      image: post.current?.image || "",
+      description: inputs?.description || "",
     }));
   };
 
@@ -176,11 +186,11 @@ const ItemEdit = () => {
 
   useEffect(() => {
     if (!error && 100 === progress && downloadURL)
-      setPostUpdate(_ => ({
-        post        : post.current._id,
-        title       : inputs.title, 
-        image       : downloadURL,
-        description : inputs.description,
+      setPostUpdate((_) => ({
+        post: post.current._id,
+        title: inputs.title,
+        image: downloadURL,
+        description: inputs.description,
       }));
   }, [error, state, progress, downloadURL]);
 
@@ -190,18 +200,18 @@ const ItemEdit = () => {
   }, [postUpdate, editPost]);
 
   const [toastSuccess, setToastSuccess] = useState(false);
-  const toastSuccessOpen  = () => setToastSuccess(_ => true);
-  const toastSuccessClose = () => setToastSuccess(_ => false);
+  const toastSuccessOpen = () => setToastSuccess((_) => true);
+  const toastSuccessClose = () => setToastSuccess((_) => false);
 
   useEffect(() => {
-    setPostSaved(_ => false);
+    setPostSaved((_) => false);
     if (
-      !(editPostStatus.error || editPostStatus.loading) 
-      && editPostStatus.data
+      !(editPostStatus.error || editPostStatus.loading) &&
+      editPostStatus.data
     ) {
       // post saved, show success toast
-      setPostSaved(_ => true);
-      console.log(editPostStatus.data.editItem);
+      setPostSaved((_) => true);
+      // console.log(editPostStatus.data.editItem);
     }
   }, [editPostStatus]);
 
@@ -316,41 +326,46 @@ const ItemEdit = () => {
 
                       {/* kontrole */}
                       <Stack className="mt-4 mb-2 w-100" direction="horizontal">
-                        <ButtonUpload
-                          ref={fileRef}
-                          id="file"
-                          name="file"
-                          onChange={syncFile}
-                          classNames={{ label: "me-auto" }}
+                        <ButtonGroup>
+                          <ButtonUpload
+                            ref={fileRef}
+                            id="file"
+                            name="file"
+                            onChange={syncFile}
+                            classNames={{ label: "me-auto" }}
+                          >
+                            <i className="fs-2 text-primary fa-solid fa-camera-retro"></i>
+                          </ButtonUpload>
+
+                          <Button
+                            onClick={handleModalShow}
+                            type="button"
+                            variant="secondary"
+                          >
+                            <img
+                              style={{ height: 20 }}
+                              src={iconViewPrimary}
+                              alt=""
+                            />
+                          </Button>
+                        </ButtonGroup>
+
+                        <Button
+                          size="lg"
+                          className="ms-auto pe-4 d-flex align-items-center"
+                          type="submit"
+                          variant="primary"
                         >
-                          <i className="fs-2 text-primary fa-solid fa-camera-retro"></i>
-                        </ButtonUpload>
-                        <div>
-                          <ButtonGroup size="lg" className="ms-auto">
-                            <Button
-                              onClick={handleModalShow}
-                              type="button"
-                              variant="secondary"
-                            >
-                              Pregled
-                            </Button>
-                            <Button
-                              className="pe-4 d-flex align-items-center"
-                              type="submit"
-                              variant="primary"
-                            >
-                              <img
-                                style={{
-                                  width: 33,
-                                }}
-                                className="me-3 img-fluid"
-                                src={iconRefreshCloud}
-                                alt=""
-                              />{" "}
-                              Sačuvaj
-                            </Button>
-                          </ButtonGroup>
-                        </div>
+                          <img
+                            style={{
+                              width: 33,
+                            }}
+                            className="me-3 img-fluid"
+                            src={iconRefreshCloud}
+                            alt=""
+                          />{" "}
+                          Sačuvaj
+                        </Button>
                       </Stack>
                     </Form>
                     <ToastContainer
@@ -368,7 +383,7 @@ const ItemEdit = () => {
                       >
                         <Toast.Header className="p-3" closeButton={false}>
                           <strong className="text-center d-inline-block fs-5 ms-2">
-                            🥳 Oglas je uspešno sačuvan. 👌🏼😎
+                            👌🏼 Oglas je uspešno sačuvan.
                           </strong>
                           <i
                             onClick={toastSuccessClose}
@@ -416,7 +431,6 @@ const ItemEdit = () => {
                   </Card.Body>
                 </div>
               </div>
-
             </Card>
           </Col>
         </Row>

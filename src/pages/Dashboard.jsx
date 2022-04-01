@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { SECTIONS, setSection } from "../features/sections/sections-slice";
+import { refresh } from "../features/main/main-slice";
+
 import UserNavigation from "../components/UserNavigation";
 import AsideList from "../components/AsideList/AsideList";
 import ItemsDataGrid from "../components/ItemsDataGrid";
@@ -16,19 +18,25 @@ const Dashboard = () => {
   const navigateToIndex = () => dispatch(setSection(SECTIONS.index));
 
   if (!user) navigateToIndex();
-  
+
+  // signal list refresh
+  useEffect(() => {
+    dispatch(refresh());
+  }, []);
+
+
   return (
     <>
       <UserNavigation />
 
       <div
-      style={{
-        position: "relative",
-        top: "73px",
-        height: "calc(100% - 73px - .1px)",
-      }}
-      className="d-flex align-items-top justify-content-between">
-
+        style={{
+          position: "relative",
+          top: "73px",
+          height: "calc(100% - 73px - .1px)",
+        }}
+        className="d-flex align-items-top justify-content-between"
+      >
         <div className={`me-auto ${css.dashboardSidebar}`}>
           <SideBarActions />
         </div>
@@ -37,13 +45,12 @@ const Dashboard = () => {
           <ItemsDataGrid user={user} />
         </div>
 
-        <div className={`pe-2 aside-list-dashboard ms-auto ${css.dashboardAside}`}>
+        <div
+          className={`pe-2 aside-list-dashboard ms-auto ${css.dashboardAside}`}
+        >
           <AsideList user={user} />
         </div>
       </div>
-
-      
-      
 
       {/* <div
         className={css.dashboardGrid}

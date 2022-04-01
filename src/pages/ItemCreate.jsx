@@ -176,7 +176,7 @@ const ItemCreate = () => {
     ) {
       // post saved, show success toast
       setPostSaved((_) => true);
-      console.log(createPostStatus.data.createItem);
+      // console.log(createPostStatus.data.createItem);
     }
   }, [createPostStatus]);
 

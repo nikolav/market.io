@@ -19,10 +19,7 @@ const UserToggle = React.forwardRef(({ children, onClick }, ref) => (
   </Nav.Link>
 ));
 
-
-
 const Navigation = () => {
-
   const dispatch = useDispatch();
   const { current } = useSelector((state) => state.section);
 
@@ -30,37 +27,30 @@ const Navigation = () => {
     dispatch(setSection(SECTIONS["item-create"]));
   const navigateToDashboard = () => dispatch(setSection(SECTIONS.dashboard));
 
-  const navigateToEdit = () => dispatch(setSection(SECTIONS["item-edit"]));
-  
   return (
     <Navbar fixed="top" bg="light" expand="sm" className="shadow-sm">
       <Container fluid="sm">
-        
-        {/* @todo */}
-        <Navbar.Text onClick={navigateToEdit}>
-          edit | 
-        </Navbar.Text>
-
-
-
-        {SECTIONS["item-create"] !== current ? (
-          <Navbar.Text
-            onClick={navigateToItemCreate}
-            className="cursor-pointer align-items-center d-flex"
-          >
-            <CreateNewItem />
-            <span className="cursor-pointer text-primary opacity-50 d-inline-block ms-2 pb-1">
-              postavi oglas
-            </span>
-          </Navbar.Text>
-        ) : (
-          <Navbar.Text
-            onClick={navigateToDashboard}
-            className="cursor-pointer align-items-center d-flex"
-          >
-            <IconDashboard />
-          </Navbar.Text>
-        )}
+        {
+          // show +post.create link @dashboard only
+          current !== SECTIONS.dashboard ? (
+            <Navbar.Text
+              onClick={navigateToDashboard}
+              className="cursor-pointer align-items-center d-flex"
+            >
+              <IconDashboard />
+            </Navbar.Text>
+          ) : (
+            <Navbar.Text
+              onClick={navigateToItemCreate}
+              className="cursor-pointer align-items-center d-flex"
+            >
+              <CreateNewItem />
+              <span className="cursor-pointer text-primary opacity-50 d-inline-block ms-2 pb-1">
+                postavi oglas
+              </span>
+            </Navbar.Text>
+          )
+        }
 
         <Navbar.Toggle className="ms-auto" />
         <Navbar.Collapse id="basic-navbar-nav">

@@ -39,12 +39,6 @@ const Login = () => {
       return;
     }
 
-    if (password_.length < 2) {
-      setMessageAuth("Lozinka treba da ima bar 2 znakova.")
-      return;
-    }
-
-
     setFetchingAuth(true);
 
     fetch(AUTH_LOGIN_URI, {

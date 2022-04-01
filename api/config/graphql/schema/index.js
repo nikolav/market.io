@@ -35,6 +35,7 @@ module.exports = buildSchema(`
         createItem(user: ID!, title: String!, description: String, image: String): Item!
         editItem(post:ID!, title: String!, description: String, image: String): Item
         dropItem(_id:ID!): Item
+        dropUser(user:ID!): User
     }
 
 `);

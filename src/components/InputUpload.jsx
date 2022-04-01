@@ -5,7 +5,7 @@ import useFirebaseStorageUpload from "../hooks/use-firebase-storage-upload";
 const InputUpload = () => {
   const { upload, status } = useFirebaseStorageUpload();
 
-  useEffect(() => console.log(status.downloadURL), [status.downloadURL]);
+  // useEffect(() => console.log(status.downloadURL), [status.downloadURL]);
 
   const handleFileChange = async ({ target }) => {
     const file = target.files[0];

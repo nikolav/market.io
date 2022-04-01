@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import Item from "../../components/Item";
@@ -12,6 +12,8 @@ import Spinner from "../Spinner/Spinner";
 
 const AsideList = ({ user }) => {
 
+  const [items, setItems] = useState(null);
+  
   const { error, loading, data, refetch } = useQuery(Q_ITEMS_BY_USER, {
     variables: {
       id: user._id,
@@ -19,22 +21,27 @@ const AsideList = ({ user }) => {
     pollInterval: 34567,
   });
 
+  useEffect(() => {
+    if (!(error || loading) && data)
+      setItems(_ => data.itemsByUser);
+  }, [error, loading, data])
+
   const { lastRefreshAt } = useSelector(state => state.main);
   useEffect(() => {
     lastRefreshAt && refetch();
   }, [refetch, lastRefreshAt]);
-
-  return (
-    <>
-      {!(error || loading) && 0 < data?.itemsByUser?.length ? (
-        sortItemsByDateDesc(data.itemsByUser).map((item) => (
-          <Item key={item._id} item={item} />
-        ))
-      ) : (
-        <Spinner />
-      )}
-    </>
-  );
+  
+// <Item key={item._id} item={item} />
+  return items ? (
+    0 === items.length
+    ? (
+      <p>no posts</p>
+    )
+    : (
+      sortItemsByDateDesc(items)
+        .map(item => <Item key={item._id} item={item} />)
+    )
+  ): <Spinner />;
 };
 
 export default AsideList;

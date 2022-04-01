@@ -2,59 +2,66 @@ import React, { useState } from "react";
 import { Form, Button, ButtonGroup, Card } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
-import useCookieStorage, {JWTCOOKIE} from "../hooks/use-cookie-storage";
+import useCookieStorage, { JWTCOOKIE } from "../hooks/use-cookie-storage";
 import { setUser, AUTH_REGISTER_URI } from "../features/auth/auth-slice";
 import GuestNavigation from "../components/GuestNavigation";
 import { SECTIONS, setSection } from "../features/sections/sections-slice";
 
+const HEADER_MESSAGE_DEFAULT = "Registracija je obavezna za korišćenje usluga.";
 const Register = () => {
   const [inputs, setInputs] = useState({
-    name      : "",
-    email     : "",
-    password  : "",
-    password2 : "",
+    name: "",
+    email: "",
+    password: "",
+    password2: "",
   });
+  const [headerMessage, setHeaderMessage] = useState(HEADER_MESSAGE_DEFAULT);
 
   const dispatch = useDispatch();
   const { handleCookie } = useCookieStorage();
-  
-  const navigateToLogin     = () => dispatch(setSection(SECTIONS.login));
+
+  const navigateToLogin = () => dispatch(setSection(SECTIONS.login));
   const navigateToDashboard = () => dispatch(setSection(SECTIONS.dashboard));
 
   const runCredentials = (evt) => {
-    if (!inputs.name || !inputs.email || !inputs.password) return;
-
+    if (!inputs.name || !inputs.email || !inputs.password || !inputs.password2)
+      return setHeaderMessage("Niste popunili sva polja.");
+    
+    if (inputs.password < 2)
+      return setHeaderMessage("Lozinka treba da ima bar 2 znaka.");
+    
+    if (inputs.password !== inputs.password2)
+      return setHeaderMessage("Lozinke se ne poklapaju.");
+    
     fetch(AUTH_REGISTER_URI, {
-      method  : "POST",
-      headers : { "Content-Type": "application/json" },
-      body    : JSON.stringify(inputs),
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(inputs),
     })
       .then((res) => {
         return res.status === 201 ? res.json() : "";
       })
-      .then(user => {
-
+      .then((user) => {
         if (user) {
-          
-          handleCookie.set(JWTCOOKIE, 
-            `${user.token} ${user.token_refresh}`);
+          handleCookie.set(JWTCOOKIE, `${user.token} ${user.token_refresh}`);
           dispatch(setUser(user));
-          
+
           navigateToDashboard();
         }
       });
   };
 
-  const ignore = (evt)   => evt.preventDefault();
-  const syncAuth = (evt) => setInputs((inputs) => ({ ...inputs, [evt.target.name]: evt.target.value }));
+  const ignore = (evt) => evt.preventDefault();
+  const syncAuth = (evt) =>
+    setInputs((inputs) => ({ ...inputs, [evt.target.name]: evt.target.value }));
 
   return (
     <>
-    <GuestNavigation />
+      <GuestNavigation />
       <div className="d-flex justify-content-center mt-4">
         <Card className="shadow-sm" style={{ width: 388 }}>
           <Card.Header className="text-muted fst-italic text-center">
-            Registracija je obavezna za korišćenje usluga.
+            {headerMessage}
           </Card.Header>
           <Card.Body className="p-4">
             <Form onSubmit={ignore}>
@@ -86,7 +93,7 @@ const Register = () => {
                   onChange={syncAuth}
                   name="email"
                   autoComplete="off"
-                  type="text"
+                  type="email"
                 />
               </Form.Group>
 
