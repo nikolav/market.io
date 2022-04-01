@@ -17,19 +17,19 @@ import {
   Toast,
   ToastContainer,
 } from "react-bootstrap";
+
 import useFancyboxGallery from "../hooks/use-fancybox-gallery";
 import ButtonUpload from "../components/ButtonUpload/ButtonUpload";
 import FormCreatePostControls from "../components/FormCreatePostControls/FormCreatePostControls";
 
-// import Spinner from "../components/Spinner/Spinner";
 
-import classes from "./ItemCreate.module.css";
+import classes from "./ItemEdit.module.css";
 
 import useFileReader from "../hooks/use-file-reader";
+import iconItemEditOrange from "../theme/etc/icon-edit-item-orange.svg";
 
-import iconCreateItem from "../theme/etc/icon-post-create.svg";
 import iconDeleteWhiteShadowSm from "../theme/etc/icon-delete-white-shadow-sm.svg";
-import iconCloudUpload from "../theme/etc/icon-cloud-upload.svg";
+import iconRefreshCloud from "../theme/etc/icon-refresh-cloud.svg";
 
 import imageUploadHelpStep01 from "../theme/etc/post-help-step-01.jpg";
 import imageUploadHelpStep02 from "../theme/etc/post-help-step-02.jpg";
@@ -42,8 +42,8 @@ import useFirebaseStorageUpload from "../hooks/use-firebase-storage-upload";
 import { useMutation } from "@apollo/client";
 import { Q_ITEM_CREATE } from "../graphql/queries/create-post.js";
 
-const ERROR_WRONG_FILE_TYPE = "Izaberite sliku ( jpg, png, ... )";
-const DEFAULT_HEADER_MESSAGE = "Novi oglas";
+const ERROR_WRONG_FILE_TYPE  = "Izaberite sliku (jpg, png)";
+const DEFAULT_HEADER_MESSAGE = "Izmeni oglas";
 
 const formatHeaderMessage = (header) => `${String(header).substring(0, 32)}...`;
 const isImage = (path) => /jpe?g|png|gif|svg/i.test(path);
@@ -55,21 +55,33 @@ const formatUploadPath = (filename) =>
   `${UPLOAD_PATH_STORAGE}/${Date.now()}.${filename}`;
 
 // @c
-const ItemCreate = () => {
-  const { user } = useSelector((state) => state.auth);
+const ItemEdit = () => {
+  const { user } = useSelector(state => state.auth);
+  const { post } = useSelector(state => state.main);
 
+  // @todo
+  // load post from state
   const [inputs, setInputs] = useState({
-    title: "",
-    file: null, // file{}
-    description: "",
+    title       : post?.title       || "",
+    file        : post?.file        || null, // file{}
+    description : post?.description || "",
   });
+
+  useEffect(() => {
+    setInputs(_ => ({
+      title       : post.current.title,
+      description : post.current.description,
+    }));
+  }, []);
+
+  console.log(inputs);
 
   const [headerMessage, setHeaderMessage] = useState(DEFAULT_HEADER_MESSAGE);
   const [imageSrc, setImageSrc] = useState(null);
 
   const [modalShow, setModalShow] = useState(false);
-  const handleModalClose = () => setModalShow((s) => false);
-  const handleModalShow = () => setModalShow((s) => true);
+  const handleModalClose = () => setModalShow(_ => false);
+  const handleModalShow  = () => setModalShow(_ => true);
 
   const [read, { url }] = useFileReader();
 
@@ -77,7 +89,7 @@ const ItemCreate = () => {
   const navigateToDashboard = () => dispatch(setSection(SECTIONS.dashboard));
 
   const syncInputs = (evt) =>
-    setInputs((state_) => ({ ...state_, [evt.target.name]: evt.target.value }));
+    setInputs(_ => ({ ..._, [evt.target.name]: evt.target.value }));
 
   const syncFile = (evt) => {
     const file = evt.target.files[0];
@@ -88,25 +100,24 @@ const ItemCreate = () => {
 
     read(file);
     setHeaderMessage(formatHeaderMessage(file.name));
-    setInputs((state_) => ({ ...state_, file }));
+    setInputs(_ => ({ ..._, file }));
   };
 
   useEffect(() => {
-    if (url) setImageSrc(url);
+    if (url) setImageSrc(_ => url);
   }, [url]);
 
   const fileRef = React.createRef();
   const resetFileInput = () => (fileRef.current.value = null);
 
   const clearUploadImage = (evt) => {
-    setInputs((old) => ({ ...old, file: null }));
+    setInputs(_ => ({ ..._, file: null }));
     resetFileInput();
-    setImageSrc(null);
+    setImageSrc(_ => null);
     setHeaderMessage(DEFAULT_HEADER_MESSAGE);
   };
 
   const { openGallery } = useFancyboxGallery();
-
   const oglasiHelp = [
     {
       src: imageUploadHelpStep01,
@@ -142,6 +153,9 @@ const ItemCreate = () => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
+    // @todo
+    // ignore upload if image is not updated
+
     // 1. upload image 1st
     // 2. on success save db record
     // 3. notify user
@@ -164,8 +178,8 @@ const ItemCreate = () => {
   }, [error, state, progress, downloadURL]);
 
   const [toastSuccess, setToastSuccess] = useState(false);
-  const toastSuccessOpen = () => setToastSuccess((_) => true);
-  const toastSuccessClose = () => setToastSuccess((_) => false);
+  const toastSuccessOpen  = () => setToastSuccess(_ => true);
+  const toastSuccessClose = () => setToastSuccess(_ => false);
 
   useEffect(() => {
     setPostSaved((_) => false);
@@ -198,8 +212,8 @@ const ItemCreate = () => {
                     style={{
                       height: 32,
                     }}
-                    src={iconCreateItem}
-                    alt="postavi oglas"
+                    src={iconItemEditOrange}
+                    alt="izmeni"
                   />
                   <span className="opacity-50 ms-3 pb-1">{headerMessage}</span>
                 </h4>
@@ -293,40 +307,41 @@ const ItemCreate = () => {
 
                       {/* kontrole */}
                       <Stack className="mt-4 mb-2 w-100" direction="horizontal">
-                        <ButtonGroup>
-                          <ButtonUpload
-                            ref={fileRef}
-                            id="file"
-                            name="file"
-                            onChange={syncFile}
-                            classNames={{ label: "me-auto" }}
-                            >
-                            <i className="fs-2 text-primary fa-solid fa-camera-retro"></i>
-                          </ButtonUpload>
-                          <Button
-                            onClick={handleModalShow}
-                            type="button"
-                            variant="secondary"
-                          >
-                            view
-                          </Button>
-                        </ButtonGroup>
-                        <Button
-                          size="lg"
-                          className="ms-auto d-flex align-items-center"
-                          type="submit"
-                          variant="primary"
+                        <ButtonUpload
+                          ref={fileRef}
+                          id="file"
+                          name="file"
+                          onChange={syncFile}
+                          classNames={{ label: "me-auto" }}
                         >
-                          <img
-                            style={{
-                              width: 33,
-                            }}
-                            className="me-3 img-fluid"
-                            src={iconCloudUpload}
-                            alt=""
-                          />{" "}
-                          Postavi oglas
-                        </Button>
+                          <i className="fs-2 text-primary fa-solid fa-camera-retro"></i>
+                        </ButtonUpload>
+                        <div>
+                          <ButtonGroup size="lg" className="ms-auto">
+                            <Button
+                              onClick={handleModalShow}
+                              type="button"
+                              variant="secondary"
+                            >
+                              Pregled
+                            </Button>
+                            <Button
+                              className="pe-4 d-flex align-items-center"
+                              type="submit"
+                              variant="primary"
+                            >
+                              <img
+                                style={{
+                                  width: 33,
+                                }}
+                                className="me-3 img-fluid"
+                                src={iconRefreshCloud}
+                                alt=""
+                              />{" "}
+                              Sačuvaj
+                            </Button>
+                          </ButtonGroup>
+                        </div>
                       </Stack>
                     </Form>
                     <ToastContainer
@@ -344,7 +359,7 @@ const ItemCreate = () => {
                       >
                         <Toast.Header className="p-3" closeButton={false}>
                           <strong className="text-center d-inline-block fs-5 ms-2">
-                            🥳👏🏼 Uspešno ste postavili oglas.
+                            -- Oglas je uspešno postavljen.
                           </strong>
                           <i
                             onClick={toastSuccessClose}
@@ -359,9 +374,6 @@ const ItemCreate = () => {
                       show={modalShow}
                       onHide={handleModalClose}
                     >
-                      {/* <Modal.Header className="justify-content-center border-bottom-0">
-                        <Modal.Title>Moj Oglas</Modal.Title>
-                      </Modal.Header> */}
                       <Modal.Body>
                         <div className="d-flex flex-column">
                           {imageSrc && (
@@ -396,17 +408,12 @@ const ItemCreate = () => {
                 </div>
               </div>
 
-              {/* <Card.Footer className="border-top-0 bg-white text-center">
-                new
-              </Card.Footer> */}
             </Card>
           </Col>
         </Row>
       </Container>
-
-      {/* <Spinner /> */}
     </div>
   );
 };
 
-export default ItemCreate;
+export default ItemEdit;

@@ -1,10 +1,13 @@
 
-.iconRefresh {
-    opacity: .66;
+.iconEditPost {
+    opacity: .51;
+    transition: transform .1s;
 }
-.iconRefresh:hover {
+.iconEditPost:hover {
     opacity: .92;
+    transform: scale(1.056);
 }
-.iconRefresh:active {
+.iconEditPost:active {
     opacity: 1;
+    transform: scale(1.056);
 }

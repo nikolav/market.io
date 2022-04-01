@@ -19,16 +19,30 @@ const UserToggle = React.forwardRef(({ children, onClick }, ref) => (
   </Nav.Link>
 ));
 
+
+
 const Navigation = () => {
+
   const dispatch = useDispatch();
   const { current } = useSelector((state) => state.section);
 
   const navigateToItemCreate = () =>
     dispatch(setSection(SECTIONS["item-create"]));
   const navigateToDashboard = () => dispatch(setSection(SECTIONS.dashboard));
+
+  const navigateToEdit = () => dispatch(setSection(SECTIONS["item-edit"]));
+  
   return (
     <Navbar fixed="top" bg="light" expand="sm" className="shadow-sm">
       <Container fluid="sm">
+        
+        {/* @todo */}
+        <Navbar.Text onClick={navigateToEdit}>
+          edit | 
+        </Navbar.Text>
+
+
+
         {SECTIONS["item-create"] !== current ? (
           <Navbar.Text
             onClick={navigateToItemCreate}
@@ -48,7 +62,7 @@ const Navigation = () => {
           </Navbar.Text>
         )}
 
-        <Navbar.Toggle className="ms-auto" aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle className="ms-auto" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             <Dropdown align="end">

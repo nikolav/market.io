@@ -8,6 +8,7 @@ export const SECTIONS = {
   register      : "register",
   about         : "about",
   "item-create" : "item-create",
+  "item-edit"   : "item-edit",
 };
 
 const initialState = {

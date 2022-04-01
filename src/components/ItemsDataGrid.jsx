@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { refresh } from "../features/main/main-slice.js";
 import { Modal, Button, Card, Table } from "react-bootstrap";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 
+import { refresh, editPost } from "../features/main/main-slice.js";
+import { setSection, SECTIONS } from "../features/sections/sections-slice.js";
 
 import ItemsDataRow from "./ItemsDataRow";
 import Spinner from "./Spinner/Spinner";
 
 import { Q_ITEMS_BY_USER } from "../graphql/queries/items-by-user.js";
-import sortItemsByDateDesc from "../util/sort-items-by-date-desc.js";
+import {M_ITEM_DROP} from "../graphql/queries/drop-item.js";
 
+import sortItemsByDateDesc from "../util/sort-items-by-date-desc.js";
 
 import iconEditPost from "../theme/etc/icon-edit-item.svg";
 import iconRefresh from "../theme/etc/icon-refresh.svg";
+import iconDelete from "../theme/etc/icon-delete-2.svg";
+import iconEdit from "../theme/etc/icon-edit.svg";
+import iconView from "../theme/etc/icon-view.svg";
 
 import css from "./ItemsDataGrid.module.css";
 
@@ -37,7 +42,7 @@ const ItemsDataGrid = ({ user }) => {
     // networkStatus
   } = useQuery(Q_ITEMS_BY_USER, {
     variables: { id: user._id },
-    pollInterval: 23456,
+    pollInterval: 45678,
     // notifyOnNetworkStatusChange: boolean;
     //    uses .networkStatus to flag query net status
   });
@@ -47,8 +52,7 @@ const ItemsDataGrid = ({ user }) => {
       setItems((items_) => sortItemsByDateDesc(data.itemsByUser));
   }, [data, error, loading]);
 
-
-  const { lastRefreshAt } = useSelector(state => state.main);
+  const { lastRefreshAt } = useSelector((state) => state.main);
   useEffect(() => {
     lastRefreshAt && refetch();
   }, [refetch, lastRefreshAt]);
@@ -72,32 +76,103 @@ const ItemsDataGrid = ({ user }) => {
   };
   const formatedHeader = () =>
     formatedHeader_(activePost?.title || HEADER_TITLE_DEFAULT);
+
+  const appRefresh = (evt) => dispatch(refresh());
   
-  const appRefresh = evt => dispatch(refresh());
-  
+  const navigateToItemEdit = 
+    () => dispatch(setSection(SECTIONS["item-edit"]));
+  const handleEditPost   = evt => {
+    if (activePost) {
+      // cache post{} and navigate @edit
+      dispatch(editPost(activePost));
+      navigateToItemEdit();
+    }
+  };
+
+  const [deleted, setDeleted]  = useState(null);
+  const [m_postDrop, m_Status] = useMutation(M_ITEM_DROP);
+  const deletePost = () => {
+    if (!activePost?._id) return;
+    m_postDrop({
+      variables: {
+        id: activePost?._id || null,
+      },  
+    });
+  };
+  useEffect(() => {
+
+    if (
+      !(m_Status.error || m_Status.loading) 
+      && m_Status.data) 
+    {
+
+      // cache deleted post
+      // trigger post deleted, notify, update
+      setDeleted(_ => m_Status.data.dropItem);
+      console.log(m_Status.data);
+
+    }
+  }, [m_Status]);
+
+  useEffect(() => {
+    if (deleted) {
+      setActivePost(_ => null);
+      appRefresh();
+    }
+  }, [deleted]);
+
   return items ? (
     <div className="rounded-2 data-grid-items shadow-lg pb-1">
       <Card className="rounded-0 border-0">
         <Card.Header className="d-flex align-items-center justify-content-between bg-primary text-white border-bottom-0">
           <strong className="ps-1 pt-2 text-white fw-bold h4 text-primary">
-            {activePost && (
               <img
                 className="opacity-75 me-4"
-                style={{ height: 32 }}
+                style={{ 
+                  height: 32,
+                  visibility: activePost ? "visible" : "hidden",
+                }}
                 src={iconEditPost}
                 alt=""
               />
-            )}
             {formatedHeader()}
           </strong>
 
           <div>
+            {activePost && (
+              <>
+                <img
+                  onClick={handlePreview.bind(null, activePost)}
+                  className={`cursor-pointer ${css.iconEditPost}`}
+                  style={{ height: 22 }}
+                  src={iconView}
+                  title="pogledaj"
+                  alt=""
+                />
+                <img
+                  onClick={handleEditPost}
+                  className={`ms-4 cursor-pointer ${css.iconEditPost}`}
+                  style={{ height: 22 }}
+                  src={iconEdit}
+                  title="izmeni"
+                  alt=""
+                />
+                <img
+                  onClick={deletePost}
+                  className={`ms-4 cursor-pointer ${css.iconEditPost}`}
+                  style={{ height: 22 }}
+                  src={iconDelete}
+                  title="obriši"
+                  alt=""
+                />
+              </>
+            )}
             <img
               onClick={appRefresh}
-              className={`me-2 cursor-pointer ${css.iconRefresh}`}
+              className={`me-2 ms-4 cursor-pointer ${css.iconEditPost}`}
               style={{ height: 22 }}
               src={iconRefresh}
-              title="sync data"
+              title="osveži listu"
               alt=""
             />
           </div>

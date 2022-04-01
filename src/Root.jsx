@@ -11,6 +11,7 @@ import Login      from "./pages/Login";
 import Register   from "./pages/Register";
 import About      from "./pages/About";
 import ItemCreate from "./pages/ItemCreate";
+import ItemEdit   from "./pages/ItemEdit";
 
 const sectionsMap = {
   dashboard     : <Dashboard />,
@@ -19,6 +20,7 @@ const sectionsMap = {
   about         : <About />,
   index         : <Index />,
   "item-create" : <ItemCreate />,
+  "item-edit"   : <ItemEdit />,
 };
 
 const Root = () => {
@@ -28,13 +30,13 @@ const Root = () => {
   //   check user exist
   //   redirect
   
-  const { cookie } = useCookieStorage();
   const { user }   = useSelector((state) => state.auth);
+  
   const dispatch   = useDispatch();
-
   const navigateToDashoard = 
     () => dispatch(setSection(SECTIONS.dashboard));
-
+  
+  const { cookie } = useCookieStorage();
   if (cookie[JWTCOOKIE] && !user) {
     fetch(AUTH_GETUSER_URI, {
       headers: { Authorization: `Bearer ${cookie[JWTCOOKIE].split(" ")[0]}` },

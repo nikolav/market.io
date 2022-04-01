@@ -16,7 +16,7 @@ const AsideList = ({ user }) => {
     variables: {
       id: user._id,
     },
-    pollInterval: 17890,
+    pollInterval: 34567,
   });
 
   const { lastRefreshAt } = useSelector(state => state.main);
