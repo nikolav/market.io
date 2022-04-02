@@ -1,22 +1,54 @@
-import React from "react";
-import { Container, Col, Row } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Container } from "react-bootstrap";
+
 import GuestNavigation from "../components/GuestNavigation";
-// import ItemsList from "../components/ItemsList";
+import ItemsListIndex from "../components/ItemsListIndex";
+import Spinner from "../components/Spinner/Spinner";
+
+import { useQuery, useLazyQuery } from "@apollo/client";
+import { Q_ITEMS_ALL } from "../graphql/queries/items-all";
+import { Q_TEXT_SEARCH } from "../graphql/queries/search-items-by-text.js";
+
+import sortItemsByDateDesc from "../util/sort-items-by-date-desc.js";
 
 const Index = () => {
+  const [items, setItems] = useState(null);
+  const { error, loading, data, refetch } = useQuery(Q_ITEMS_ALL, {
+    pollInterval: 55667,
+  });
+
+  useEffect(() => {
+    if (!(error || loading) && data)
+      setItems((_) => sortItemsByDateDesc(data.items));
+  }, [error, loading, data]);
+
+  const { searchTerm } = useSelector(state => state.main);
+  const [q_search, qStatus] = useLazyQuery(Q_TEXT_SEARCH);
+  useEffect(() => {
+    if (!searchTerm) return;
+    const term = searchTerm.trim();
+    if (term)
+      q_search({variables: { term }});
+  }, [searchTerm]);
+  useEffect(() => {
+    if (!(qStatus.error || qStatus.loading) && qStatus.data)
+      setItems(_ => qStatus.data.searchItems);
+  }, [qStatus]);
   return (
     <>
       <GuestNavigation />
-      <Container className="mt-5">
-        <Row>
-          {/* <ItemsList /> */}
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores
-            id, repellat nisi ipsa dolorem nam, in alias consectetur, quae
-            voluptatum quas fuga?
-          </p>
-        </Row>
-      </Container>
+      <Container fluid="xl">
+        {items ? (
+          0 === items.length ? (
+            <p>no posts</p>
+          ) : (
+              <ItemsListIndex items={items} />
+          )
+        ) : (
+          <Spinner />
+        )}
+        </Container>
     </>
   );
 };

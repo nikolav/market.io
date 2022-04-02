@@ -199,7 +199,9 @@ const ItemsDataGrid = ({ user }) => {
           show={modalShow}
           onHide={handleModalClose}
         >
-          <Modal.Body>
+          <Modal.Body
+            className="scrollbar-primary"
+          >
             <div className="d-flex flex-column">
               {previewPost?.image && (
                 <img

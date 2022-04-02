@@ -15,7 +15,7 @@ const About = () => {
               lg={{ span: 10, offset: 1 }}
               xl={{ span: 8, offset: 2 }}
             >
-              <h1 className="display-1">about</h1>
+              <h1 className="display-1">oglasi.io</h1>
               <p className="lead">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                 Deserunt, itaque deleniti.

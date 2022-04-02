@@ -35,10 +35,10 @@ const Dashboard = () => {
           top: "73px",
           height: "calc(100% - 73px - .1px)",
         }}
-        className="d-flex align-items-top justify-content-between"
+        className="d-flex flex-column flex-md-row align-items-md-top justify-content-md-between"
       >
-        <div className={`me-auto ${css.dashboardSidebar}`}>
-          <SideBarActions />
+        <div className={`d-none d-md-block me-auto ${css.dashboardSidebar}`}>
+          <SideBarActions user={user} />
         </div>
 
         <div className="flex-grow-1 mx-4 mt-4">
@@ -46,7 +46,7 @@ const Dashboard = () => {
         </div>
 
         <div
-          className={`pe-2 aside-list-dashboard ms-auto ${css.dashboardAside}`}
+          className={`d-none d-lg-block pe-2 aside-list-dashboard ms-auto ${css.dashboardAside}`}
         >
           <AsideList user={user} />
         </div>

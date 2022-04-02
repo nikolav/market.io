@@ -14,10 +14,10 @@ module.exports = {
       .populate("items")
       .select(USERTYPE_FIELDS);
   },
-  dropUser: ({user}) => {
-    return User.findByIdAndRemove(user)
-      .select(USERTYPE_FIELDS);
-  },
+  // dropUser: ({user}) => {
+  //   return User.findByIdAndRemove(user)
+  //     .select(USERTYPE_FIELDS);
+  // },
   countUsers: () => {
     return User.countDocuments();
   },

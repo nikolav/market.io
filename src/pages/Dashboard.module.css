@@ -8,13 +8,13 @@
 
 
 .dashboardSidebar {
-    min-width: 234px;
+    min-width: 248px;
 }
 
 
 .dashboardAside {
     /* min-width: 312px; */
-    width: 312px;
+    width: 322px;
     /* max-height: 88vh; */
     overflow-y: auto;
 }

@@ -285,7 +285,7 @@ const ItemCreate = () => {
                           id="title"
                           name="description"
                           value={inputs.description}
-                          className="mt-4"
+                          className="mt-4 scrollbar-primary"
                           placeholder="Tekst oglasa"
                           style={{ minHeight: 198 }}
                           as="textarea"
@@ -363,7 +363,9 @@ const ItemCreate = () => {
                       {/* <Modal.Header className="justify-content-center border-bottom-0">
                         <Modal.Title>Moj Oglas</Modal.Title>
                       </Modal.Header> */}
-                      <Modal.Body>
+                      <Modal.Body
+                        className="scrollbar-primary"
+                      >
                         <div className="d-flex flex-column">
                           {imageSrc && (
                             <img

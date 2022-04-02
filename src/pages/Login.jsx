@@ -69,7 +69,8 @@ const Login = () => {
       .catch(error => {
         setMessageAuth("Greška, pokušajte ponovo.")
       })
-      .finally(() => setFetchingAuth(false));
+      // .finally(() => setFetchingAuth(false))
+      ;
 
   };
 
@@ -82,14 +83,14 @@ const Login = () => {
       <GuestNavigation />
       <div className="d-flex justify-content-center mt-4">
         <Card className="shadow-sm" style={{ width: 388 }}>
-          <Card.Header className="text-muted fst-italic text-center">
+          <Card.Header className="bg-white border-bottom-0 text-muted fst-italic text-center">
             {messageAuth}
           </Card.Header>
           <Card.Body className="p-4">
             <Form onSubmit={ignore} noValidate>
               <Form.Group className="mb-3" controlId="email-login">
                 <Form.Label>
-                  Email{" "}
+                  Email
                   {0 === auth.email.length && (
                     <span className="text-primary">*</span>
                   )}

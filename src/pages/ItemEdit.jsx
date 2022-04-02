@@ -317,7 +317,7 @@ const ItemEdit = () => {
                           id="title"
                           name="description"
                           value={inputs.description}
-                          className="mt-4"
+                          className="mt-4 scrollbar-primary"
                           placeholder="Tekst oglasa"
                           style={{ minHeight: 198 }}
                           as="textarea"
@@ -398,7 +398,9 @@ const ItemEdit = () => {
                       show={modalShow}
                       onHide={handleModalClose}
                     >
-                      <Modal.Body>
+                      <Modal.Body
+                        className="scrollbar-primary"
+                      >
                         <div className="d-flex flex-column">
                           {imageSrc && (
                             <img

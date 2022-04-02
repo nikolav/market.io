@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import Item from "../../components/Item";
+import Spinner from "../Spinner/Spinner";
 
 import { useQuery } from "@apollo/client";
 import { Q_ITEMS_BY_USER } from "../../graphql/queries/items-by-user";
 
 import sortItemsByDateDesc from "../../util/sort-items-by-date-desc";
-
-import Spinner from "../Spinner/Spinner";
 
 const AsideList = ({ user }) => {
 
@@ -18,7 +17,7 @@ const AsideList = ({ user }) => {
     variables: {
       id: user._id,
     },
-    pollInterval: 34567,
+    pollInterval: 45678,
   });
 
   useEffect(() => {
@@ -28,7 +27,7 @@ const AsideList = ({ user }) => {
 
   const { lastRefreshAt } = useSelector(state => state.main);
   useEffect(() => {
-    lastRefreshAt && refetch();
+    refetch();
   }, [refetch, lastRefreshAt]);
   
 // <Item key={item._id} item={item} />

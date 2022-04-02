@@ -78,9 +78,10 @@ module.exports = {
   countItems: () => {
     return Item.countDocuments();
   },
-  countUserItems: ({ _id }) => {
-    // user <=> mongo _id{}
-    return Item.where({ user: _id }).countDocuments();
+  countUserItems: ({ user }) => {
+    // user <=> mongo ID{}
+    // return Item.where({ user: _id }).countDocuments();
+    return Item.countDocuments({ user });
   },
   searchItems: ({ term }) => {
     

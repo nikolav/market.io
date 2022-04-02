@@ -28,14 +28,13 @@ module.exports = buildSchema(`
         itemsByUser(user:ID!): [Item!]!
         countUsers: Int!
         countItems: Int!
-        countUserItems(_id:ID!): Int!
+        countUserItems(user:ID!): Int!
         searchItems(term: String!): [Item!]!
     }
     type Mutation {
         createItem(user: ID!, title: String!, description: String, image: String): Item!
         editItem(post:ID!, title: String!, description: String, image: String): Item
         dropItem(_id:ID!): Item
-        dropUser(user:ID!): User
     }
 
 `);
