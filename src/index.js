@@ -38,6 +38,8 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
+console.log(122333)
+
 // const qclient = new QueryClient();
 // ReactDOM.render(
 //   <QueryClientProvider client={qclient}>

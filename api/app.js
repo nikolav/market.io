@@ -27,7 +27,8 @@ app.use(cookieParser());
 
 // // send static content
 app.use(express.static(path.join(__dirname, "../build")));
-app.use("/", indexRouter);
+// app.use("/", indexRouter);
+
 
 // setup token autentication
 app.use(passport.initialize());

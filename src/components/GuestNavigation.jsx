@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSection, SECTIONS } from "../features/sections/sections-slice";
 import { search } from "../features/main/main-slice.js";
 
+import useFancyboxGallery from "../hooks/use-fancybox-gallery.js";
 import q from "nikolav-q";
 import css from "./GuestNavigation.module.css";
 
@@ -34,6 +35,15 @@ const Navigation = () => {
     setSearchTermDebounced(term);
   }, [term]);
 
+  const {openGallery} = useFancyboxGallery();
+  const displayHelpVideo = () => {
+    return openGallery([
+      {
+        src  : 'https://youtu.be/aLi9AHSZJdI', 
+        type : 'iframe',
+      },
+    ])
+  };
   return (
     <>
       <div className="push-down"></div>
@@ -87,7 +97,9 @@ const Navigation = () => {
               >
                 <i className="cursor-pointer ms-sm-2 fs-3 text-primary fa-brands fa-github"></i>
               </Nav.Link>
-              <Nav.Link className="cursor-pointer opacity-25">
+              <Nav.Link
+                onClick={displayHelpVideo}
+               className="cursor-pointer opacity-25">
                 <i className="cursor-pointer ms-sm-2 fs-3 text-primary fa-solid fa-circle-question"></i>
               </Nav.Link>
             </Nav>
