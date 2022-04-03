@@ -1,6 +1,6 @@
 
 require("dotenv").config();
-// const path = require("path");
+const path = require("path");
 
 const express      = require("express");
 const cors         = require("cors");
@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true })); // use `qs`
 app.use(cookieParser());
 
 // // send static content
-// app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../build")));
 app.use("/", indexRouter);
 
 // setup token autentication
