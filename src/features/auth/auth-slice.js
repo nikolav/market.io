@@ -9,10 +9,10 @@ const initialState = {
   user    : null,
 };
 
-export const AUTH_LOGOUT_URI   = "http://localhost:3112/auth/logout";
-export const AUTH_LOGIN_URI    = "http://localhost:3112/auth/login";
-export const AUTH_REGISTER_URI = "http://localhost:3112/auth/register";
-export const AUTH_GETUSER_URI  = "http://localhost:3112/auth/user";
+export const AUTH_LOGOUT_URI   = "http://127.0.0.1:3112/auth/logout";
+export const AUTH_LOGIN_URI    = "http://127.0.0.1:3112/auth/login";
+export const AUTH_REGISTER_URI = "http://127.0.0.1:3112/auth/register";
+export const AUTH_GETUSER_URI  = "http://127.0.0.1:3112/auth/user";
 
 export const authSlice = createSlice({
   name: "auth",
