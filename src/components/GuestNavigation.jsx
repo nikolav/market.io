@@ -9,31 +9,40 @@ import q from "nikolav-q";
 import css from "./GuestNavigation.module.css";
 
 const Navigation = () => {
-
   const [term, setTerm] = useState("");
-  
-  const dispatch    = useDispatch();
+
+  const dispatch = useDispatch();
   const { current } = useSelector((state) => state.section);
 
   const navigateToLogin = () => dispatch(setSection(SECTIONS.login));
   const navigateToAbout = () => dispatch(setSection(SECTIONS.about));
   const navigateToIndex = () => dispatch(setSection(SECTIONS.index));
 
-
-  const ignore = evt => {
+  const ignore = (evt) => {
     evt.preventDefault();
   };
 
-  const syncInput     = evt => { setTerm(_ => evt.target.value); };
-  const setSearchTerm = value => dispatch(search(value));
-  const setSearchTermDebounced = 
-    useCallback(q.func.debounce(setSearchTerm, 892), []);
-  useEffect(() => { setSearchTermDebounced(term); }, [term]);
+  const syncInput = (evt) => {
+    setTerm((_) => evt.target.value);
+  };
+  const setSearchTerm = (value) => dispatch(search(value));
+  const setSearchTermDebounced = useCallback(
+    q.func.debounce(setSearchTerm, 892),
+    []
+  );
+  useEffect(() => {
+    setSearchTermDebounced(term);
+  }, [term]);
 
   return (
     <>
       <div className="push-down"></div>
-      <Navbar fixed="top" bg="light" expand="sm" className={`shadow-sm ${css.navbarGuest}`}>
+      <Navbar
+        fixed="top"
+        bg="light"
+        expand="sm"
+        className={`shadow-sm ${css.navbarGuest}`}
+      >
         <Container fluid="sm">
           <Navbar.Brand onClick={navigateToIndex}>
             <i className="d-none d-sm-inline-block fs-3 cursor-pointer text-primary fa-solid fa-house"></i>
@@ -69,6 +78,14 @@ const Navigation = () => {
               </Nav.Link>
               <Nav.Link onClick={navigateToLogin}>
                 <i className="ms-sm-2 fs-3 text-primary fa-solid fa-circle-user"></i>
+              </Nav.Link>
+              <Nav.Link
+                rel="noreferrer noopener"
+                target="_blank"
+                href="https://github.com/nikolav/market.io"
+                className="cursor-pointer"
+              >
+                <i className="cursor-pointer ms-sm-2 fs-3 text-primary fa-brands fa-github"></i>
               </Nav.Link>
               <Nav.Link className="cursor-pointer opacity-25">
                 <i className="cursor-pointer ms-sm-2 fs-3 text-primary fa-solid fa-circle-question"></i>
