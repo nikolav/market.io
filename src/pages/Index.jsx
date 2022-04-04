@@ -13,6 +13,7 @@ import { Q_TEXT_SEARCH } from "../graphql/queries/search-items-by-text.js";
 import sortItemsByDateDesc from "../util/sort-items-by-date-desc.js";
 
 const Index = () => {
+
   const [items, setItems] = useState(null);
   const { error, loading, data, refetch } = useQuery(Q_ITEMS_ALL, {
     pollInterval: 55667,

@@ -18,7 +18,6 @@ app.use(logger("dev"));
 
 // route csr
 app.use(cors());
-app.options('*', cors());
 
 // handle/parse client input in `req.body`
 app.use(express.json());

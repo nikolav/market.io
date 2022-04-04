@@ -27,12 +27,18 @@ function useFirebaseStorageUpload() {
         state       : null,
         progress    : null, 
         downloadURL : null }));
-    
+
+    // const [task, setTask] = useState(null);
+
     // const [upload, {error, state, progress, downloadURL}] 
     //  = useFirebaseUploadStorage();
 
 
-    return { upload, status };
+    return { 
+      upload, 
+      status, 
+      // task,
+    };
 
 
     function upload (fileObject, storagePath = "/", options = null) {
@@ -63,6 +69,8 @@ function useFirebaseStorageUpload() {
                 getDownloadURL(uploadTask.snapshot.ref)
                   .then(downloadURL => setStatus(s => ({ ...s, downloadURL })));
             });
+
+            // setTask(uploadTask);
 
       } catch (error) {
         setStatus(s => ({ ...s, error }));

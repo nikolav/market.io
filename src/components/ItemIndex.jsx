@@ -4,15 +4,18 @@ import { Card, Modal, Button } from "react-bootstrap";
 import iconSearchPrimary from "../theme/etc/icon-search-primary.svg";
 import "./ItemIndex.css";
 
-import formatedDate from "../util/formated-date.js";
+import formatedDate from "../util/formated-date";
 import { imagePreload } from "../util/image-preload";
 
+import Like from "./Like";
+
 const ItemIndex = ({ item }) => {
+
   const { _id, title, description, image, createdAt, user } = item;
 
   const [modalShow, setModalShow] = useState(null);
   const handleModalClose = () => setModalShow((_) => false);
-  const handleModalOpen = () => setModalShow((_) => true);
+  const handleModalOpen  = () => setModalShow((_) => true);
 
   const previewPost = (evt) => handleModalOpen();
   return (
@@ -33,9 +36,9 @@ const ItemIndex = ({ item }) => {
         <Card.Text>{description}</Card.Text>
       </Card.Body>
       <Card.Footer className="bg-white border-top-0">
-        <div className="opacity-50 d-flex align-items-end justify-content-between">
-          {user.name}
-          <small>{formatedDate(createdAt)}</small>
+        <div className="opacity-50 d-flex align-items-bottom justify-content-between">
+          <strong className="text-primary">{user.name}</strong>
+          <Like style={{ width: 22 }} id={_id} />
         </div>
       </Card.Footer>
 

@@ -20,12 +20,13 @@ const SideBarActions = ({ user }) => {
         <strong>Zdravo, {user.name} 👋🏼</strong>
       </Card.Title>
 
-      <ListGroup className="" variant="flush">
+      <ListGroup variant="flush">
         <ListGroup.Item className="d-flex justify-content-between align-items-center">
           <span>ukupno oglasa</span>
-          <em className="badge rounded-pill bg-primary">{!(error || loading) && data ? data.countUserItems : ".."}</em>
+          <em className="badge rounded-pill bg-primary">{
+          !(error || loading) && data ? data.countUserItems : "."}</em>
         </ListGroup.Item>
-        <ListGroup.Item>@todos </ListGroup.Item>
+        <ListGroup.Item>@todos</ListGroup.Item>
         <ListGroup.Item>Morbi leo risus</ListGroup.Item>
         <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
       </ListGroup>

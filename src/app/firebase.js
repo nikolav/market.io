@@ -9,4 +9,5 @@ export const firebaseApp = initializeApp({
   authDomain: "market-io-1b076.firebaseapp.com",
   messagingSenderId: "504080261454",
   measurementId: "G-ZE82N9WG0Y",
+  databaseURL: "https://market-io-1b076-default-rtdb.europe-west1.firebasedatabase.app/",
 });
