@@ -28,7 +28,7 @@ export default function useLike(id) {
     if (null != localStorage.getItem(LIKECACHE)) 
       return unlike_();
 
-    localStorage.setItem(LIKECACHE, id);
+    localStorage.setItem(LIKECACHE, 1);
     set(itemRefLike, likeCount + 1);
 
   }

@@ -24,8 +24,8 @@ import Root from "./Root";
 // } from "react-query";
 
 const client = new ApolloClient({
-  // uri: "/graphql",
-  uri: "http://127.0.0.1:3112/graphql",
+  uri: "/graphql",
+  // uri: "http://127.0.0.1:3112/graphql",
   cache: new InMemoryCache(),
 });
 
